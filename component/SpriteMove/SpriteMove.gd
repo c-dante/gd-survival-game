@@ -13,16 +13,18 @@ extends Node
 var input_vector: Vector2 = Vector2.ZERO
 
 func tick(_delta: float):
+	var _speed = speed * Global.game_speed
+	
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
 
 		# Calculate velocity based on angle
 		# Move the character
-		body.set_velocity(input_vector * speed);
+		body.set_velocity(input_vector * _speed);
 	else:
 		# Stop the character if there's no input
-		body.velocity.x = move_toward(body.velocity.x, 0, speed);
-		body.velocity.y = move_toward(body.velocity.y, 0, speed);
+		body.velocity.x = move_toward(body.velocity.x, 0, _speed);
+		body.velocity.y = move_toward(body.velocity.y, 0, _speed);
 	
 	if input_vector.x > 0:
 		animated.play("walk_right")
@@ -37,7 +39,11 @@ func tick(_delta: float):
 
 func set_speed(value: float):
 	speed = value
-	
+	_update_animation_speed(Global.game_speed)
+
+func _update_animation_speed(game_speed):
 	var desired = ease(speed / max_speed, -0.2) * 5
-	animated.speed_scale = clamp(snapped(desired, 0.1), 0.3, 5);
-	
+	animated.speed_scale = clamp(snapped(desired, 0.1), 0.3, 5) * game_speed;
+
+func _ready():
+	Global.on_game_speed_change.connect(_update_animation_speed)

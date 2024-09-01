@@ -15,5 +15,5 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_area_2d_area_entered(area: Area2D):
-	if area.get_collision_layer_value(Const.LAYER_ENEMY_HIT):
+	if area.get_collision_layer_value(Global.LAYER_ENEMY_HIT):
 		print("Hit!")
