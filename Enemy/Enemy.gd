@@ -3,9 +3,7 @@ extends CharacterBody2D
 
 @export var target: Node2D
 @onready var _sprite_move = $SpriteMove
-@onready var _area_2d = $Area2D
-
-var _overlapping_areas = {}
+@onready var _overlap_pusher = $OverlapPusher
 
 func _physics_process(delta):
 	if target:
@@ -13,10 +11,9 @@ func _physics_process(delta):
 	
 	_sprite_move.tick(delta)
 	move_and_slide()
-
-func _on_area_2d_body_entered(body):
-	print("Enemy Collide Body: ", body)
+	_overlap_pusher.tick(delta)
+	move_and_slide()
 
 func _on_area_2d_area_entered(area: Area2D):
-	print("Enemy Collide Area: ", area)
-	print(area.get_collision_layer_value(13))
+	if area.get_collision_layer_value(Const.LAYER_ENEMY_HIT):
+		print("Hit!")

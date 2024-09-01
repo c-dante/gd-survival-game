@@ -27,7 +27,3 @@ func _pt_in_rect(rect: Rect2, margin: float = 1.0) -> Vector2:
 		randf_range(margin, rect.size.y - margin)
 	)
 	return rect.position + normalized
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

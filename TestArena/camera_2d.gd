@@ -12,7 +12,7 @@ func _ready():
 		push_warning("Smooth follow camera: Target node not found!")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	# Calculate the desired position (target's position)
 	var desired_position = target.global_position
 	

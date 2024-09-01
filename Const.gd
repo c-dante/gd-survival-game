@@ -1,1 +1,7 @@
-extends Object
+extends Node
+
+const LAYER_PLAYER_MOVE = 1
+const LAYER_PLAYER_INTERACT = 2
+
+const LAYER_ENEMY_HIT = 9
+const LAYER_ENEMY_PUSH = 13
