@@ -12,4 +12,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_area_2d_body_entered(body):
-	print(body)
+	print("Enemy Collide Body: ", body)
+
+func _on_area_2d_area_entered(area):
+	print("Enemy Collide Area: ", area)
