@@ -27,8 +27,9 @@ metadata/_edit_lock_ = true
 [node name="Player" parent="Game" instance=ExtResource("3_27xjf")]
 script = ExtResource("4_00imx")
 
-[node name="Enemy" parent="Game" instance=ExtResource("4_ui84l")]
+[node name="Enemy" parent="Game" node_paths=PackedStringArray("target") instance=ExtResource("4_ui84l")]
 position = Vector2(516, 346)
+target = NodePath("../Player")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
