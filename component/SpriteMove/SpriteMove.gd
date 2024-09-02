@@ -2,7 +2,7 @@ class_name SpriteMove
 extends Node
 
 @export_group("Nodes")
-@export var body: CharacterBody2D
+@export var body: Node2D
 @export var animated: AnimatedSprite2D
 
 @export_group("Speed")
@@ -12,19 +12,13 @@ extends Node
 
 var input_vector: Vector2 = Vector2.ZERO
 
-func tick(_delta: float):
+func tick(_delta: float) -> Vector2:
 	var _speed = speed * Global.game_speed
 	
+	var output_vector = Vector2.ZERO
 	if input_vector != Vector2.ZERO:
 		input_vector = input_vector.normalized()
-
-		# Calculate velocity based on angle
-		# Move the character
-		body.set_velocity(input_vector * _speed);
-	else:
-		# Stop the character if there's no input
-		body.velocity.x = move_toward(body.velocity.x, 0, _speed);
-		body.velocity.y = move_toward(body.velocity.y, 0, _speed);
+		output_vector = input_vector * _speed;
 	
 	if input_vector.x > 0:
 		animated.play("walk_right")
@@ -36,6 +30,8 @@ func tick(_delta: float):
 		animated.play("walk_up")
 	else:
 		animated.play("default")
+	
+	return output_vector
 
 func set_speed(value: float):
 	speed = value

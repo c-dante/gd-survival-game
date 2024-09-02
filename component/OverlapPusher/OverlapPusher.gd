@@ -1,37 +1,41 @@
 extends Node
 
-@export_flags_2d_physics var overlap_layers: int;
-@export var body: CharacterBody2D;
-@export var push_speed: float = 20.0
+const MAX_OVERLAPS = 5
 
-var _overlapping_areas = {}
+@export_flags_2d_physics var overlap_layers: int;
+@export var body: Node2D;
+@export var source_area: Area2D;
+@export var push_speed: float = 50.0
+
+var _overlapping: Node2D
 
 func tick(_delta):
-	var push = _handle_overlaps()
-	if push != Vector2.ZERO:
-		body.velocity = push
-		body.move_and_slide()
+	return _handle_overlaps()
 
 func _handle_overlaps() -> Vector2:
-	if _overlapping_areas.is_empty():
+	if _overlapping == null:
+		return Vector2.ZERO
+		
+	if source_area.get_overlapping_areas().size() > MAX_OVERLAPS:
+		source_area.monitorable = false
+		source_area.monitoring = false
 		return Vector2.ZERO
 	
-	# Find the closest overlap
-	var closest_d = INF
-	var closest = INF
-	for key in _overlapping_areas:
-		var node: Node2D = _overlapping_areas[key]
-		var d = body.global_position.distance_squared_to(node.global_position)
-		if d < closest_d:
-			closest_d = d
-			closest = node
-
 	# Return a vector pushing away
-	return -Vector2.from_angle(body.get_angle_to(closest.position)) * push_speed * Global.game_speed
+	return -Vector2.from_angle(body.get_angle_to(_overlapping.global_position)) * push_speed * Global.game_speed
 
 func on_area_enter(area: Area2D):
 	if area.collision_layer & overlap_layers:
-		_overlapping_areas[area.get_instance_id()] = area.get_parent()
+		var target: Node2D = area.get_parent()
+		if _overlapping == null:
+			_overlapping = target
+		elif _overlapping.global_position.distance_squared_to(body.global_position) > target.global_position.distance_squared_to(body.global_position):
+			_overlapping = target
 
 func on_area_exit(area: Area2D):
-	_overlapping_areas.erase(area.get_instance_id())
+	if area.get_parent() == _overlapping:
+		_overlapping = null
+		for candidate in source_area.get_overlapping_areas():
+			if candidate.collision_layer & overlap_layers:
+				_overlapping = candidate.get_parent()
+				return

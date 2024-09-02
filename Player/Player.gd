@@ -6,7 +6,7 @@ extends CharacterBody2D
 func _physics_process(_delta):
 	_sprite_move.input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	_sprite_move.input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	_sprite_move.tick(_delta)
+	velocity = _sprite_move.tick(_delta)
 	
 	if move_and_slide():
 		_handle_collision()

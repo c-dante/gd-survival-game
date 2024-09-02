@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://damar1eblu4kt"]
+[gd_scene load_steps=3 format=3 uid="uid://damar1eblu4kt"]
 
 [ext_resource type="Script" path="res://TestArena/ui_script.gd" id="1_ws6c1"]
+[ext_resource type="Theme" uid="uid://dpmq2vuic315u" path="res://shared/UiTheme.tres" id="2_2tk5i"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,61 +12,62 @@ offset_left = 1.0
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_2tk5i")
 script = ExtResource("1_ws6c1")
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="LeftGrid" type="GridContainer" parent="."]
 layout_mode = 1
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 350.0
+offset_bottom = 77.0
 
-[node name="Zoom" type="HBoxContainer" parent="GridContainer"]
+[node name="Zoom" type="HBoxContainer" parent="LeftGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="GridContainer/Zoom"]
+[node name="Label" type="Label" parent="LeftGrid/Zoom"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Zoom"
 horizontal_alignment = 2
 
-[node name="Slider" type="HSlider" parent="GridContainer/Zoom"]
+[node name="Slider" type="HSlider" parent="LeftGrid/Zoom"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-min_value = 0.1
-max_value = 4.0
+min_value = 0.5
+max_value = 6.0
 step = 0.01
 value = 1.0
 
-[node name="Speed" type="HBoxContainer" parent="GridContainer"]
+[node name="Speed" type="HBoxContainer" parent="LeftGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="GridContainer/Speed"]
+[node name="Label" type="Label" parent="LeftGrid/Speed"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Player Speed"
 horizontal_alignment = 2
 
-[node name="Slider" type="HSlider" parent="GridContainer/Speed"]
+[node name="Slider" type="HSlider" parent="LeftGrid/Speed"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 max_value = 500.0
 
-[node name="GameSpeed" type="HBoxContainer" parent="GridContainer"]
+[node name="GameSpeed" type="HBoxContainer" parent="LeftGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="GridContainer/GameSpeed"]
+[node name="Label" type="Label" parent="LeftGrid/GameSpeed"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Game Speed"
 horizontal_alignment = 2
 
-[node name="Slider" type="HSlider" parent="GridContainer/GameSpeed"]
+[node name="Slider" type="HSlider" parent="LeftGrid/GameSpeed"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 4
@@ -75,6 +77,47 @@ max_value = 4.0
 step = 0.01
 value = 1.0
 
-[connection signal="value_changed" from="GridContainer/Zoom/Slider" to="." method="_on_zoom_change"]
-[connection signal="value_changed" from="GridContainer/Speed/Slider" to="." method="_on_speed_change"]
-[connection signal="value_changed" from="GridContainer/GameSpeed/Slider" to="." method="_on_game_speed_change"]
+[node name="RightGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Fps" type="HBoxContainer" parent="RightGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightGrid/Fps"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS"
+horizontal_alignment = 2
+
+[node name="FpsLabel" type="Label" parent="RightGrid/Fps"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
+[node name="PhysicsFps" type="HBoxContainer" parent="RightGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightGrid/PhysicsFps"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Physics FPS"
+horizontal_alignment = 2
+
+[node name="PhysicsFpsLabel" type="Label" parent="RightGrid/PhysicsFps"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
+[connection signal="value_changed" from="LeftGrid/Zoom/Slider" to="." method="_on_zoom_change"]
+[connection signal="value_changed" from="LeftGrid/Speed/Slider" to="." method="_on_speed_change"]
+[connection signal="value_changed" from="LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
