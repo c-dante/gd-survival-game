@@ -1,5 +1,5 @@
 class_name Enemy
-extends StaticBody2D
+extends AnimatableBody2D
 
 @export var target: Node2D
 @onready var _sprite_move = $SpriteMove

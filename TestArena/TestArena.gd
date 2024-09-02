@@ -10,7 +10,7 @@ const EnemyScene: PackedScene = preload("res://Enemy/Enemy.tscn")
 func _ready():
 	seed(123456789)
 	var rect = arena_area.shape.get_rect()
-	for i in range(1000):
+	for i in range(100):
 		var pos = arena_area.to_global(_pt_in_rect(rect, 0))
 		_add_enemey(pos)
 		#_add_enemey(player.global_position + Vector2(20, 20) + Vector2(randf() * 10, randf() * 10))

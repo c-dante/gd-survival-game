@@ -4,13 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://tuptaea71ke3" path="res://component/SpriteMove/SpriteMove.res" id="2_8myrb"]
 [ext_resource type="SpriteFrames" uid="uid://c1hddibr6bxq" path="res://Enemy/Skeleton/SkeletonSprite.tres" id="4_stmgg"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kqqc1"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_nb7mk"]
 
-[node name="Enemy" type="StaticBody2D" node_paths=PackedStringArray("target")]
-collision_layer = 256
-collision_mask = 2
+[node name="Enemy" type="AnimatableBody2D"]
+collision_layer = 4098
+collision_mask = 0
 script = ExtResource("1_pgt22")
-target = NodePath(".")
 
 [node name="SpriteMove" parent="." node_paths=PackedStringArray("body", "animated") instance=ExtResource("2_8myrb")]
 body = NodePath("..")
@@ -22,5 +21,5 @@ metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_kqqc1")
+shape = SubResource("CircleShape2D_nb7mk")
 metadata/_edit_lock_ = true
