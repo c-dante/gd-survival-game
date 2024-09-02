@@ -1,3 +1,4 @@
+class_name Sword
 extends Node2D
 
 @export var target: Node2D

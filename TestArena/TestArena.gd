@@ -18,6 +18,7 @@ var player_start;
 func _ready():
 	seed(123456789)
 	player_start = player.position
+	swords.push_back(sword) # TODO: remove
 	start_game()
 
 func clear_arena():
@@ -129,7 +130,14 @@ func _on_player_on_level_up(level, player):
 	]);
 	level_up_ui.show()
 
-
+var swords: Array[Sword] = []
 func _on_level_up_on_select(choice: LevelUp.Choice):
-	print("LEVEL UP!!")
-	print(choice)
+	print("LEVEL UP! ", choice)
+	var new_sword: Sword = sword.duplicate()
+	game.add_child(new_sword)
+	swords.push_back(new_sword)
+	for sword_idx in swords.size():
+		var i = sword_idx + 1
+		swords[sword_idx].angle = i * (TAU / swords.size())
+	level_up_ui.hide()
+	get_tree().paused = false
