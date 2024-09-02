@@ -269,6 +269,7 @@ shape = SubResource("CircleShape2D_t0u47")
 debug_color = Color(0.76202, 1.01075e-06, 0.440352, 0.42)
 metadata/_edit_lock_ = true
 
+[connection signal="on_change" from="Health" to="." method="_on_health_on_change"]
 [connection signal="on_death" from="Health" to="." method="_on_health_on_death"]
 [connection signal="area_entered" from="PushArea" to="OverlapPusher" method="on_area_enter"]
 [connection signal="area_exited" from="PushArea" to="OverlapPusher" method="on_area_exit"]

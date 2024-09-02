@@ -20,3 +20,7 @@ func _physics_process(delta):
 
 func _on_health_on_death(target, killer):
 	queue_free()
+
+# TODO: Refactor health/damage to reflect on aggregates on declare side instead of on usage side
+func _on_health_on_change(change, value):
+	Global.game_stats["dmg_delt"] += abs(change)

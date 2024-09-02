@@ -1,4 +1,8 @@
+class_name GameUi
 extends Control
+
+# Forwarded from button
+signal new_game()
 
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
@@ -14,6 +18,14 @@ extends Control
 @onready var _health_bar = $CenterGrid/Health/Bar
 @onready var _exp_bar = $CenterGrid/Experience/Bar
 
+# Game Over Screen
+@onready var _game_over = $GameOver
+@onready var _game_over_killed_by = $GameOver/Centered/MarginContainer/VBoxContainer/Killer/Value
+@onready var _game_over_damage = $GameOver/Centered/MarginContainer/VBoxContainer/Damage/Value
+@onready var _game_over_level = $GameOver/Centered/MarginContainer/VBoxContainer/Level/Value
+@onready var _game_over_defeated = $GameOver/Centered/MarginContainer/VBoxContainer/Defeated/Value
+@onready var _game_over_dealt = $GameOver/Centered/MarginContainer/VBoxContainer/DamageDealt/Value
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set Speed
@@ -27,7 +39,12 @@ func _ready():
 	# Set Game Speed
 	_game_speed_slider.value = Global.game_speed
 	
-	# Set health
+	# Set health + xp
+	_health_bar.value = player.get_node("Health").health
+	_exp_bar.value = player.experience
+	
+	# Clear game over screen
+	hide_game_over()
 
 func _on_speed_change(value):
 	sprite_move.set_speed(value)
@@ -48,3 +65,17 @@ func _physics_process(delta):
 
 func fmt_delta_fps(delta: float):
 	return "%7.2fs" % snappedf(1.0 / delta, 0.05)
+
+func show_game_over():
+	_game_over.visible = true
+	_game_over_killed_by.text = "%s" % Global.game_stats["killed_by"]
+	_game_over_damage.text = "%s" % Global.game_stats["dmg_taken"]
+	_game_over_level.text = "%s" % Global.game_stats["player_level"]
+	_game_over_defeated.text = "%s" % Global.game_stats["kills"]
+	_game_over_dealt.text = "%s" % Global.game_stats["dmg_delt"]
+
+func hide_game_over():
+	_game_over.visible = false
+
+func _on_new_game_pressed():
+	new_game.emit()

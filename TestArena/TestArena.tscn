@@ -53,4 +53,7 @@ camera = NodePath("../../Game/Camera2D")
 player = NodePath("../../Game/Player")
 metadata/_edit_lock_ = true
 
+[connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
+[connection signal="new_game" from="UI/GameUi" to="." method="_on_game_ui_new_game"]
+
 [editable path="Game/Player"]

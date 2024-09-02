@@ -1,5 +1,9 @@
 extends Node
 
+# Group names to help with cleanup and such
+const GROUP_ENEMIES = "Enemies"
+const GROUP_PICKUPS = "Pickups"
+
 # Navigation collision
 const LAYER_PLAYER_MOVE = 1
 
@@ -25,3 +29,14 @@ func set_game_speed(new_speed: float):
 
 func _ready():
 	set_game_speed(1.0)
+	reset()
+
+var game_stats = {}
+func reset():
+	game_stats = {
+		"dmg_taken": 0,
+		"dmg_delt": 0,
+		"kills": 0,
+		"player_level": 0,
+		"killed_by": ""
+	}

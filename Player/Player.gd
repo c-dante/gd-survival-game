@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var _sprite_move = $SpriteMove
 
 var experience: int = 0
+var level = 0
 
 func _physics_process(_delta):
 	_sprite_move.input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -15,6 +16,12 @@ func _physics_process(_delta):
 	
 	if move_and_slide():
 		_handle_collision()
+		
+func reset():
+	modulate = Color.WHITE
+	experience = 0
+	level = 0
+	$Health.health = 100
 
 func _handle_collision():
 	print(get_slide_collision_count())
@@ -23,6 +30,10 @@ func _on_pickup_area_area_entered(area):
 	var pickup: Pickup = area.owner
 	if pickup.kind == Pickup.PickupKind.EXP:
 		experience += 10
+		if experience >= 100:
+			experience = 0
+			level += 1
+			Global.game_stats["player_level"] = level
 		# TODO: Fun pickup animation, fly to the bar or to the player or something
 		pickup.queue_free()
 	else:
@@ -31,4 +42,5 @@ func _on_pickup_area_area_entered(area):
 
 func _on_health_on_change(change, value):
 	if change < 0:
+		Global.game_stats["dmg_taken"] += abs(change)
 		modulate = Color.CRIMSON
