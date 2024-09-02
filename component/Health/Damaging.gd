@@ -5,4 +5,5 @@ extends Node
 
 func on_body_enter(body: Node2D):
 	var health: Health = body.get_node("Health")
-	health.update_health(-damage, get_parent())
+	if health != null:
+		health.update_health(-damage, get_parent())

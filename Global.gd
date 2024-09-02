@@ -6,6 +6,9 @@ const LAYER_PLAYER_MOVE = 1
 # Things the player can touch
 const LAYER_PLAYER_INTERACT = 2
 
+# The player's hitbox
+const LAYER_PLAYER_HITBOX = 4
+
 # Enemies listen for hits on this layer
 const LAYER_ENEMY_HIT = 9
 

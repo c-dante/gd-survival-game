@@ -218,7 +218,7 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(588, 359)
-collision_mask = 3
+collision_layer = 9
 motion_mode = 1
 script = ExtResource("1_rp534")
 

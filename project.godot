@@ -72,6 +72,7 @@ ui_down={
 
 2d_physics/layer_1="player_movement"
 2d_physics/layer_2="player_interact"
+2d_physics/layer_4="player_hitbox"
 2d_physics/layer_9="enemy_hit"
 2d_physics/layer_13="enemy_push"
 
