@@ -6,17 +6,19 @@ class Choice:
 	var choice: String
 	var sprite: Texture2D
 	var description: String
-	var current_level: int
+	var level: int
+	var metadata: Variant
 	
-	func _init(_choice: String, _sprite: Texture2D, _description: String, _current_level: int):
+	func _init(_choice: String, _sprite: Texture2D, _description: String, _level: int, _metadata: Variant = null):
 		choice = _choice
 		sprite = _sprite
 		description = _description
-		current_level = _current_level
+		level = _level
+		metadata = _metadata
 
 	func _to_string():
-		return "Choice(choice=%s, sprite=%s, description=%s, current_level=%s)"% [
-			choice, sprite, description, current_level
+		return "Choice(choice=%s, sprite=%s, description=%s, level=%s, metadata=%s)"% [
+			choice, sprite, description, level, metadata
 		]
 
 signal on_select(choice: Choice)
@@ -28,8 +30,6 @@ signal on_select(choice: Choice)
 func set_choices(choices: Array[Choice]):
 	if choices.size() == 0:
 		push_error("Empty level up screen! Null choice!")
-		print(_choice_tpl)
-		_choice_tpl.hide()
 		on_select.emit(null)
 	else:
 		_clean()

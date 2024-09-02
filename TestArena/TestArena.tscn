@@ -40,10 +40,12 @@ position = Vector2(32, 88)
 visible = false
 collision_layer = 0
 collision_mask = 0
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Game/AreanaArea"]
 position = Vector2(24, 48)
 shape = SubResource("RectangleShape2D_co5wi")
+metadata/_edit_lock_ = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -61,6 +63,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="OverlayShield" type="ColorRect" parent="UI/LevelUpUi"]
 layout_mode = 1
@@ -70,6 +73,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 1, 0.25098)
+metadata/_edit_lock_ = true
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/LevelUpUi"]
 layout_mode = 1
@@ -78,12 +82,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="LevelUp" parent="UI/LevelUpUi/CenterContainer" instance=ExtResource("7_0miyk")]
 layout_mode = 2
 
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
 [connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
+[connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]
 [connection signal="new_game" from="UI/GameUi" to="." method="_on_game_ui_new_game"]
 [connection signal="on_select" from="UI/LevelUpUi/CenterContainer/LevelUp" to="." method="_on_level_up_on_select"]
 

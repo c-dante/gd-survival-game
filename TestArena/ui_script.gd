@@ -3,6 +3,7 @@ extends Control
 
 # Forwarded from button
 signal new_game()
+signal level_up()
 
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
@@ -79,3 +80,6 @@ func hide_game_over():
 
 func _on_new_game_pressed():
 	new_game.emit()
+
+func _on_level_up_btn_pressed():
+	level_up.emit()

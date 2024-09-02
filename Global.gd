@@ -3,6 +3,7 @@ extends Node
 # Group names to help with cleanup and such
 const GROUP_ENEMIES = "Enemies"
 const GROUP_PICKUPS = "Pickups"
+const GROUP_WEAPONS = "Weapons"
 
 # Navigation collision
 const LAYER_PLAYER_MOVE = 1

@@ -3,6 +3,7 @@ extends Node2D
 
 const EnemyScene: PackedScene = preload("res://Enemy/Enemy.tscn")
 const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
+const SwordScene: PackedScene = preload("res://weapons/Sword/Sword.tscn")
 
 @onready var effects: Effects = $Effects
 @onready var game: CanvasLayer = $Game
@@ -24,6 +25,7 @@ func clear_arena():
 	# TODO bug-pause: I think queue-free is why the lazy signals happen -- might need to remove enemies + pickups tpp
 	get_tree().call_group(Global.GROUP_ENEMIES, "queue_free")
 	get_tree().call_group(Global.GROUP_PICKUPS, "queue_free")
+	get_tree().call_group(Global.GROUP_WEAPONS, "queue_free")
 
 func start_game():
 	get_tree().paused = false
@@ -36,6 +38,12 @@ func start_game():
 	
 	player.position = player_start
 	Global.reset()
+	
+	# TODO: Weapon select not just level ups
+	var sword = SwordScene.instantiate()
+	sword.add_to_group(Global.GROUP_WEAPONS)
+	sword.target = player
+	game.add_child(sword)
 	
 	var rect = arena_area.shape.get_rect()
 	for i in range(100):
@@ -85,11 +93,26 @@ func _on_health_on_death(_target: Node2D, killer: Node2D):
 func _on_game_ui_new_game():
 	call_deferred("start_game")
 
-# TODO: Invert sword weapon from here
-
-func _on_player_on_level_up(level, player):
-	# Pause the game
+func _on_player_on_level_up(_level, _player):
 	get_tree().paused = true
-	
-	# Show the level up stuff for every weapon
 	level_up_ui.show()
+	# TODO: configure choices, for now, it's always sword
+	# But this would be picking N { weapons, artifacts }, and if you own the weapon, asking for the next level
+	var choices: Array[LevelUp.Choice] = []
+	for weapon in get_tree().get_nodes_in_group(Global.GROUP_WEAPONS):
+		if weapon.has_method("get_choices"):
+			choices.append_array(weapon.get_choices())
+	level_up.set_choices(choices)
+
+func _on_level_up_on_select(choice: LevelUp.Choice):
+	get_tree().paused = false
+	level_up_ui.hide()
+	
+	if !choice || !choice.metadata || !choice.metadata.has_method("set_level"):
+		push_error("Unhandled choice ", choice)
+		return
+	
+	choice.metadata.set_level(choice.level)
+
+func _on_game_ui_level_up():
+	_on_player_on_level_up(player.level + 1, player)
