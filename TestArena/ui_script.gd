@@ -3,9 +3,11 @@ extends Control
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
 
-@onready var _speed_slider = $GridContainer/Speed/Slider
-@onready var _game_speed_slider = $GridContainer/GameSpeed/Slider
-@onready var _zoom_slider = $GridContainer/Zoom/Slider
+@onready var _speed_slider = $LeftGrid/Speed/Slider
+@onready var _game_speed_slider = $LeftGrid/GameSpeed/Slider
+@onready var _zoom_slider = $LeftGrid/Zoom/Slider
+@onready var _physics_fps = $RightGrid/PhysicsFps/PhysicsFpsLabel
+@onready var _fps = $RightGrid/Fps/FpsLabel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,3 +30,12 @@ func _on_zoom_change(value):
 
 func _on_game_speed_change(value):
 	Global.set_game_speed(value)
+
+func _process(delta):
+	_fps.text = fmt_delta_fps(delta)
+
+func _physics_process(delta):
+	_physics_fps.text = fmt_delta_fps(delta)
+
+func fmt_delta_fps(delta: float):
+	return "%7.2fs" % snappedf(1.0 / delta, 0.05)
