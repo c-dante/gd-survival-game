@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://ch6iaqda7kbpn"]
+
+[ext_resource type="Script" path="res://Explosion/Explosion.gd" id="1_jhe6q"]
+
+[sub_resource type="Curve" id="Curve_fwpfk"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.03911, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jurmp"]
+curve = SubResource("Curve_fwpfk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_27mk7"]
+lifetime_randomness = 0.1
+particle_flag_disable_z = true
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 20.0
+initial_velocity_max = 35.0
+radial_velocity_min = 9.99998
+radial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+damping_min = 5.0
+damping_max = 10.0
+alpha_curve = SubResource("CurveTexture_jurmp")
+hue_variation_min = -1.0
+hue_variation_max = -0.67
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_jhe6q")
+
+[node name="Particles" type="GPUParticles2D" parent="."]
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_27mk7")
+lifetime = 0.3
+explosiveness = 0.9
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2

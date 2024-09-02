@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/camera_2d.gd" id="2_ta6gd"]
-[ext_resource type="TileSet" uid="uid://ckrtwok01uorx" path="res://assets/Tiny Adventure Pack Plus/Tilesets/tileset.tres" id="3_4irkt"]
+[ext_resource type="TileSet" uid="uid://ckrtwok01uorx" path="res://TestArena/tileset.tres" id="3_4irkt"]
 [ext_resource type="PackedScene" uid="uid://b6lbgvcedw0xm" path="res://weapons/Sword/Sword.tscn" id="4_qb14s"]
 [ext_resource type="PackedScene" uid="uid://dcvpsxfytnn3o" path="res://Player/Player.tscn" id="4_ur8qm"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="5_ole0v"]
