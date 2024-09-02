@@ -5,9 +5,15 @@ font_names = PackedStringArray("Monospace")
 font_weight = 800
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e60xg"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 
 [resource]
 EmphasisLabel/base_type = &"Label"
 EmphasisLabel/colors/font_color = Color(0, 1, 0, 1)
+EmphasisLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+EmphasisLabel/constants/outline_size = 2
 EmphasisLabel/fonts/font = SubResource("SystemFont_wugw7")
 EmphasisLabel/styles/normal = SubResource("StyleBoxFlat_e60xg")

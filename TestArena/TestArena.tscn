@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/camera_2d.gd" id="2_ta6gd"]
-[ext_resource type="TileSet" uid="uid://ckrtwok01uorx" path="res://assets/Tiny Adventure Pack Plus/Tilesets/tileset.tres" id="3_4irkt"]
+[ext_resource type="TileSet" uid="uid://ckrtwok01uorx" path="res://TestArena/tileset.tres" id="3_4irkt"]
+[ext_resource type="PackedScene" uid="uid://b6lbgvcedw0xm" path="res://weapons/Sword/Sword.tscn" id="4_qb14s"]
 [ext_resource type="PackedScene" uid="uid://dcvpsxfytnn3o" path="res://Player/Player.tscn" id="4_ur8qm"]
-[ext_resource type="Script" path="res://Player/Player.gd" id="5_ole0v"]
 [ext_resource type="PackedScene" uid="uid://damar1eblu4kt" path="res://TestArena/game_ui.tscn" id="6_h2fhw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co5wi"]
@@ -27,9 +27,14 @@ tile_map_data = PackedByteArray("AAAEAAIABQAEABAAAAAFAAIABQAEABAAAAAFAAMABQAEABA
 tile_set = ExtResource("3_4irkt")
 metadata/_edit_lock_ = true
 
+[node name="Sword" parent="Game" node_paths=PackedStringArray("target") instance=ExtResource("4_qb14s")]
+target = NodePath("../Player")
+rotation_speed = 6.283
+orbit_distance = 32
+orbit_speed = 1.571
+
 [node name="Player" parent="Game" instance=ExtResource("4_ur8qm")]
 position = Vector2(32, 88)
-script = ExtResource("5_ole0v")
 
 [node name="AreanaArea" type="Area2D" parent="Game"]
 visible = false
@@ -42,9 +47,13 @@ shape = SubResource("RectangleShape2D_co5wi")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="GameUi" parent="UI" node_paths=PackedStringArray("sprite_move", "camera") instance=ExtResource("6_h2fhw")]
+[node name="GameUi" parent="UI" node_paths=PackedStringArray("sprite_move", "camera", "player") instance=ExtResource("6_h2fhw")]
 sprite_move = NodePath("../../Game/Player/SpriteMove")
 camera = NodePath("../../Game/Camera2D")
+player = NodePath("../../Game/Player")
 metadata/_edit_lock_ = true
+
+[connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
+[connection signal="new_game" from="UI/GameUi" to="." method="_on_game_ui_new_game"]
 
 [editable path="Game/Player"]
