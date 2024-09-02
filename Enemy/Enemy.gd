@@ -18,6 +18,5 @@ func _physics_process(delta):
 	if push != Vector2.ZERO:
 		position += push * delta
 
-func _on_area_2d_area_entered(area: Area2D):
-	if area.get_collision_layer_value(Global.LAYER_ENEMY_HIT):
-		print("Hit!")
+func _on_health_on_death(target, killer):
+	queue_free()

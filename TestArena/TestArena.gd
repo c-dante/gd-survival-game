@@ -18,6 +18,8 @@ func _add_enemey(point: Vector2):
 	var enemy: Enemy = EnemyScene.instantiate()
 	enemy.target = player
 	enemy.position = point
+	#var health: Health = enemy.get_node("Health")
+	#health.on_death.connect(func (taget: Node2D, killer: Node2D): print("DEAD! ", a, ", ", b, " ... ", health.owner, "...", b.owner))
 	game.add_child(enemy)
 
 func _pt_in_rect(rect: Rect2, margin: float = 1.0) -> Vector2:
