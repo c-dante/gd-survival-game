@@ -1,13 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://dg8a6d2kl33kk"]
+[gd_scene load_steps=7 format=3 uid="uid://dg8a6d2kl33kk"]
 
 [ext_resource type="Script" path="res://Enemy/Enemy.gd" id="1_pgt22"]
 [ext_resource type="PackedScene" uid="uid://tuptaea71ke3" path="res://component/SpriteMove/SpriteMove.res" id="2_8myrb"]
+[ext_resource type="PackedScene" uid="uid://gnkh7pf8iltu" path="res://component/OverlapPusher/OverlapPusher.res" id="3_cguoj"]
 [ext_resource type="SpriteFrames" uid="uid://c1hddibr6bxq" path="res://Enemy/Skeleton/SkeletonSprite.tres" id="4_stmgg"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ai87"]
+radius = 5.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_nb7mk"]
+radius = 2.0
 
 [node name="Enemy" type="AnimatableBody2D"]
-collision_layer = 4098
+collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_pgt22")
 
@@ -15,11 +20,28 @@ script = ExtResource("1_pgt22")
 body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
 
+[node name="OverlapPusher" parent="." node_paths=PackedStringArray("body", "source_area") instance=ExtResource("3_cguoj")]
+overlap_layers = 4096
+body = NodePath("..")
+source_area = NodePath("../Area2D")
+push_speed = 4.0
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("4_stmgg")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.5, 0.5)
-shape = SubResource("CircleShape2D_nb7mk")
+shape = SubResource("CircleShape2D_0ai87")
 metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4096
+collision_mask = 4096
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_nb7mk")
+debug_color = Color(0.847406, 0.000953566, 0.90611, 0.42)
+metadata/_edit_lock_ = true
+
+[connection signal="area_entered" from="Area2D" to="OverlapPusher" method="on_area_enter"]
+[connection signal="area_exited" from="Area2D" to="OverlapPusher" method="on_area_exit"]

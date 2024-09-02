@@ -13,7 +13,6 @@ func _ready():
 	for i in range(100):
 		var pos = arena_area.to_global(_pt_in_rect(rect, 0))
 		_add_enemey(pos)
-		#_add_enemey(player.global_position + Vector2(20, 20) + Vector2(randf() * 10, randf() * 10))
 
 func _add_enemey(point: Vector2):
 	var enemy = EnemyScene.instantiate()

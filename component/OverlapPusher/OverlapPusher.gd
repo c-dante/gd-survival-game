@@ -5,7 +5,7 @@ const MAX_OVERLAPS = 5
 @export_flags_2d_physics var overlap_layers: int;
 @export var body: Node2D;
 @export var source_area: Area2D;
-@export var push_speed: float = 50.0
+@export var push_speed: float = 10.0
 
 var _overlapping: Node2D
 
@@ -14,11 +14,6 @@ func tick(_delta):
 
 func _handle_overlaps() -> Vector2:
 	if _overlapping == null:
-		return Vector2.ZERO
-		
-	if source_area.get_overlapping_areas().size() > MAX_OVERLAPS:
-		source_area.monitorable = false
-		source_area.monitoring = false
 		return Vector2.ZERO
 	
 	# Return a vector pushing away
