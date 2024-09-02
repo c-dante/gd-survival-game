@@ -2,28 +2,25 @@ class_name TestArena
 extends Node2D
 
 const EnemyScene: PackedScene = preload("res://Enemy/Enemy.tscn")
-const ExplosionScene: PackedScene = preload("res://Explosion/Explosion.tscn")
 const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
 
+@onready var effects: Effects = $Effects
 @onready var game: CanvasLayer = $Game
 @onready var ui: GameUi = $UI/GameUi
 @onready var level_up_ui: Control = $UI/LevelUpUi
 @onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
 @onready var player: Player = $Game/Player
 @onready var arena_area: CollisionShape2D = $Game/AreanaArea/CollisionShape2D
-@onready var sword = $Game/Sword
 
 # Called when the node enters the scene tree for the first time.
 var player_start;
 func _ready():
 	seed(123456789)
 	player_start = player.position
-	swords.push_back(sword) # TODO: remove
 	start_game()
 
 func clear_arena():
 	game.remove_child(player)
-	game.remove_child(sword)
 	# TODO bug-pause: I think queue-free is why the lazy signals happen -- might need to remove enemies + pickups tpp
 	get_tree().call_group(Global.GROUP_ENEMIES, "queue_free")
 	get_tree().call_group(Global.GROUP_PICKUPS, "queue_free")
@@ -36,7 +33,6 @@ func start_game():
 	
 	if player.get_parent() == null:
 		game.add_child(player)
-		game.add_child(sword)
 	
 	player.position = player_start
 	Global.reset()
@@ -58,7 +54,7 @@ func _add_enemey(point: Vector2):
 	health.on_death.connect(
 		func (target: Node2D, _killer: Node2D):
 			Global.game_stats["kills"] += 1
-			explode(target.global_position)
+			effects.explode(target.global_position)
 			call_deferred("drop_exp", target.global_position)
 	)
 	game.add_child(enemy)
@@ -79,25 +75,7 @@ func drop_exp(pos: Vector2):
 	game.add_child(xp)
 	xp.add_to_group(Global.GROUP_PICKUPS)
 
-# Object pool for particle effects, maintaining a max size in the pool but always bursting as high as it needs
-const MAX_PARTICLE_POOL = 50
-var particle_pool = []
-func explode(pos: Vector2):
-	var explosion: Explosion = particle_pool.pop_front()
-	if explosion == null:
-		explosion = ExplosionScene.instantiate()
-		explosion.finished.connect(
-			func ():
-				if particle_pool.size() > MAX_PARTICLE_POOL:
-					explosion.queue_free()
-				else:
-					particle_pool.push_back(explosion)
-		)
-		game.add_child(explosion)
-	
-	explosion.fire_at(pos)
-
-
+# HERE BE SIGNAL DRAGONS
 func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
@@ -108,36 +86,10 @@ func _on_game_ui_new_game():
 	call_deferred("start_game")
 
 # TODO: Invert sword weapon from here
-var sword_tx: Texture2D = preload("res://ui/LevelUp/SwordSprite.tres")
+
 func _on_player_on_level_up(level, player):
 	# Pause the game
 	get_tree().paused = true
 	
-	# Show the level up stuff
-	level_up.set_choices([
-		LevelUp.Choice.new(
-			"More Swords",
-			sword_tx,
-			"Adds another sword to swing",
-			1
-		),
-		LevelUp.Choice.new(
-			"Faster Swords",
-			sword_tx,
-			"Slash swords even faster",
-			1
-		)
-	]);
+	# Show the level up stuff for every weapon
 	level_up_ui.show()
-
-var swords: Array[Sword] = []
-func _on_level_up_on_select(choice: LevelUp.Choice):
-	print("LEVEL UP! ", choice)
-	var new_sword: Sword = sword.duplicate()
-	game.add_child(new_sword)
-	swords.push_back(new_sword)
-	for sword_idx in swords.size():
-		var i = sword_idx + 1
-		swords[sword_idx].angle = i * (TAU / swords.size())
-	level_up_ui.hide()
-	get_tree().paused = false

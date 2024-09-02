@@ -33,6 +33,7 @@ version_control/autoload_on_startup=true
 
 Enemies="All spawned enemies"
 Pickups="All pickup items"
+Weapons="The player's weapons"
 
 [gui]
 
