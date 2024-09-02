@@ -1,8 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
-/android/
+android/
+export/
 
-# No assets
+# No assets/plugins in source control
 assets/
 addons/
 *.png

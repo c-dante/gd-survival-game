@@ -40,7 +40,7 @@ func _on_pickup_area_area_entered(area):
 		print("Unhandled pickup: ", pickup)
 
 
-func _on_health_on_change(change, value):
+func _on_health_on_change(change, _value):
 	if change < 0:
 		Global.game_stats["dmg_taken"] += abs(change)
 		modulate = Color.CRIMSON

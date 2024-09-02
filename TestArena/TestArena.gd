@@ -49,7 +49,7 @@ func _add_enemey(point: Vector2):
 	enemy.position = point
 	var health: Health = enemy.get_node("Health")
 	health.on_death.connect(
-		func (target: Node2D, killer: Node2D):
+		func (target: Node2D, _killer: Node2D):
 			Global.game_stats["kills"] += 1
 			explode(target.global_position)
 			call_deferred("drop_exp", target.global_position)
@@ -91,7 +91,7 @@ func explode(pos: Vector2):
 	explosion.fire_at(pos)
 
 
-func _on_health_on_death(target: Node2D, killer: Node2D):
+func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	clear_arena()
 	ui.show_game_over()
