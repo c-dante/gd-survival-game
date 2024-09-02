@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 @onready var _sprite_move = $SpriteMove
 
+signal on_level_up(level: int, player: Player)
+
 var experience: int = 0
 var level = 0
 
@@ -19,7 +21,7 @@ func _physics_process(_delta):
 		
 func reset():
 	modulate = Color.WHITE
-	experience = 0
+	experience = 90
 	level = 0
 	$Health.health = 100
 
@@ -34,6 +36,7 @@ func _on_pickup_area_area_entered(area):
 			experience = 0
 			level += 1
 			Global.game_stats["player_level"] = level
+			on_level_up.emit(level, self)
 		# TODO: Fun pickup animation, fly to the bar or to the player or something
 		pickup.queue_free()
 	else:

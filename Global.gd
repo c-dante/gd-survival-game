@@ -40,3 +40,7 @@ func reset():
 		"player_level": 0,
 		"killed_by": ""
 	}
+
+func clear_connections(from: Signal):
+	for dict in from.get_connections():
+		from.disconnect(dict["callable"])

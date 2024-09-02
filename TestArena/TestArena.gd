@@ -7,6 +7,8 @@ const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
 
 @onready var game: CanvasLayer = $Game
 @onready var ui: GameUi = $UI/GameUi
+@onready var level_up_ui: Control = $UI/LevelUpUi
+@onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
 @onready var player: Player = $Game/Player
 @onready var arena_area: CollisionShape2D = $Game/AreanaArea/CollisionShape2D
 @onready var sword = $Game/Sword
@@ -21,11 +23,15 @@ func _ready():
 func clear_arena():
 	game.remove_child(player)
 	game.remove_child(sword)
+	# TODO bug-pause: I think queue-free is why the lazy signals happen -- might need to remove enemies + pickups tpp
 	get_tree().call_group(Global.GROUP_ENEMIES, "queue_free")
 	get_tree().call_group(Global.GROUP_PICKUPS, "queue_free")
 
 func start_game():
+	get_tree().paused = false
 	player.reset()
+	level_up_ui.hide()
+	ui.hide_game_over()
 	
 	if player.get_parent() == null:
 		game.add_child(player)
@@ -93,9 +99,37 @@ func explode(pos: Vector2):
 
 func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
-	clear_arena()
+	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
+	get_tree().set_deferred("paused", true)
 	ui.show_game_over()
 
 func _on_game_ui_new_game():
-	ui.hide_game_over()
-	start_game()
+	call_deferred("start_game")
+
+# TODO: Invert sword weapon from here
+var sword_tx: Texture2D = preload("res://ui/LevelUp/SwordSprite.tres")
+func _on_player_on_level_up(level, player):
+	# Pause the game
+	get_tree().paused = true
+	
+	# Show the level up stuff
+	level_up.set_choices([
+		LevelUp.Choice.new(
+			"More Swords",
+			sword_tx,
+			"Adds another sword to swing",
+			1
+		),
+		LevelUp.Choice.new(
+			"Faster Swords",
+			sword_tx,
+			"Slash swords even faster",
+			1
+		)
+	]);
+	level_up_ui.show()
+
+
+func _on_level_up_on_select(choice: LevelUp.Choice):
+	print("LEVEL UP!!")
+	print(choice)
