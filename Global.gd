@@ -3,6 +3,7 @@ extends Node
 # Group names to help with cleanup and such
 const GROUP_ENEMIES = "Enemies"
 const GROUP_PICKUPS = "Pickups"
+const GROUP_WEAPONS = "Weapons"
 
 # Navigation collision
 const LAYER_PLAYER_MOVE = 1
@@ -40,3 +41,7 @@ func reset():
 		"player_level": 0,
 		"killed_by": ""
 	}
+
+func clear_connections(from: Signal):
+	for dict in from.get_connections():
+		from.disconnect(dict["callable"])

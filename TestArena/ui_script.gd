@@ -3,6 +3,7 @@ extends Control
 
 # Forwarded from button
 signal new_game()
+signal level_up()
 
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
@@ -67,7 +68,7 @@ func fmt_delta_fps(delta: float):
 	return "%7.2fs" % snappedf(1.0 / delta, 0.05)
 
 func show_game_over():
-	_game_over.visible = true
+	_game_over.show()
 	_game_over_killed_by.text = "%s" % Global.game_stats["killed_by"]
 	_game_over_damage.text = "%s" % Global.game_stats["dmg_taken"]
 	_game_over_level.text = "%s" % Global.game_stats["player_level"]
@@ -75,7 +76,10 @@ func show_game_over():
 	_game_over_dealt.text = "%s" % Global.game_stats["dmg_delt"]
 
 func hide_game_over():
-	_game_over.visible = false
+	_game_over.hide()
 
 func _on_new_game_pressed():
 	new_game.emit()
+
+func _on_level_up_btn_pressed():
+	level_up.emit()
