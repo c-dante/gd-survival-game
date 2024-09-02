@@ -250,5 +250,6 @@ monitorable = false
 [node name="PickupRadius" type="CollisionShape2D" parent="PickupArea"]
 shape = SubResource("CircleShape2D_ohb1k")
 
+[connection signal="on_change" from="Health" to="." method="_on_health_on_change"]
 [connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
 [connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]

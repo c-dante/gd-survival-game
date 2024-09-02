@@ -42,7 +42,7 @@ func drop_exp(pos: Vector2):
 	var xp: Pickup = PickupScene.instantiate()
 	xp.position = pos
 	xp.kind = Pickup.PickupKind.EXP
-	game.add_child(xp)
+	game.call_deferred("add_child", xp)
 
 # Object pool for particle effects, maintaining a max size in the pool but always bursting as high as it needs
 const MAX_PARTICLE_POOL = 50

@@ -10,6 +10,9 @@ func _physics_process(_delta):
 	_sprite_move.input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	velocity = _sprite_move.tick(_delta)
 	
+	# TODO: Move into a plugin for damage taking?
+	modulate = lerp(modulate, Color.WHITE, 0.8 * _delta * Global.game_speed)
+	
 	if move_and_slide():
 		_handle_collision()
 
@@ -24,3 +27,8 @@ func _on_pickup_area_area_entered(area):
 		pickup.queue_free()
 	else:
 		print("Unhandled pickup: ", pickup)
+
+
+func _on_health_on_change(change, value):
+	if change < 0:
+		modulate = Color.CRIMSON
