@@ -1,7 +1,8 @@
-[gd_scene load_steps=35 format=3 uid="uid://dcvpsxfytnn3o"]
+[gd_scene load_steps=37 format=3 uid="uid://dcvpsxfytnn3o"]
 
-[ext_resource type="Script" path="res://component/SpriteMove/SpriteMove.gd" id="1_x2ngv"]
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_rp534"]
 [ext_resource type="Texture2D" uid="uid://wgcitu1uphgn" path="res://Player/Char_one/Char_4_sides.png" id="2_v4gkj"]
+[ext_resource type="PackedScene" uid="uid://charipltbi620" path="res://component/Health/Health.tscn" id="3_l0ldv"]
 [ext_resource type="Texture2D" uid="uid://bi4pjggeyb52u" path="res://Player/Char_one/Walk/Char_walk_down.png" id="3_v08jc"]
 [ext_resource type="Texture2D" uid="uid://carvsa4y67o6u" path="res://Player/Char_one/Walk/Char_walk_left.png" id="4_lc3vb"]
 [ext_resource type="Texture2D" uid="uid://l5un404gbmuw" path="res://Player/Char_one/Walk/Char_walk_right.png" id="5_y0ve2"]
@@ -211,15 +212,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_t622x"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_h0js3"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("body", "animated")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ohb1k"]
+
+[node name="Player" type="CharacterBody2D"]
 position = Vector2(588, 359)
-collision_layer = 3
+collision_mask = 3
 motion_mode = 1
-script = ExtResource("1_x2ngv")
-body = NodePath(".")
-animated = NodePath("AnimatedSprite2D")
+script = ExtResource("1_rp534")
 
 [node name="SpriteMove" parent="." node_paths=PackedStringArray("body", "animated") instance=ExtResource("7_m3cem")]
 body = NodePath("..")
@@ -228,12 +229,26 @@ min_speed = 10.0
 max_speed = 500.0
 speed = 100.0
 
+[node name="Health" parent="." instance=ExtResource("3_l0ldv")]
+health = 100
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3qqtm")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_t622x")
+shape = SubResource("CircleShape2D_h0js3")
+debug_color = Color(0.859064, 0.000697318, 0.878008, 0.42)
 metadata/_edit_lock_ = true
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="PickupRadius" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("CircleShape2D_ohb1k")
+
+[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]

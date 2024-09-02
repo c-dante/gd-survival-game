@@ -2,6 +2,7 @@
 
 [sub_resource type="SystemFont" id="SystemFont_wugw7"]
 font_names = PackedStringArray("Monospace")
+font_weight = 800
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e60xg"]
 

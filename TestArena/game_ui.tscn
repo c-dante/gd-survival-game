@@ -1,7 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://damar1eblu4kt"]
+[gd_scene load_steps=7 format=3 uid="uid://damar1eblu4kt"]
 
 [ext_resource type="Script" path="res://TestArena/ui_script.gd" id="1_ws6c1"]
 [ext_resource type="Theme" uid="uid://dpmq2vuic315u" path="res://shared/UiTheme.tres" id="2_2tk5i"]
+
+[sub_resource type="Curve" id="Curve_5wycg"]
+_data = [Vector2(0.00658979, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_vne32"]
+curve = SubResource("Curve_5wycg")
+
+[sub_resource type="Curve" id="Curve_a01xv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wxjmu"]
+curve = SubResource("Curve_a01xv")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -76,6 +90,47 @@ min_value = 0.1
 max_value = 4.0
 step = 0.01
 value = 1.0
+
+[node name="CenterGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.0
+offset_right = 175.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_constants/v_separation = 32
+
+[node name="Health" type="HBoxContainer" parent="CenterGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bar" type="TextureProgressBar" parent="CenterGrid/Health"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("CurveTexture_vne32")
+texture_progress = SubResource("CurveTexture_wxjmu")
+tint_under = Color(0.25, 0.25, 0.25, 1)
+tint_progress = Color(1, 0, 0, 1)
+
+[node name="Experience" type="HBoxContainer" parent="CenterGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bar" type="TextureProgressBar" parent="CenterGrid/Experience"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("CurveTexture_vne32")
+texture_progress = SubResource("CurveTexture_wxjmu")
+tint_under = Color(0.25, 0.25, 0.25, 1)
+tint_progress = Color(0, 1, 0.983333, 1)
 
 [node name="RightGrid" type="GridContainer" parent="."]
 layout_mode = 1
