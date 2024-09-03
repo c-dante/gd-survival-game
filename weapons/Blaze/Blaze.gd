@@ -1,7 +1,10 @@
 class_name Blaze
 extends Weapon
 
+const BlazePatchScene = preload("res://weapons/Blaze/BlazePatch.tscn")
 const BlazeTx = preload("res://weapons/Blaze/BlazeSprite.tres")
+
+@onready var _spawn_timer: Timer = $Timer
 
 @export var target: Node2D
 
@@ -17,16 +20,16 @@ class BlazeProps:
 		duration_ms = _duration_ms
 		drop_rate_ms = _drop_rate_ms
 
-	func level_up_description(current: BlazeProps) -> String:
+	func level_up_description(_current: BlazeProps) -> String:
 		return "TODO"
 
-var BlazeLevels = [
-	BlazeProps.new(1, 200, 300, 150),
-	BlazeProps.new(1, 200, 600, 150),
+var BlazeLevels: Array[BlazeProps] = [
+	BlazeProps.new(1, 200, 750, 150),
+	BlazeProps.new(1, 200, 750, 150),
 	BlazeProps.new(1, 200, 1000, 150),
-	BlazeProps.new(1, 200, 2500, 150),
-	BlazeProps.new(1, 200, 2500, 150),
-	BlazeProps.new(1, 200, 3000, 100),
+	BlazeProps.new(1, 200, 1500, 150),
+	BlazeProps.new(2, 200, 1500, 100),
+	BlazeProps.new(2, 200, 2000, 100),
 ]
 func get_level_props():
 	return BlazeLevels
@@ -39,11 +42,19 @@ func make_choices(now_props: Variant, next_props: Variant) -> Array[LevelUp.Choi
 
 func set_level(level: int):
 	_level = clamp(level, 1, BlazeLevels.size())
-	var props = BlazeLevels[_level - 1]
+	var props = get_props()
+	_spawn_timer.wait_time = props.drop_rate_ms / 1000.0
 
 func _ready():
 	set_level(1)
+	_spawn_timer.start()
 
-var _spawn_timeout = 0
-func _process(delta):
-	var props = BlazeLevels[_level - 1]
+func _on_drop_blaze():
+	var props = get_props() as BlazeProps
+	var new_blaze: BlazePatch = BlazePatchScene.instantiate()
+	add_child(new_blaze)
+	new_blaze.position = target.position
+	# Setting deferred because these need ready to happe
+	new_blaze.set_deferred("damage", props.damage)
+	new_blaze.set_deferred("damage_rate_ms", props.damage_rate_ms)
+	new_blaze.set_deferred("duration_ms", props.duration_ms)

@@ -4,6 +4,7 @@ extends Node2D
 const EnemyScene: PackedScene = preload("res://Enemy/Enemy.tscn")
 const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
 const SwordScene: PackedScene = preload("res://weapons/Sword/Sword.tscn")
+const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 
 @onready var effects: Effects = $Effects
 @onready var game: CanvasLayer = $Game
@@ -40,10 +41,15 @@ func start_game():
 	Global.reset()
 	
 	# TODO: Weapon select not just level ups
-	var sword = SwordScene.instantiate()
-	sword.add_to_group(Global.GROUP_WEAPONS)
-	sword.target = player
-	game.add_child(sword)
+	#var sword = SwordScene.instantiate()
+	#sword.add_to_group(Global.GROUP_WEAPONS)
+	#sword.target = player
+	#game.add_child(sword)
+	
+	var blaze = BlazeScene.instantiate()
+	blaze.add_to_group(Global.GROUP_WEAPONS)
+	blaze.target = player
+	game.add_child(blaze)
 	
 	var rect = arena_area.shape.get_rect()
 	for i in range(100):
