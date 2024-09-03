@@ -16,17 +16,13 @@ func _physics_process(delta):
 	# TODO: Move into a plugin for damage taking?
 	modulate = lerp(modulate, Color.WHITE, 0.8 * delta)
 	
-	if move_and_slide():
-		_handle_collision()
-		
+	move_and_slide()
+
 func reset():
 	modulate = Color.WHITE
 	experience = 90
 	level = 0
 	$Health.health = 100
-
-func _handle_collision():
-	print(get_slide_collision_count())
 
 func _on_pickup_area_area_entered(area):
 	var pickup: Pickup = area.owner

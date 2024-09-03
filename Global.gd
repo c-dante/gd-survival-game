@@ -39,24 +39,3 @@ func reset():
 func clear_connections(from: Signal):
 	for dict in from.get_connections():
 		from.disconnect(dict["callable"])
-
-## When there's an action to perform on an interval
-## Pass in the current "until next" in ms, delta seconds, and a lambda if it should trigger
-## Returns the remaining timeout
-## This accounts for multiple "procs" in an interval, passing in the remaining time
-## Return explicitly "false" from the Callable to exit the interval
-## reset_ms      = What to reset the interval to if it procs
-## until_next_ms = Remaining time
-#func interval_action(
-	#reset_ms: int,
-	#until_next_ms: int,
-	#delta_s: float,
-	#proc: Callable
-#):
-	#var remaining = until_next_ms - delta_s * game_speed * 1000
-	## Do this in a loop in case we missed dots between deltas
-	## For example, if delta_ms = 1000 and our dot is every 10 ms, we deal 100 ticks!
-	#while remaining <= 0:
-		#if proc.call(remaining) == false:
-			#return remaining
-		#remaining = damage_interval_ms + target["timeout"] 
