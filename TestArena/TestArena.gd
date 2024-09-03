@@ -41,10 +41,10 @@ func start_game():
 	Global.reset()
 	
 	# TODO: Weapon select not just level ups
-	#var sword = SwordScene.instantiate()
-	#sword.add_to_group(Global.GROUP_WEAPONS)
-	#sword.target = player
-	#game.add_child(sword)
+	var sword = SwordScene.instantiate()
+	sword.add_to_group(Global.GROUP_WEAPONS)
+	sword.target = player
+	game.add_child(sword)
 	
 	var blaze = BlazeScene.instantiate()
 	blaze.add_to_group(Global.GROUP_WEAPONS)

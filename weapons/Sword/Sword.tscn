@@ -3,4 +3,6 @@
 [ext_resource type="Script" path="res://weapons/Sword/Sword.gd" id="1_in4ub"]
 
 [node name="Sword" type="Node2D"]
+z_index = 20
+y_sort_enabled = true
 script = ExtResource("1_in4ub")

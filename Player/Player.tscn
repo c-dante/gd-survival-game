@@ -409,6 +409,8 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ohb1k"]
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 10
+y_sort_enabled = true
 position = Vector2(588, 359)
 collision_layer = 9
 motion_mode = 1
@@ -419,7 +421,7 @@ body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
 min_speed = 10.0
 max_speed = 500.0
-speed = 100.0
+speed = 30.0
 
 [node name="Health" parent="." instance=ExtResource("3_l0ldv")]
 health = 100

@@ -27,6 +27,10 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
   - Dropping pickups
   - Timeout-style juice like tweened/triggered animations
 
+## Notes
+- Data sheets are in sheets: https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?gid=0#gid=0
+- z-index ordering and other constants are in Global
+
 # Credits
 These are the libraries/assets/tutorials that I've used while developing this project.
 Many thanks for the creators! Check them out!

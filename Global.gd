@@ -7,18 +7,22 @@ const GROUP_WEAPONS = "Weapons"
 
 # Navigation collision
 const LAYER_PLAYER_MOVE = 1
-
 # Things the player can touch
 const LAYER_PLAYER_INTERACT = 2
-
 # The player's hitbox
 const LAYER_PLAYER_HITBOX = 4
-
 # Enemies listen for hits on this layer
 const LAYER_ENEMY_HIT = 9
-
 # Enemies bounce off each other -- pushes enemies away
 const LAYER_ENEMY_PUSH = 13
+
+# Noting down z-index stuff
+## blaze, pickup
+const Z_INDEX_FLOOR = 5
+## enemy, player
+const Z_INDEX_WALK = 10
+## sword
+const Z_INDEX_FLOAT = 20
 
 # Game Stats
 func _ready():

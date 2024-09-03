@@ -20,7 +20,7 @@ func _physics_process(delta):
 
 func reset():
 	modulate = Color.WHITE
-	experience = 90
+	experience = 0
 	level = 0
 	$Health.health = 100
 
