@@ -36,6 +36,10 @@ metadata/_edit_lock_ = true
 [node name="Player" parent="Game" instance=ExtResource("4_ur8qm")]
 position = Vector2(32, 88)
 
+[node name="SpriteMove" parent="Game/Player" index="0"]
+min_speed = 0.0
+max_speed = 100.0
+
 [node name="AreanaArea" type="Area2D" parent="Game"]
 visible = false
 collision_layer = 0

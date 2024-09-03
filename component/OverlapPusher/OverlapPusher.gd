@@ -16,7 +16,7 @@ func _handle_overlaps() -> Vector2:
 		return Vector2.ZERO
 	
 	# Return a vector pushing away
-	return -Vector2.from_angle(body.get_angle_to(_overlapping.global_position)) * push_speed * Global.game_speed
+	return -Vector2.from_angle(body.get_angle_to(_overlapping.global_position)) * push_speed
 
 func on_area_enter(area: Area2D):
 	if area.collision_layer & overlap_layers:

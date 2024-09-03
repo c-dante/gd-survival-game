@@ -38,7 +38,7 @@ func _ready():
 	_zoom_slider.value = camera.zoom.x
 	
 	# Set Game Speed
-	_game_speed_slider.value = Global.game_speed
+	_game_speed_slider.value = Engine.time_scale
 	
 	# Set health + xp
 	_health_bar.value = player.get_node("Health").health
@@ -54,7 +54,7 @@ func _on_zoom_change(value):
 	camera.zoom = Vector2(value, value)
 
 func _on_game_speed_change(value):
-	Global.set_game_speed(value)
+	Engine.time_scale = value
 
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)

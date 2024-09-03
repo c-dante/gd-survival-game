@@ -227,6 +227,7 @@ script = ExtResource("1_pgt22")
 [node name="SpriteMove" parent="." node_paths=PackedStringArray("body", "animated") instance=ExtResource("2_8myrb")]
 body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
+speed = 15.0
 
 [node name="OverlapPusher" parent="." node_paths=PackedStringArray("body", "source_area") instance=ExtResource("3_cguoj")]
 overlap_layers = 4096
