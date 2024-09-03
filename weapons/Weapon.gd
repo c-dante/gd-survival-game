@@ -17,7 +17,7 @@ func make_choices(_now_props: Variant, _next_props: Variant) -> Array[LevelUp.Ch
 
 func get_choices() -> Array[LevelUp.Choice]:
 	var next_level = _level + 1
-	if next_level > get_level_props().size():
+	if next_level >= get_level_props().size():
 		return []
 
 	var next_props = get_props(next_level)

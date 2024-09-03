@@ -18,7 +18,7 @@ extends Node2D
 
 @export var duration_ms: int:
 	get:
-		return timeout.wait_time * 1000.0
+		return int(timeout.wait_time * 1000.0)
 	set(value):
 		timeout.start(value / 1000.0)
 

@@ -24,12 +24,12 @@ class BlazeProps:
 		return "TODO"
 
 var BlazeLevels: Array[BlazeProps] = [
-	BlazeProps.new(1, 200, 750, 150),
-	BlazeProps.new(1, 200, 750, 150),
-	BlazeProps.new(1, 200, 1000, 150),
-	BlazeProps.new(1, 200, 1500, 150),
-	BlazeProps.new(2, 200, 1500, 100),
-	BlazeProps.new(2, 200, 2000, 100),
+	BlazeProps.new(1, 200, 3000, 100),
+	BlazeProps.new(2, 200, 3000, 100),
+	BlazeProps.new(2, 200, 4000, 100),
+	BlazeProps.new(3, 200, 4000, 100),
+	BlazeProps.new(3, 200, 5000, 100),
+	BlazeProps.new(5, 200, 5000, 100),
 ]
 func get_level_props():
 	return BlazeLevels
