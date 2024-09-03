@@ -2,7 +2,7 @@ class_name Sword
 extends Node2D
 
 const SwordProjectileScene: PackedScene = preload("res://weapons/Sword/SwordProjectile.tscn")
-const SwordTx: Texture2D = preload("res://ui/LevelUp/SwordSprite.tres")
+const SwordTx: Texture2D = preload("res://weapons/Sword/SwordSprite.tres")
 
 class SwordProps:
 	var num_swords: int = 1

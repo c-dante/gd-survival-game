@@ -10,19 +10,18 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 ### 2024-09-02:
 - (code) Figure out a better signal forwarding patter with composition, health for ex
 - (bug-pause) Pausing in a signal, even deferred, has weird ordering, make a minimal example
-- (code) Decouple the TestAreana god object that's growing
 - (code) Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
+- (design) Set up a database for the floating values to balance + chart out -- playing with [nocodb](https://app.nocodb.com/#/w3w4abb2/p7o1mz2h56mv7gl/mtssmvtqh9sy6hh)
 
 ## TOOD:
 - (code) Refactor signal/stat aggregation: `Enemy.gd`, `Global.gd`
-- (code) Fix the game start/restart logic: `TestScene.gd`
 - (juice) Make a cool pickup animation: `Player.gd`
 - (code) Standardize reactions to taking/dealing damage: `Player.gd`
   - Stat aggregation
-  - Visual effects
+  - (design) Visual effects
+	- Damage numbers
 - (code) Centralize "global" effect/action summoning: `TestScene.gd`
   - Dropping pickups
-  - Triggering effects
   - Timeout-style juice like tweened/triggered animations
 
 # Credits

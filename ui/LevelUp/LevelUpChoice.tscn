@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/LevelUp/LevelUpChoice.gd" id="1_1c5f7"]
 [ext_resource type="Texture2D" uid="uid://dakupffpol62e" path="res://ui/LevelUp/MedalTexture.tres" id="2_2tyea"]
-[ext_resource type="Texture2D" uid="uid://bvecq7wl83vwh" path="res://ui/LevelUp/SwordSprite.tres" id="2_isnsh"]
+[ext_resource type="Texture2D" uid="uid://bvecq7wl83vwh" path="res://weapons/Sword/SwordSprite.tres" id="2_isnsh"]
 
 [node name="LevelUpChoice" type="Button"]
 custom_minimum_size = Vector2(256, 512)

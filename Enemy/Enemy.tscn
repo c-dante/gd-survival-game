@@ -274,3 +274,4 @@ metadata/_edit_lock_ = true
 [connection signal="area_entered" from="PushArea" to="OverlapPusher" method="on_area_enter"]
 [connection signal="area_exited" from="PushArea" to="OverlapPusher" method="on_area_exit"]
 [connection signal="body_entered" from="Area2d" to="Damaging" method="on_body_enter"]
+[connection signal="body_exited" from="Area2d" to="Damaging" method="on_body_exit"]
