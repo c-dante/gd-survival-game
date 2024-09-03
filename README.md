@@ -1,5 +1,7 @@
 Playing with making a survival game a' la Magic Survival and Vampire Survivors etc.
 
+- [Data Sheet](https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?usp=sharing)
+
 ## Differentiating Game design ideas:
 - Proc gen floors like diablo 1
 - Use stair system to constrain movement but allow quick level select
@@ -12,6 +14,7 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - (bug-pause) Pausing in a signal, even deferred, has weird ordering, make a minimal example
 - (code) Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
 - (design) Set up a database for the floating values to balance + chart out -- playing with [nocodb](https://app.nocodb.com/#/w3w4abb2/p7o1mz2h56mv7gl/mtssmvtqh9sy6hh)
+  - Scratch that, too slow -- falling back to a [google sheet](https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?usp=sharing) for now
 
 ## TOOD:
 - (code) Refactor signal/stat aggregation: `Enemy.gd`, `Global.gd`

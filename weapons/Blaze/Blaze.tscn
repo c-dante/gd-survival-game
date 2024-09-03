@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://weapons/Blaze/Blaze.gd" id="1_osamq"]
 
-[node name="Blaze" type="Node"]
+[node name="Blaze" type="Node2D"]
 script = ExtResource("1_osamq")
