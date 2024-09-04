@@ -421,7 +421,7 @@ body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
 min_speed = 10.0
 max_speed = 500.0
-speed = 30.0
+base_speed = 30.0
 
 [node name="Health" parent="." instance=ExtResource("3_l0ldv")]
 health = 100

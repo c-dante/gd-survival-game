@@ -16,20 +16,22 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - Game is marked pausable -- anything sub-tree of that should be the thing
 
 # TODO
-- Enemies get stronger / faster / healthier
 - Support adding a new weapon during level up instead of starting with all of them
+- Enemies get stronger / faster / healthier
 - Start game with level up screen and up to 3 weapon choices
 
 ## 2024-09-03:
 - (qol) New Game Screen
 - (qol) Delay to re-start action after level up
 - (code-game) Abstract difficulty/game progress from TestArena, spawner specifically
+	- Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
 - (code) Split "GameUi" into individual screens, like LevelUpUi is
+- (code-level-up) Abstract/make a system for weapon and level up choices
+- (code-speed) this is funky, write of speed updates only base but read is adjusted...
 
 ## 2024-09-02:
 - (code) Figure out a better signal forwarding patter with composition, health for ex
 - (bug-pause) Pausing in a signal, even deferred, has weird ordering, make a minimal example
-- (code) Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
 
 ## 2024-09-01:
 - (code) Refactor signal/stat aggregation: `Enemy.gd`, `Global.gd`

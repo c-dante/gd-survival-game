@@ -1,15 +1,30 @@
 class_name LevelUp
 extends MarginContainer
 
-class Choice:
+## Helper to indicate what to do when a choice is selected
+enum ChoiceType {
+	Unknown,
+
+	## A weapon upgrade
+	## contains a property "weapon" which is a ref to the weapon itself
+	WeaponUpgrade,
+	
+	## Collect a new weapon
+	## Contains a property "weapon_type" -> WeaponType enum
+	WeaponAcquire
+}
+
 ## A data class to represent level up choices
+## _metadata is expected to be a Dictionary
+## _metadata should have a type field which is a ChoiceType
+class Choice:
 	var choice: String
 	var sprite: Texture2D
 	var description: String
 	var level: int
-	var metadata: Variant
+	var metadata: Dictionary
 	
-	func _init(_choice: String, _sprite: Texture2D, _description: String, _level: int, _metadata: Variant = null):
+	func _init(_choice: String, _sprite: Texture2D, _description: String, _level: int, _metadata: Dictionary = {}):
 		choice = _choice
 		sprite = _sprite
 		description = _description

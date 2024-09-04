@@ -4,6 +4,15 @@ extends Weapon
 const SwordProjectileScene: PackedScene = preload("res://weapons/Sword/SwordProjectile.tscn")
 const SwordTx: Texture2D = preload("res://weapons/Sword/SwordSprite.tres")
 
+static func AcquireChoice() -> LevelUp.Choice:
+	return LevelUp.Choice.new("Sword", SwordTx, "Swing a sword so hard it just keeps flying around you", 1, {
+		"type": LevelUp.ChoiceType.WeaponAcquire,
+		"weapon_type": WeaponType.Sword
+	})
+	
+func get_type():
+	return WeaponType.Sword
+
 class SwordProps:
 	var num_swords: int = 1
 	var rotation_speed: float = PI
@@ -78,7 +87,10 @@ func set_level(level: int):
 func make_choices(now_props: Variant, next_props: Variant) -> Array[LevelUp.Choice]:
 	var desc = next_props.level_up_description(now_props)
 	return [
-		LevelUp.Choice.new("Upgrade Sword", SwordTx, desc, _level + 1, self)
+		LevelUp.Choice.new("Upgrade Sword", SwordTx, desc, _level + 1, {
+			"type": LevelUp.ChoiceType.WeaponUpgrade,
+			"weapon": self
+		})
 	]
 
 func _ready():
