@@ -21,9 +21,10 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 ## TODO (code-game): Move to new thing
 @onready var spawnTimer: Timer = $Game/SpawnTimer
 
-## Called when the node enters the scene tree for the first time.
+## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
 func _ready():
+	# Initial game seed -- re-call it to re-set the RNG (ahead of new game?)
 	seed(123456789)
 	player_start = player.position
 	start_game()

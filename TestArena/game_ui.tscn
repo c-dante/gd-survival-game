@@ -178,7 +178,6 @@ theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
 [node name="GameOver" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -297,6 +296,23 @@ text = "Defeated"
 horizontal_alignment = 2
 
 [node name="Value" type="Label" parent="GameOver/Centered/MarginContainer/VBoxContainer/Defeated"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
+[node name="Survived" type="HBoxContainer" parent="GameOver/Centered/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="GameOver/Centered/MarginContainer/VBoxContainer/Survived"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Survived"
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="GameOver/Centered/MarginContainer/VBoxContainer/Survived"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3

@@ -31,6 +31,7 @@ func _ready():
 var game_stats = {}
 func reset():
 	game_stats = {
+		"play_time": 0,
 		"dmg_taken": 0,
 		"dmg_delt": 0,
 		"kills": 0,

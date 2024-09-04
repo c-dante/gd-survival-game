@@ -8,6 +8,10 @@ signal on_level_up(level: int, player: Player)
 var experience: int = 0
 var level = 0
 
+## TODO (code-game): Move this outta' the player?
+func _process(delta):
+	Global.game_stats["play_time"] += delta
+
 func _physics_process(delta):
 	_sprite_move.input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	_sprite_move.input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
