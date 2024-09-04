@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://creabnupph1v3"]
+
+[ext_resource type="Script" path="res://weapons/Blaze/Blaze.gd" id="1_osamq"]
+
+[node name="Blaze" type="Node2D"]
+z_index = 5
+y_sort_enabled = true
+script = ExtResource("1_osamq")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_drop_blaze"]

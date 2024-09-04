@@ -1,8 +1,8 @@
 class_name Sword
-extends Node2D
+extends Weapon
 
 const SwordProjectileScene: PackedScene = preload("res://weapons/Sword/SwordProjectile.tscn")
-const SwordTx: Texture2D = preload("res://ui/LevelUp/SwordSprite.tres")
+const SwordTx: Texture2D = preload("res://weapons/Sword/SwordSprite.tres")
 
 class SwordProps:
 	var num_swords: int = 1
@@ -16,16 +16,16 @@ class SwordProps:
 		orbit_distance = _orbit_distance
 		orbit_speed = _orbit_speed
 		
-	func level_up_description(current_props: SwordProps):
-		var speed_buff = (orbit_speed - current_props.orbit_speed) / current_props.orbit_speed
-		var num_swords_buff = num_swords - current_props.num_swords
+	func level_up_description(current_props: SwordProps) -> String:
 		var out = []
-		
+
+		var num_swords_buff = num_swords - current_props.num_swords
 		if num_swords_buff > 0:
-			out.push_back("%d swords" % num_swords)
-		
+			out.push_back("+%d swords" % num_swords_buff)
+
+		var speed_buff = Global.diff_percent(orbit_speed, current_props.orbit_speed)
 		if !is_zero_approx(speed_buff):
-			out.push_back("spin %d%% faster" % snapped(speed_buff * 100, 1))
+			out.push_back("spin %s faster" % Global.format_percent(speed_buff))
 		
 		return "\n".join(out)
 
@@ -37,6 +37,8 @@ var LevelProps: Array[SwordProps] = [
 	SwordProps.new(4, TAU, 50.0, PI / 2.0),
 	SwordProps.new(5, TAU * 2, 50.0, PI),
 ]
+func get_level_props():
+	return LevelProps
 
 var _target: Node2D
 @export var target: Node2D:
@@ -47,8 +49,7 @@ var _target: Node2D
 		for sword: SwordProjectile in get_children():
 			sword.target = value
 
-var _level: int = 1
-
+# _level from Weapon
 func set_level(level: int):
 	_level = clamp(level, 1, LevelProps.size())
 	var props = LevelProps[_level - 1]
@@ -74,16 +75,10 @@ func set_level(level: int):
 	while swords.size() > props.num_swords:
 		swords.pop_back().queue_free()
 
-func get_choices() -> Array[LevelUp.Choice]:
-	var next_level = _level + 1
-	if next_level > LevelProps.size():
-		return []
-
-	var next_props = LevelProps[next_level - 1]
-	var now_props = LevelProps[_level - 1]
+func make_choices(now_props: Variant, next_props: Variant) -> Array[LevelUp.Choice]:
 	var desc = next_props.level_up_description(now_props)
 	return [
-		LevelUp.Choice.new("Upgrade Sword", SwordTx, desc, next_level, self)
+		LevelUp.Choice.new("Upgrade Sword", SwordTx, desc, _level + 1, self)
 	]
 
 func _ready():

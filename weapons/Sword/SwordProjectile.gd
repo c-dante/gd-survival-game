@@ -10,10 +10,9 @@ var angle: float = 0.0
 @onready var _sprite: Sprite2D = $Sprite2D
 
 func _physics_process(delta):
-	var _delta = delta * Global.game_speed
 	# Always spinny sword
-	_sprite.rotation += rotation_speed * _delta
+	_sprite.rotation += rotation_speed * delta
 
 	if target:
-		angle = wrap(angle + orbit_speed * _delta, 0, TAU)
+		angle = wrap(angle + orbit_speed * delta, 0, TAU)
 		position = target.position + orbit_distance * Vector2.from_angle(angle)

@@ -219,14 +219,17 @@ radius = 15.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lskv3"]
 
-[node name="Enemy" type="StaticBody2D"]
-collision_layer = 256
+[node name="Enemy" type="AnimatableBody2D"]
+z_index = 10
+y_sort_enabled = true
+collision_layer = 524544
 collision_mask = 0
 script = ExtResource("1_pgt22")
 
 [node name="SpriteMove" parent="." node_paths=PackedStringArray("body", "animated") instance=ExtResource("2_8myrb")]
 body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
+speed = 15.0
 
 [node name="OverlapPusher" parent="." node_paths=PackedStringArray("body", "source_area") instance=ExtResource("3_cguoj")]
 overlap_layers = 4096
@@ -243,7 +246,7 @@ position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_a87a2")
 metadata/_edit_lock_ = true
 
-[node name="CollideArea" type="CollisionShape2D" parent="."]
+[node name="HitArea" type="CollisionShape2D" parent="."]
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_t0u47")
 metadata/_edit_lock_ = true
@@ -274,3 +277,4 @@ metadata/_edit_lock_ = true
 [connection signal="area_entered" from="PushArea" to="OverlapPusher" method="on_area_enter"]
 [connection signal="area_exited" from="PushArea" to="OverlapPusher" method="on_area_exit"]
 [connection signal="body_entered" from="Area2d" to="Damaging" method="on_body_enter"]
+[connection signal="body_exited" from="Area2d" to="Damaging" method="on_body_exit"]

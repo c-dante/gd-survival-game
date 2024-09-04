@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://evl1om3bwqqd"]
+
+[ext_resource type="Texture2D" uid="uid://bp0gce1tbk7qs" path="res://shared/FeetOutline.png" id="1_s7qka"]
+
+[resource]
+atlas = ExtResource("1_s7qka")
+region = Rect2(80, 16, 16, 16)

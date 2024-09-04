@@ -1,5 +1,7 @@
 Playing with making a survival game a' la Magic Survival and Vampire Survivors etc.
 
+- [Balancing Data Sheet](https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?usp=sharing)
+
 ## Differentiating Game design ideas:
 - Proc gen floors like diablo 1
 - Use stair system to constrain movement but allow quick level select
@@ -7,22 +9,37 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - Floors proc gen set pieces for events, first clear bonus
 - No town runs and inventory clearing per se, decisions roll forward
 
-### 2024-09-02:
+## Notes
+- Data sheets are in sheets: https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?gid=0#gid=0
+- z-index ordering and other constants are in Global
+- ArenaTest is our main scene for everything
+- Game is marked pausable -- anything sub-tree of that should be the thing
+
+# TODO
+- Enemies get stronger / faster / healthier
+- Support adding a new weapon during level up instead of starting with all of them
+- Start game with level up screen and up to 3 weapon choices
+
+## 2024-09-03:
+- (qol) New Game Screen
+- (qol) Delay to re-start action after level up
+- (code-game) Abstract difficulty/game progress from TestArena, spawner specifically
+- (code) Split "GameUi" into individual screens, like LevelUpUi is
+
+## 2024-09-02:
 - (code) Figure out a better signal forwarding patter with composition, health for ex
 - (bug-pause) Pausing in a signal, even deferred, has weird ordering, make a minimal example
-- (code) Decouple the TestAreana god object that's growing
 - (code) Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
 
-## TOOD:
+## 2024-09-01:
 - (code) Refactor signal/stat aggregation: `Enemy.gd`, `Global.gd`
-- (code) Fix the game start/restart logic: `TestScene.gd`
 - (juice) Make a cool pickup animation: `Player.gd`
 - (code) Standardize reactions to taking/dealing damage: `Player.gd`
   - Stat aggregation
-  - Visual effects
+  - (design) Visual effects
+	- Damage numbers
 - (code) Centralize "global" effect/action summoning: `TestScene.gd`
   - Dropping pickups
-  - Triggering effects
   - Timeout-style juice like tweened/triggered animations
 
 # Credits

@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://cxk3y5en5v4w2"]
+
+[ext_resource type="Script" path="res://weapons/Blaze/BlazePatch.gd" id="1_psvcc"]
+[ext_resource type="PackedScene" uid="uid://bflo3fd2ahfs7" path="res://component/Health/Damaging.tscn" id="2_shn24"]
+
+[sub_resource type="Gradient" id="Gradient_1mkb0"]
+offsets = PackedFloat32Array(0, 0.356863, 0.682353, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.203922, 0, 1, 1, 0.72549, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i3lv1"]
+gradient = SubResource("Gradient_1mkb0")
+
+[sub_resource type="Curve" id="Curve_xqlc2"]
+max_value = 3.0
+_data = [Vector2(0, 2.35468), 0.0, -0.433106, 0, 0, Vector2(0.173145, 0), -22.6865, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1yq17"]
+curve = SubResource("Curve_xqlc2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ka7l8"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(2, 1, 1)
+emission_shape = 1
+emission_sphere_radius = 2.0
+gravity = Vector3(0, -30, 0)
+scale_over_velocity_max = 208.46
+scale_over_velocity_curve = SubResource("CurveTexture_1yq17")
+color_ramp = SubResource("GradientTexture1D_i3lv1")
+hue_variation_min = -2.23517e-08
+hue_variation_max = 0.1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eb7vr"]
+
+[node name="BlazePatch" type="Node2D"]
+script = ExtResource("1_psvcc")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Damaging" parent="." instance=ExtResource("2_shn24")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, 2)
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_ka7l8")
+lifetime = 1.5
+randomness = 0.25
+draw_order = 2
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -592.0
+offset_top = -340.0
+offset_right = -560.0
+offset_bottom = -308.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 524544
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_eb7vr")
+
+[connection signal="timeout" from="Timer" to="." method="_on_expire"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D" to="Damaging" method="on_body_enter"]
+[connection signal="body_exited" from="Area2D" to="Damaging" method="on_body_exit"]
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]

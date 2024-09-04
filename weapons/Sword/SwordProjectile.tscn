@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://weapons/Sword/SwordProjectile.gd" id="1_8koaa"]
 [ext_resource type="PackedScene" uid="uid://bflo3fd2ahfs7" path="res://component/Health/Damaging.tscn" id="2_m4g6j"]
-[ext_resource type="Texture2D" uid="uid://besvpf0tot6y8" path="res://weapons/Sword/Sword.png" id="3_4ly3v"]
+[ext_resource type="Texture2D" uid="uid://bvecq7wl83vwh" path="res://weapons/Sword/SwordSprite.tres" id="3_qoocc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f5mjl"]
 
@@ -12,14 +12,16 @@ script = ExtResource("1_8koaa")
 [node name="Damaging" parent="." instance=ExtResource("2_m4g6j")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_4ly3v")
+texture = ExtResource("3_qoocc")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
 collision_layer = 0
 collision_mask = 256
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
 scale = Vector2(0.25, 0.5)
 shape = SubResource("RectangleShape2D_f5mjl")
 
 [connection signal="body_entered" from="Sprite2D/Area2D" to="Damaging" method="on_body_enter"]
+[connection signal="body_exited" from="Sprite2D/Area2D" to="Damaging" method="on_body_exit"]
