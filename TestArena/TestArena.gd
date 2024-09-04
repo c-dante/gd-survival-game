@@ -49,33 +49,25 @@ func start_game():
 	player.position = player_start
 	Global.reset()
 	
-	# TODO: Weapon select not just level ups
-	var sword = SwordScene.instantiate()
-	sword.add_to_group(Global.GROUP_WEAPONS)
-	sword.target = player
-	game.add_child(sword)
-	
-	var blaze = BlazeScene.instantiate()
-	blaze.add_to_group(Global.GROUP_WEAPONS)
-	blaze.target = player
-	game.add_child(blaze)
-	
 	# Spawn the initial wave
 	_spawn_wave(player, arena_area, 100)
 		
 	# Configure a respawn timer
 	spawnTimer.start(10.0) # New enemies every 10 seconds
+	
+	# Trigger the initial level up
+	_on_player_on_level_up(1, player)
 
 ## TODO (code-game)
 ## Spawn a wave of enemies
 ## player = player char to prevent spawning too close
 ## arena = bounds to spawn in, a rect in the scene tree
 ## num_to_spawn = how many baddies
-func _spawn_wave(player: Node2D, arena: CollisionShape2D, num_to_spawn: int = 1):
+func _spawn_wave(_player: Node2D, arena: CollisionShape2D, num_to_spawn: int = 1):
 	var rect = arena.shape.get_rect()
 	for i in range(num_to_spawn):
 		var pos = arena.to_global(Global.pt_in_rect(rect, 0))
-		while player.global_position.distance_to(pos) < 100:
+		while _player.global_position.distance_to(pos) < 100:
 			pos = arena.to_global(Global.pt_in_rect(rect, 0))
 		_add_enemey(pos)
 
@@ -91,48 +83,104 @@ func _add_enemey(point: Vector2):
 		func (target: Node2D, _killer: Node2D):
 			Global.game_stats["kills"] += 1
 			effects.explode(target.global_position)
-			call_deferred("drop_exp", target.global_position)
+			call_deferred("_drop_exp", target.global_position)
 	)
 	game.add_child(enemy)
 	enemy.add_to_group(Global.GROUP_ENEMIES)
 
-func drop_exp(pos: Vector2):
+## Spawn an exp blob at a position
+func _drop_exp(pos: Vector2):
 	var xp: Pickup = PickupScene.instantiate()
 	xp.position = pos
 	xp.kind = Pickup.PickupKind.EXP
 	game.add_child(xp)
 	xp.add_to_group(Global.GROUP_PICKUPS)
 
+## Adds a sword weapon, call only once per game or else you get weird things
+## TODO (code-level-up)
+func _add_weapon_sword():
+	var sword = SwordScene.instantiate()
+	sword.add_to_group(Global.GROUP_WEAPONS)
+	sword.target = player
+	game.add_child(sword)
+
+## Adds a blaze weapon, call only once per game or else you get weird things
+## TODO (code-level-up)
+func _add_weapon_blaze():
+	var blaze = BlazeScene.instantiate()
+	blaze.add_to_group(Global.GROUP_WEAPONS)
+	blaze.target = player
+	game.add_child(blaze)
+
 ## HERE BE SIGNAL DRAGONS
+
+## Respond to the player getting killed
 func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
 	get_tree().set_deferred("paused", true)
 	ui.show_game_over()
 
+## Respond to the ui new game button
 func _on_game_ui_new_game():
 	call_deferred("start_game")
 
+## Configure and show the level up screen
+## TODO (code-level-up)
 func _on_player_on_level_up(_level, _player):
 	get_tree().paused = true
 	level_up_ui.show()
+	
 	# TODO: configure choices, for now, it's always sword
 	# But this would be picking N { weapons, artifacts }, and if you own the weapon, asking for the next level
 	var choices: Array[LevelUp.Choice] = []
-	for weapon in get_tree().get_nodes_in_group(Global.GROUP_WEAPONS):
-		if weapon.has_method("get_choices"):
+	var new_weapons = Weapon.WeaponType.values()
+	new_weapons.erase(Weapon.WeaponType.Unknown)
+	for node in get_tree().get_nodes_in_group(Global.GROUP_WEAPONS):
+		var weapon = node as Weapon
+		if weapon:
+			new_weapons.erase(weapon.get_type())
 			choices.append_array(weapon.get_choices())
+			
+	# If we have fewer than 3 choices, add new weapons
+	while choices.size() < 3 && new_weapons.size() > 0:
+		var weapon_type = new_weapons.pop_at(randi_range(0, new_weapons.size() - 1))
+		if weapon_type == Weapon.WeaponType.Blaze:
+			choices.push_back(Blaze.AcquireChoice())
+		elif weapon_type == Weapon.WeaponType.Sword:
+			choices.push_back(Sword.AcquireChoice())
+	
 	level_up.set_choices(choices)
 
+## Respond to the result of a level up choice
+## TODO (code-level-up)
 func _on_level_up_on_select(choice: LevelUp.Choice):
 	get_tree().paused = false
 	level_up_ui.hide()
 	
-	if !choice || !choice.metadata || !choice.metadata.has_method("set_level"):
-		push_error("Unhandled choice ", choice)
+	if choice == null:
 		return
 	
-	choice.metadata.set_level(choice.level)
+	# Upgrade an existing weapon
+	if choice.metadata["type"] == LevelUp.ChoiceType.WeaponUpgrade:
+		var weapon = choice.metadata["weapon"] as Weapon
+		if !weapon:
+			push_error("Error, got weapon upgrade but no weapon passed? ", choice)
+			return
+		weapon.set_level(choice.level)
+		return
+	
+	# Acquire a new weapon
+	if choice.metadata["type"] == LevelUp.ChoiceType.WeaponAcquire:
+		if choice.metadata["weapon_type"] == Weapon.WeaponType.Sword:
+			_add_weapon_sword()
+			return
+		
+		if choice.metadata["weapon_type"] == Weapon.WeaponType.Blaze:
+			_add_weapon_blaze()
+			return
+	
+	push_error("Uhandled choice", choice)
 
 func _on_game_ui_level_up():
 	_on_player_on_level_up(player.level + 1, player)

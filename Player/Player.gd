@@ -5,6 +5,8 @@ extends CharacterBody2D
 
 signal on_level_up(level: int, player: Player)
 
+## A map of "source" -> int for movement speed buffs
+var _speed_buffs = {}
 var experience: int = 0
 var level = 0
 
@@ -26,7 +28,13 @@ func reset():
 	modulate = Color.WHITE
 	experience = 0
 	level = 0
+	_speed_buffs = {}
 	$Health.health = 100
+
+func add_speed_buff(name: String, value: float):
+	_speed_buffs[name] = value
+	var total_buffs = _speed_buffs.values().reduce(func (a, b): return a + b, 0)
+	_sprite_move.speed_adjustment = total_buffs
 
 func _on_pickup_area_area_entered(area):
 	var pickup: Pickup = area.owner

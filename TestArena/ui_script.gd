@@ -49,7 +49,7 @@ func _ready():
 	hide_game_over()
 
 func _on_speed_change(value):
-	sprite_move.set_speed(value)
+	sprite_move.speed = value
 
 func _on_zoom_change(value):
 	camera.zoom = Vector2(value, value)
