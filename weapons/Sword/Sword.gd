@@ -17,15 +17,15 @@ class SwordProps:
 		orbit_speed = _orbit_speed
 		
 	func level_up_description(current_props: SwordProps) -> String:
-		var speed_buff = (orbit_speed - current_props.orbit_speed) / current_props.orbit_speed
-		var num_swords_buff = num_swords - current_props.num_swords
 		var out = []
-		
+
+		var num_swords_buff = num_swords - current_props.num_swords
 		if num_swords_buff > 0:
-			out.push_back("%d swords" % num_swords)
-		
+			out.push_back("+%d swords" % num_swords_buff)
+
+		var speed_buff = Global.diff_percent(orbit_speed, current_props.orbit_speed)
 		if !is_zero_approx(speed_buff):
-			out.push_back("spin %d%% faster" % snapped(speed_buff * 100, 1))
+			out.push_back("spin %s faster" % Global.format_percent(speed_buff))
 		
 		return "\n".join(out)
 

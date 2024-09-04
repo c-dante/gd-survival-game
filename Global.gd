@@ -43,3 +43,12 @@ func reset():
 func clear_connections(from: Signal):
 	for dict in from.get_connections():
 		from.disconnect(dict["callable"])
+
+func diff_percent(new: Variant, old: Variant) -> float:
+	if old == 0:
+		return 0.0
+
+	return (new - old) / float(old)
+
+func format_percent(percent: float) -> String:
+	return "%d%%" % snapped(percent * 100, 1)

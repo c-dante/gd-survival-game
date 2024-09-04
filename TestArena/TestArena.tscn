@@ -34,7 +34,6 @@ tile_set = ExtResource("3_4irkt")
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="Game" instance=ExtResource("4_ur8qm")]
-z_index = 10
 position = Vector2(32, 88)
 
 [node name="SpriteMove" parent="Game/Player" index="0"]

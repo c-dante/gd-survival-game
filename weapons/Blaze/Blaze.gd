@@ -21,7 +21,16 @@ class BlazeProps:
 		drop_rate_ms = _drop_rate_ms
 
 	func level_up_description(_current: BlazeProps) -> String:
-		return "TODO"
+		var out = []
+		var dmg_diff = Global.diff_percent(damage, _current.damage)
+		if !is_zero_approx(dmg_diff):
+			out.push_back("+%s damage/tick" % Global.format_percent(dmg_diff))
+			
+		var duration_diff = Global.diff_percent(duration_ms, _current.duration_ms)
+		if !is_zero_approx(duration_diff):
+			out.push_back("last +%s longer" % Global.format_percent(duration_diff))
+		
+		return "\n".join(out)
 
 var BlazeLevels: Array[BlazeProps] = [
 	BlazeProps.new(1, 200, 3000, 100),
