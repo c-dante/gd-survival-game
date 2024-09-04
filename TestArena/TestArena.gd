@@ -6,15 +6,22 @@ const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
 const SwordScene: PackedScene = preload("res://weapons/Sword/Sword.tscn")
 const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 
-@onready var effects: Effects = $Effects
-@onready var game: CanvasLayer = $Game
 @onready var ui: GameUi = $UI/GameUi
 @onready var level_up_ui: Control = $UI/LevelUpUi
 @onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
-@onready var player: Player = $Game/Player
-@onready var arena_area: CollisionShape2D = $Game/AreanaArea/CollisionShape2D
 
-# Called when the node enters the scene tree for the first time.
+## TODO (code-game): The game layer
+@onready var game: CanvasLayer = $Game
+## TODO (code-game): Effects layer
+@onready var effects: Effects = $Game/Effects
+## TODO (code-game): Player character
+@onready var player: Player = $Game/Player
+## TODO (code-game): Controls spawnable arena space, assumed a rect
+@onready var arena_area: CollisionShape2D = $Game/AreanaArea/CollisionShape2D
+## TODO (code-game): Move to new thing
+@onready var spawnTimer: Timer = $Game/SpawnTimer
+
+## Called when the node enters the scene tree for the first time.
 var player_start;
 func _ready():
 	seed(123456789)
@@ -28,6 +35,7 @@ func clear_arena():
 	get_tree().call_group(Global.GROUP_PICKUPS, "queue_free")
 	get_tree().call_group(Global.GROUP_WEAPONS, "queue_free")
 
+## TODO (code-game): this is the start of a game state
 func start_game():
 	get_tree().paused = false
 	player.reset()
@@ -51,14 +59,27 @@ func start_game():
 	blaze.target = player
 	game.add_child(blaze)
 	
-	var rect = arena_area.shape.get_rect()
-	for i in range(100):
-		var pos = arena_area.to_global(_pt_in_rect(rect, 0))
+	# Spawn the initial wave
+	_spawn_wave(player, arena_area, 100)
+		
+	# Configure a respawn timer
+	spawnTimer.start(10.0) # New enemies every 10 seconds
+
+## TODO (code-game)
+## Spawn a wave of enemies
+## player = player char to prevent spawning too close
+## arena = bounds to spawn in, a rect in the scene tree
+## num_to_spawn = how many baddies
+func _spawn_wave(player: Node2D, arena: CollisionShape2D, num_to_spawn: int = 1):
+	var rect = arena.shape.get_rect()
+	for i in range(num_to_spawn):
+		var pos = arena.to_global(Global.pt_in_rect(rect, 0))
 		while player.global_position.distance_to(pos) < 100:
-			pos = arena_area.to_global(_pt_in_rect(rect, 0))
+			pos = arena.to_global(Global.pt_in_rect(rect, 0))
 		_add_enemey(pos)
 
-# Create an enemy that explodes and drops EXP on death
+## TODO (code-game)
+## Create an enemy that explodes and drops EXP on death
 func _add_enemey(point: Vector2):
 	var enemy: Enemy = EnemyScene.instantiate()
 	enemy.name = "Skelly %d" % get_tree().get_node_count_in_group(Global.GROUP_ENEMIES)
@@ -74,14 +95,6 @@ func _add_enemey(point: Vector2):
 	game.add_child(enemy)
 	enemy.add_to_group(Global.GROUP_ENEMIES)
 
-# Generate a random point in a rectangle
-func _pt_in_rect(rect: Rect2, margin: float = 1.0) -> Vector2:
-	var normalized = Vector2(
-		randf_range(margin, rect.size.x - margin),
-		randf_range(margin, rect.size.y - margin)
-	)
-	return rect.position + normalized
-
 func drop_exp(pos: Vector2):
 	var xp: Pickup = PickupScene.instantiate()
 	xp.position = pos
@@ -89,7 +102,7 @@ func drop_exp(pos: Vector2):
 	game.add_child(xp)
 	xp.add_to_group(Global.GROUP_PICKUPS)
 
-# HERE BE SIGNAL DRAGONS
+## HERE BE SIGNAL DRAGONS
 func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
@@ -122,3 +135,6 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 
 func _on_game_ui_level_up():
 	_on_player_on_level_up(player.level + 1, player)
+
+func _on_spawn_timer_timeout():
+	_spawn_wave(player, arena_area, 5)

@@ -52,3 +52,11 @@ func diff_percent(new: Variant, old: Variant) -> float:
 
 func format_percent(percent: float) -> String:
 	return "%d%%" % snapped(percent * 100, 1)
+
+## Generate a random point in a rectangle
+func pt_in_rect(rect: Rect2, margin: float = 1.0) -> Vector2:
+	var normalized = Vector2(
+		randf_range(margin, rect.size.x - margin),
+		randf_range(margin, rect.size.y - margin)
+	)
+	return rect.position + normalized

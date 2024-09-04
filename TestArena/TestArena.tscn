@@ -14,13 +14,15 @@ size = Vector2(768, 656)
 [node name="TestArena" type="Node2D"]
 script = ExtResource("1_5ypcs")
 
-[node name="Effects" type="Node" parent="." node_paths=PackedStringArray("explosion_container")]
-script = ExtResource("2_hogwb")
-explosion_container = NodePath("../Game")
-
 [node name="Game" type="CanvasLayer" parent="."]
 process_mode = 1
 follow_viewport_enabled = true
+
+[node name="Effects" type="Node" parent="Game" node_paths=PackedStringArray("explosion_container")]
+script = ExtResource("2_hogwb")
+explosion_container = NodePath("..")
+
+[node name="SpawnTimer" type="Timer" parent="Game"]
 
 [node name="Camera2D" type="Camera2D" parent="Game"]
 zoom = Vector2(4, 4)
@@ -91,6 +93,7 @@ metadata/_edit_lock_ = true
 [node name="LevelUp" parent="UI/LevelUpUi/CenterContainer" instance=ExtResource("7_0miyk")]
 layout_mode = 2
 
+[connection signal="timeout" from="Game/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
 [connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
 [connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]

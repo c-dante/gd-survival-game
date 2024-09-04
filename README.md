@@ -9,21 +9,29 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - Floors proc gen set pieces for events, first clear bonus
 - No town runs and inventory clearing per se, decisions roll forward
 
-TODO:
-- Endless enemey spawn
-- Enemies get stronger / faster / healthier
-- Blaze descriptions
+## Notes
+- Data sheets are in sheets: https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?gid=0#gid=0
+- z-index ordering and other constants are in Global
+- ArenaTest is our main scene for everything
+- Game is marked pausable -- anything sub-tree of that should be the thing
 
-### 2024-09-03:
+# TODO
+- Enemies get stronger / faster / healthier
+- Support adding a new weapon during level up instead of starting with all of them
+- Start game with level up screen and up to 3 weapon choices
+
+## 2024-09-03:
 - (qol) New Game Screen
 - (qol) Delay to re-start action after level up
+- (code-game) Abstract difficulty/game progress from TestArena, spawner specifically
+- (code) Split "GameUi" into individual screens, like LevelUpUi is
 
-### 2024-09-02:
+## 2024-09-02:
 - (code) Figure out a better signal forwarding patter with composition, health for ex
 - (bug-pause) Pausing in a signal, even deferred, has weird ordering, make a minimal example
 - (code) Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
 
-## TOOD:
+## 2024-09-01:
 - (code) Refactor signal/stat aggregation: `Enemy.gd`, `Global.gd`
 - (juice) Make a cool pickup animation: `Player.gd`
 - (code) Standardize reactions to taking/dealing damage: `Player.gd`
@@ -33,10 +41,6 @@ TODO:
 - (code) Centralize "global" effect/action summoning: `TestScene.gd`
   - Dropping pickups
   - Timeout-style juice like tweened/triggered animations
-
-## Notes
-- Data sheets are in sheets: https://docs.google.com/spreadsheets/d/1FkvFWZtLFzFhl9jPzdnoybg0r700ZM4g6ZOwygkKAIY/edit?gid=0#gid=0
-- z-index ordering and other constants are in Global
 
 # Credits
 These are the libraries/assets/tutorials that I've used while developing this project.
