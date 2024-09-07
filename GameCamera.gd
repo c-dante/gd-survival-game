@@ -1,3 +1,4 @@
+class_name GameCamera
 extends Camera2D
 
 @export var target_path: NodePath

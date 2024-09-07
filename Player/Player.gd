@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 signal on_level_up(level: int, player: Player)
 
+
 ## A map of "source" -> int for movement speed buffs
 var _speed_buffs = {}
 var experience: int = 0
