@@ -91,9 +91,13 @@ max_value = 4.0
 step = 0.01
 value = 1.0
 
-[node name="LevelUpBtn" type="Button" parent="LeftGrid"]
+[node name="LevelUp" type="Button" parent="LeftGrid"]
 layout_mode = 2
 text = "Level Up"
+
+[node name="NewGame" type="Button" parent="LeftGrid"]
+layout_mode = 2
+text = "New Game"
 
 [node name="CenterGrid" type="GridContainer" parent="."]
 layout_mode = 1
@@ -180,4 +184,5 @@ text = "100s"
 [connection signal="value_changed" from="LeftGrid/Zoom/Slider" to="." method="_on_zoom_change"]
 [connection signal="value_changed" from="LeftGrid/Speed/Slider" to="." method="_on_speed_change"]
 [connection signal="value_changed" from="LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
-[connection signal="pressed" from="LeftGrid/LevelUpBtn" to="." method="_on_level_up_btn_pressed"]
+[connection signal="pressed" from="LeftGrid/LevelUp" to="." method="_on_level_up_btn_pressed"]
+[connection signal="pressed" from="LeftGrid/NewGame" to="." method="_on_new_game_pressed"]

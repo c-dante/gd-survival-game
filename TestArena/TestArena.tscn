@@ -1,13 +1,19 @@
-[gd_scene load_steps=10 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=12 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
 [ext_resource type="Script" path="res://TestArena/camera_2d.gd" id="2_ta6gd"]
+[ext_resource type="Script" path="res://TestArena/Spawner.gd" id="2_x3k7y"]
 [ext_resource type="TileSet" uid="uid://ckrtwok01uorx" path="res://TestArena/tileset.tres" id="3_4irkt"]
 [ext_resource type="PackedScene" uid="uid://dcvpsxfytnn3o" path="res://Player/Player.tscn" id="4_ur8qm"]
 [ext_resource type="PackedScene" uid="uid://damar1eblu4kt" path="res://TestArena/game_ui.tscn" id="6_h2fhw"]
 [ext_resource type="PackedScene" uid="uid://ljyfgxtrylid" path="res://ui/LevelUp/LevelUp.tscn" id="7_0miyk"]
 [ext_resource type="PackedScene" uid="uid://bugqgwvtoujwf" path="res://ui/GameOver/GameOver.tscn" id="8_j33u4"]
+
+[sub_resource type="Curve" id="Curve_6dcx1"]
+max_value = 20.0
+_data = [Vector2(0, 1), 0.0, 51.2554, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co5wi"]
 size = Vector2(768, 656)
@@ -18,6 +24,10 @@ script = ExtResource("1_5ypcs")
 [node name="Game" type="CanvasLayer" parent="."]
 process_mode = 1
 follow_viewport_enabled = true
+
+[node name="Spawner" type="Node" parent="Game"]
+script = ExtResource("2_x3k7y")
+spawn_rate = SubResource("Curve_6dcx1")
 
 [node name="Effects" type="Node" parent="Game" node_paths=PackedStringArray("explosion_container")]
 script = ExtResource("2_hogwb")
@@ -64,6 +74,7 @@ player = NodePath("../../Game/Player")
 metadata/_edit_lock_ = true
 
 [node name="LevelUpUi" type="Control" parent="UI"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,12 +106,13 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 
 [node name="GameOver" parent="UI" instance=ExtResource("8_j33u4")]
+visible = false
 
 [connection signal="timeout" from="Game/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
 [connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
 [connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]
-[connection signal="new_game" from="UI/GameUi" to="." method="_on_game_ui_new_game"]
+[connection signal="new_game" from="UI/GameUi" to="." method="_on_new_game"]
 [connection signal="on_select" from="UI/LevelUpUi/CenterContainer/LevelUp" to="." method="_on_level_up_on_select"]
 [connection signal="new_game" from="UI/GameOver" to="." method="_on_new_game"]
 

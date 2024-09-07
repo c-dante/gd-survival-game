@@ -24,6 +24,7 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 
 ## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
+
 func _ready():
 	# Initial game seed -- re-call it to re-set the RNG (ahead of new game?)
 	seed(123456789)
@@ -39,6 +40,7 @@ func clear_arena():
 
 ## TODO (code-game): this is the start of a game state
 func start_game():
+	clear_arena()
 	get_tree().paused = false
 	player.reset()
 	level_up_ui.hide()
@@ -138,6 +140,9 @@ func _on_player_on_level_up(_level, _player):
 	var new_weapons = Weapon.WeaponType.values()
 	new_weapons.erase(Weapon.WeaponType.Unknown)
 	for node in get_tree().get_nodes_in_group(Global.GROUP_WEAPONS):
+		if node.is_queued_for_deletion():
+			continue
+			
 		var weapon = node as Weapon
 		if weapon:
 			new_weapons.erase(weapon.get_type())
