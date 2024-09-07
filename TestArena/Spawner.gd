@@ -1,15 +1,28 @@
 class_name Spawner
 extends Node
 
+@onready var timer: Timer = $SpawnTimer
+
 @export var spawn_rate: Curve:
 	set(new_value):
 		spawn_rate = new_value
-		_update_rate()
-
-func _update_rate():
-	print(spawn_rate)
-	print(spawn_rate.min_value, ", ", spawn_rate.max_value)
-	spawn_rate.bake()
-	for i in range(0, 100):
-		print(snapped(spawn_rate.sample(i/100.0), 0.01), "  |  ", snapped(spawn_rate.sample_baked(i/100.0), 0.01))
+		spawn_rate.bake()
+		update_timer()
 	
+func _ready():
+	update_timer()
+	
+func update_timer():
+	if !timer:
+		return
+		
+	print(spawn_rate, " ", Global.game_stats["play_time"])
+	timer.start(10.0)
+
+func _on_debug_timer_timeout():
+	var game_time_20_min = Global.game_stats["play_time"] / (20.0 * 60.0)
+	print(
+		snapped(spawn_rate.sample(game_time_20_min), 0.05),
+		" ",
+		snapped(spawn_rate.sample_baked(game_time_20_min), 0.05)
+	)

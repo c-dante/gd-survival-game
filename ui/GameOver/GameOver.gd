@@ -18,13 +18,7 @@ func _on_visibility_changed():
 		_game_over_level.text = "%s" % Global.game_stats["player_level"]
 		_game_over_defeated.text = "%s" % Global.game_stats["kills"]
 		_game_over_dealt.text = "%s" % Global.game_stats["dmg_delt"]
-		
-		var seconds = Global.game_stats["play_time"]
-		var hours = snapped(seconds / 3600.0, 0)
-		seconds -= hours * 3600
-		var mins = snapped(seconds / 60.0, 0)
-		seconds -= mins * 60
-		_game_over_survived.text = "%dh %dm %ds" % [hours, mins, seconds]
+		_game_over_survived.text = Global.format_elapsed_time(Global.game_stats["play_time"])
 
 
 func _on_new_game_pressed():

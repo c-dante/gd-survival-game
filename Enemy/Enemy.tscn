@@ -215,9 +215,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t0u47"]
-radius = 15.0
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lskv3"]
+radius = 5.0
 
 [node name="Enemy" type="AnimatableBody2D"]
 z_index = 10
@@ -229,13 +230,11 @@ script = ExtResource("1_pgt22")
 [node name="SpriteMove" parent="." node_paths=PackedStringArray("body", "animated") instance=ExtResource("2_8myrb")]
 body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
-speed = 15.0
 
 [node name="OverlapPusher" parent="." node_paths=PackedStringArray("body", "source_area") instance=ExtResource("3_cguoj")]
 overlap_layers = 4096
 body = NodePath("..")
 source_area = NodePath("../PushArea")
-push_speed = 40.0
 
 [node name="Health" parent="." instance=ExtResource("4_0dqyb")]
 
@@ -247,7 +246,6 @@ sprite_frames = SubResource("SpriteFrames_a87a2")
 metadata/_edit_lock_ = true
 
 [node name="HitArea" type="CollisionShape2D" parent="."]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_t0u47")
 metadata/_edit_lock_ = true
 
@@ -256,7 +254,6 @@ collision_layer = 4096
 collision_mask = 4096
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea"]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_lskv3")
 debug_color = Color(0.842635, 0.0010762, 0.917163, 0.42)
 metadata/_edit_lock_ = true
@@ -267,7 +264,6 @@ collision_mask = 8
 metadata/_edit_lock_ = true
 
 [node name="DamageArea" type="CollisionShape2D" parent="Area2d"]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_t0u47")
 debug_color = Color(0.76202, 1.01075e-06, 0.440352, 0.42)
 metadata/_edit_lock_ = true

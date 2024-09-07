@@ -19,7 +19,12 @@ point_count = 2
 size = Vector2(768, 656)
 
 [node name="TestArena" type="Node2D"]
+position = Vector2(-8, 0)
 script = ExtResource("1_5ypcs")
+
+[node name="DebugTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
 
 [node name="Game" type="CanvasLayer" parent="."]
 process_mode = 1
@@ -29,11 +34,11 @@ follow_viewport_enabled = true
 script = ExtResource("2_x3k7y")
 spawn_rate = SubResource("Curve_6dcx1")
 
+[node name="SpawnTimer" type="Timer" parent="Game/Spawner"]
+
 [node name="Effects" type="Node" parent="Game" node_paths=PackedStringArray("explosion_container")]
 script = ExtResource("2_hogwb")
 explosion_container = NodePath("..")
-
-[node name="SpawnTimer" type="Timer" parent="Game"]
 
 [node name="Camera2D" type="Camera2D" parent="Game"]
 zoom = Vector2(4, 4)
@@ -108,11 +113,17 @@ layout_mode = 2
 [node name="GameOver" parent="UI" instance=ExtResource("8_j33u4")]
 visible = false
 
-[connection signal="timeout" from="Game/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="pause_game" from="." to="." method="_on_pause_game"]
+[connection signal="pause_game" from="." to="UI/GameUi" method="_on_game_pause"]
+[connection signal="resume_game" from="." to="." method="_on_resume_game"]
+[connection signal="resume_game" from="." to="UI/GameUi" method="_on_game_resume"]
+[connection signal="timeout" from="DebugTimer" to="Game/Spawner" method="_on_debug_timer_timeout"]
+[connection signal="timeout" from="Game/Spawner/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
 [connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
 [connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]
 [connection signal="new_game" from="UI/GameUi" to="." method="_on_new_game"]
+[connection signal="toggle_pause" from="UI/GameUi" to="." method="_on_game_ui_toggle_pause"]
 [connection signal="on_select" from="UI/LevelUpUi/CenterContainer/LevelUp" to="." method="_on_level_up_on_select"]
 [connection signal="new_game" from="UI/GameOver" to="." method="_on_new_game"]
 
