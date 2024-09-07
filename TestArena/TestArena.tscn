@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=10 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dcvpsxfytnn3o" path="res://Player/Player.tscn" id="4_ur8qm"]
 [ext_resource type="PackedScene" uid="uid://damar1eblu4kt" path="res://TestArena/game_ui.tscn" id="6_h2fhw"]
 [ext_resource type="PackedScene" uid="uid://ljyfgxtrylid" path="res://ui/LevelUp/LevelUp.tscn" id="7_0miyk"]
+[ext_resource type="PackedScene" uid="uid://bugqgwvtoujwf" path="res://ui/GameOver/GameOver.tscn" id="8_j33u4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co5wi"]
 size = Vector2(768, 656)
@@ -93,11 +94,14 @@ metadata/_edit_lock_ = true
 [node name="LevelUp" parent="UI/LevelUpUi/CenterContainer" instance=ExtResource("7_0miyk")]
 layout_mode = 2
 
+[node name="GameOver" parent="UI" instance=ExtResource("8_j33u4")]
+
 [connection signal="timeout" from="Game/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
 [connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
 [connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]
 [connection signal="new_game" from="UI/GameUi" to="." method="_on_game_ui_new_game"]
 [connection signal="on_select" from="UI/LevelUpUi/CenterContainer/LevelUp" to="." method="_on_level_up_on_select"]
+[connection signal="new_game" from="UI/GameOver" to="." method="_on_new_game"]
 
 [editable path="Game/Player"]

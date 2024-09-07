@@ -9,6 +9,7 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var ui: GameUi = $UI/GameUi
 @onready var level_up_ui: Control = $UI/LevelUpUi
 @onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
+@onready var game_over: GameOver = $UI/GameOver
 
 ## TODO (code-game): The game layer
 @onready var game: CanvasLayer = $Game
@@ -41,7 +42,7 @@ func start_game():
 	get_tree().paused = false
 	player.reset()
 	level_up_ui.hide()
-	ui.hide_game_over()
+	game_over.hide()
 	
 	if player.get_parent() == null:
 		game.add_child(player)
@@ -119,10 +120,10 @@ func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
 	get_tree().set_deferred("paused", true)
-	ui.show_game_over()
+	game_over.show()
 
 ## Respond to the ui new game button
-func _on_game_ui_new_game():
+func _on_new_game():
 	call_deferred("start_game")
 
 ## Configure and show the level up screen
