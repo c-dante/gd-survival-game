@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cxk3y5en5v4w2"]
 
 [ext_resource type="Script" path="res://weapons/Blaze/BlazePatch.gd" id="1_psvcc"]
-[ext_resource type="PackedScene" uid="uid://bflo3fd2ahfs7" path="res://component/Health/Damaging.tscn" id="2_shn24"]
+[ext_resource type="Script" path="res://component/Health/Damaging.gd" id="2_64ief"]
 
 [sub_resource type="Gradient" id="Gradient_1mkb0"]
 offsets = PackedFloat32Array(0, 0.356863, 0.682353, 1)
@@ -31,6 +31,7 @@ hue_variation_min = -2.23517e-08
 hue_variation_max = 0.1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eb7vr"]
+radius = 4.0
 
 [node name="BlazePatch" type="Node2D"]
 script = ExtResource("1_psvcc")
@@ -38,7 +39,8 @@ script = ExtResource("1_psvcc")
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[node name="Damaging" parent="." instance=ExtResource("2_shn24")]
+[node name="Damaging" type="Node" parent="."]
+script = ExtResource("2_64ief")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(0, 2)
@@ -68,7 +70,6 @@ collision_mask = 524544
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_eb7vr")
 
 [connection signal="timeout" from="Timer" to="." method="_on_expire"]
