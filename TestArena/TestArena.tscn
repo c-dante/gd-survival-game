@@ -12,7 +12,7 @@
 
 [sub_resource type="Curve" id="Curve_6dcx1"]
 max_value = 20.0
-_data = [Vector2(0, 1), 0.0, 51.2554, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 3.61727), 0.0, 51.2554, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co5wi"]
@@ -31,6 +31,7 @@ process_mode = 1
 follow_viewport_enabled = true
 
 [node name="GameCamera" type="Camera2D" parent="Game"]
+zoom = Vector2(4, 4)
 script = ExtResource("2_ta6gd")
 target_path = NodePath("../Player")
 
