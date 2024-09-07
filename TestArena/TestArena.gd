@@ -216,3 +216,7 @@ func _on_resume_game():
 		get_tree().paused = false # TODO: Avoid conflict with game over TT_TT
 	else:
 		push_error("Invalid resume during already resumed")
+
+
+func _on_game_ui_damage_toggle(toggled_on):
+	player.damage_enabled = toggled_on

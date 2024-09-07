@@ -233,6 +233,11 @@ text = "100s"
 layout_mode = 2
 alignment = 2
 
+[node name="PlayerDamage" type="CheckButton" parent="RightGrid/HFlowContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Damage"
+
 [node name="PauseBtn" type="Button" parent="RightGrid/HFlowContainer"]
 layout_mode = 2
 text = "Pause"
@@ -242,4 +247,5 @@ text = "Pause"
 [connection signal="value_changed" from="LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
 [connection signal="pressed" from="LeftGrid/LevelUp" to="." method="_on_level_up_btn_pressed"]
 [connection signal="pressed" from="LeftGrid/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="toggled" from="RightGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
 [connection signal="pressed" from="RightGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]

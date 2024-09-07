@@ -5,6 +5,7 @@ extends Control
 signal new_game()
 signal level_up()
 signal toggle_pause()
+signal damage_toggle(toggled_on: bool)
 
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
@@ -79,3 +80,7 @@ func _on_level_up_btn_pressed():
 
 func _on_pause_btn_pressed():
 	toggle_pause.emit()
+
+
+func _on_player_damage_toggled(toggled_on):
+	damage_toggle.emit(toggled_on)

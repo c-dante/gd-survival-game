@@ -9,9 +9,12 @@ signal on_death(target: Node, killer: Node);
 
 func update_health(change: int, origin: Node):
 	set_health(health + change, origin)
-	on_change.emit(change, health)
 
 func set_health(value: int, origin: Node):
-	health = clamp(value, 0, max_health)
-	if health <= 0:
-		on_death.emit(owner, origin)
+	if can_process():
+		var new_health = clamp(value, 0, max_health)
+		var change = value - new_health
+		health = new_health
+		on_change.emit(change, health)
+		if health <= 0:
+			on_death.emit(owner, origin)
