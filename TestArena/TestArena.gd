@@ -9,6 +9,7 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var ui: GameUi = $UI/GameUi
 @onready var level_up_ui: Control = $UI/LevelUpUi
 @onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
+@onready var game_over: GameOver = $UI/GameOver
 
 ## TODO (code-game): The game layer
 @onready var game: CanvasLayer = $Game
@@ -18,11 +19,10 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var player: Player = $Game/Player
 ## TODO (code-game): Controls spawnable arena space, assumed a rect
 @onready var arena_area: CollisionShape2D = $Game/AreanaArea/CollisionShape2D
-## TODO (code-game): Move to new thing
-@onready var spawnTimer: Timer = $Game/SpawnTimer
 
 ## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
+
 func _ready():
 	# Initial game seed -- re-call it to re-set the RNG (ahead of new game?)
 	seed(123456789)
@@ -38,10 +38,12 @@ func clear_arena():
 
 ## TODO (code-game): this is the start of a game state
 func start_game():
+	clear_arena()
+	_paused = false # different from game tree pause because UI state!
 	get_tree().paused = false
 	player.reset()
 	level_up_ui.hide()
-	ui.hide_game_over()
+	game_over.hide()
 	
 	if player.get_parent() == null:
 		game.add_child(player)
@@ -51,9 +53,6 @@ func start_game():
 	
 	# Spawn the initial wave
 	_spawn_wave(player, arena_area, 100)
-		
-	# Configure a respawn timer
-	spawnTimer.start(10.0) # New enemies every 10 seconds
 	
 	# Trigger the initial level up
 	_on_player_on_level_up(1, player)
@@ -119,10 +118,10 @@ func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
 	get_tree().set_deferred("paused", true)
-	ui.show_game_over()
+	game_over.show()
 
 ## Respond to the ui new game button
-func _on_game_ui_new_game():
+func _on_new_game():
 	call_deferred("start_game")
 
 ## Configure and show the level up screen
@@ -137,6 +136,9 @@ func _on_player_on_level_up(_level, _player):
 	var new_weapons = Weapon.WeaponType.values()
 	new_weapons.erase(Weapon.WeaponType.Unknown)
 	for node in get_tree().get_nodes_in_group(Global.GROUP_WEAPONS):
+		if node.is_queued_for_deletion():
+			continue
+			
 		var weapon = node as Weapon
 		if weapon:
 			new_weapons.erase(weapon.get_type())
@@ -187,3 +189,34 @@ func _on_game_ui_level_up():
 
 func _on_spawn_timer_timeout():
 	_spawn_wave(player, arena_area, 5)
+
+
+# TODO (code-game): Clean up pause/resume into state machine
+signal pause_game()
+signal resume_game()
+
+var _paused: bool = false
+
+func _on_game_ui_toggle_pause():
+	if _paused:
+		resume_game.emit()
+	else:
+		pause_game.emit()
+
+func _on_pause_game():
+	if !_paused:
+		_paused = true
+		get_tree().paused = true
+	else:
+		push_error("Invalid pause during already paused")
+
+func _on_resume_game():
+	if _paused:
+		_paused = false
+		get_tree().paused = false # TODO: Avoid conflict with game over TT_TT
+	else:
+		push_error("Invalid resume during already resumed")
+
+
+func _on_game_ui_damage_toggle(toggled_on):
+	player.damage_enabled = toggled_on

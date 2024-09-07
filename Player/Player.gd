@@ -1,7 +1,17 @@
 class_name Player
 extends CharacterBody2D
 
-@onready var _sprite_move = $SpriteMove
+@onready var _sprite_move: SpriteMove = $SpriteMove
+@onready var _health: Health = $Health
+
+@export var damage_enabled: bool = true:
+	set(value):
+		if _health:
+			if value:
+				_health.process_mode = Node.PROCESS_MODE_INHERIT
+			else:
+				_health.process_mode = Node.PROCESS_MODE_DISABLED
+		damage_enabled = value
 
 signal on_level_up(level: int, player: Player)
 
@@ -29,7 +39,7 @@ func reset():
 	experience = 0
 	level = 0
 	_speed_buffs = {}
-	$Health.health = 100
+	_health.health = 100
 
 func add_speed_buff(name: String, value: float):
 	_speed_buffs[name] = value

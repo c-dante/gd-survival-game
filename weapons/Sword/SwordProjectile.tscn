@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://io743pdlhek6"]
 
 [ext_resource type="Script" path="res://weapons/Sword/SwordProjectile.gd" id="1_8koaa"]
-[ext_resource type="PackedScene" uid="uid://bflo3fd2ahfs7" path="res://component/Health/Damaging.tscn" id="2_m4g6j"]
+[ext_resource type="Script" path="res://component/Health/Damaging.gd" id="2_2hd42"]
 [ext_resource type="Texture2D" uid="uid://bvecq7wl83vwh" path="res://weapons/Sword/SwordSprite.tres" id="3_qoocc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f5mjl"]
@@ -9,7 +9,8 @@
 [node name="SwordProjectile" type="Node2D"]
 script = ExtResource("1_8koaa")
 
-[node name="Damaging" parent="." instance=ExtResource("2_m4g6j")]
+[node name="Damaging" type="Node" parent="."]
+script = ExtResource("2_2hd42")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_qoocc")

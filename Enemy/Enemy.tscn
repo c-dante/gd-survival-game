@@ -3,13 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://c6e7scfnytv4q" path="res://Enemy/Skeleton/Skel_4Sides.png" id="1_l8dlk"]
 [ext_resource type="Script" path="res://Enemy/Enemy.gd" id="1_pgt22"]
 [ext_resource type="Texture2D" uid="uid://dt56ybcd3wgf6" path="res://Enemy/Skeleton/Walk/Skel_walk_down.png" id="1_pp7g5"]
-[ext_resource type="PackedScene" uid="uid://tuptaea71ke3" path="res://component/SpriteMove/SpriteMove.res" id="2_8myrb"]
+[ext_resource type="Script" path="res://component/SpriteMove.gd" id="2_djd55"]
 [ext_resource type="Texture2D" uid="uid://dq1kl32xuyvl3" path="res://Enemy/Skeleton/Walk/Skel_walk_left.png" id="2_dlagn"]
-[ext_resource type="PackedScene" uid="uid://gnkh7pf8iltu" path="res://component/OverlapPusher/OverlapPusher.res" id="3_cguoj"]
 [ext_resource type="Texture2D" uid="uid://dlx248383pwj2" path="res://Enemy/Skeleton/Walk/Skel_walk_right.png" id="3_ghs2v"]
-[ext_resource type="PackedScene" uid="uid://charipltbi620" path="res://component/Health/Health.tscn" id="4_0dqyb"]
+[ext_resource type="Script" path="res://component/OverlapPusher.gd" id="3_i8nc3"]
+[ext_resource type="Script" path="res://component/Health/Health.gd" id="4_fstr5"]
 [ext_resource type="Texture2D" uid="uid://xij0eurdwv1m" path="res://Enemy/Skeleton/Walk/Skel_walk_up.png" id="4_qcb8b"]
-[ext_resource type="PackedScene" uid="uid://bflo3fd2ahfs7" path="res://component/Health/Damaging.tscn" id="5_qjs33"]
+[ext_resource type="Script" path="res://component/Health/Damaging.gd" id="5_getll"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ooqou"]
 atlas = ExtResource("1_l8dlk")
@@ -215,9 +215,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t0u47"]
-radius = 15.0
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lskv3"]
+radius = 5.0
 
 [node name="Enemy" type="AnimatableBody2D"]
 z_index = 10
@@ -226,20 +227,22 @@ collision_layer = 524544
 collision_mask = 0
 script = ExtResource("1_pgt22")
 
-[node name="SpriteMove" parent="." node_paths=PackedStringArray("body", "animated") instance=ExtResource("2_8myrb")]
+[node name="SpriteMove" type="Node" parent="." node_paths=PackedStringArray("body", "animated")]
+script = ExtResource("2_djd55")
 body = NodePath("..")
 animated = NodePath("../AnimatedSprite2D")
-speed = 15.0
 
-[node name="OverlapPusher" parent="." node_paths=PackedStringArray("body", "source_area") instance=ExtResource("3_cguoj")]
+[node name="OverlapPusher" type="Node" parent="." node_paths=PackedStringArray("body", "source_area")]
+script = ExtResource("3_i8nc3")
 overlap_layers = 4096
 body = NodePath("..")
 source_area = NodePath("../PushArea")
-push_speed = 40.0
 
-[node name="Health" parent="." instance=ExtResource("4_0dqyb")]
+[node name="Health" type="Node" parent="."]
+script = ExtResource("4_fstr5")
 
-[node name="Damaging" parent="." instance=ExtResource("5_qjs33")]
+[node name="Damaging" type="Node" parent="."]
+script = ExtResource("5_getll")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
@@ -247,7 +250,6 @@ sprite_frames = SubResource("SpriteFrames_a87a2")
 metadata/_edit_lock_ = true
 
 [node name="HitArea" type="CollisionShape2D" parent="."]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_t0u47")
 metadata/_edit_lock_ = true
 
@@ -256,7 +258,6 @@ collision_layer = 4096
 collision_mask = 4096
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea"]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_lskv3")
 debug_color = Color(0.842635, 0.0010762, 0.917163, 0.42)
 metadata/_edit_lock_ = true
@@ -267,14 +268,13 @@ collision_mask = 8
 metadata/_edit_lock_ = true
 
 [node name="DamageArea" type="CollisionShape2D" parent="Area2d"]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_t0u47")
 debug_color = Color(0.76202, 1.01075e-06, 0.440352, 0.42)
 metadata/_edit_lock_ = true
 
 [connection signal="on_change" from="Health" to="." method="_on_health_on_change"]
 [connection signal="on_death" from="Health" to="." method="_on_health_on_death"]
-[connection signal="area_entered" from="PushArea" to="OverlapPusher" method="on_area_enter"]
-[connection signal="area_exited" from="PushArea" to="OverlapPusher" method="on_area_exit"]
+[connection signal="area_entered" from="PushArea" to="OverlapPusher" method="_on_push_area_area_entered"]
+[connection signal="area_exited" from="PushArea" to="OverlapPusher" method="_on_push_area_area_exited"]
 [connection signal="body_entered" from="Area2d" to="Damaging" method="on_body_enter"]
 [connection signal="body_exited" from="Area2d" to="Damaging" method="on_body_exit"]

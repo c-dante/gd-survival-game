@@ -18,7 +18,7 @@ func _handle_overlaps() -> Vector2:
 	# Return a vector pushing away
 	return -Vector2.from_angle(body.get_angle_to(_overlapping.global_position)) * push_speed
 
-func on_area_enter(area: Area2D):
+func _on_push_area_area_entered(area: Area2D):
 	if area.collision_layer & overlap_layers:
 		var target: Node2D = area.get_parent()
 		if _overlapping == null:
@@ -26,7 +26,7 @@ func on_area_enter(area: Area2D):
 		elif _overlapping.global_position.distance_squared_to(body.global_position) > target.global_position.distance_squared_to(body.global_position):
 			_overlapping = target
 
-func on_area_exit(area: Area2D):
+func _on_push_area_area_exited(area: Area2D):
 	if area.get_parent() == _overlapping:
 		_overlapping = null
 		for candidate in source_area.get_overlapping_areas():

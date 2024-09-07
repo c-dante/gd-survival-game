@@ -1,0 +1,251 @@
+[gd_scene load_steps=7 format=3 uid="uid://damar1eblu4kt"]
+
+[ext_resource type="Theme" uid="uid://dpmq2vuic315u" path="res://shared/UiTheme.tres" id="1_4v6ov"]
+[ext_resource type="Script" path="res://ui/GameUi/GameUi.gd" id="2_6iou8"]
+
+[sub_resource type="Curve" id="Curve_5wycg"]
+_data = [Vector2(0.00658979, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_vne32"]
+curve = SubResource("Curve_5wycg")
+
+[sub_resource type="Curve" id="Curve_a01xv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wxjmu"]
+curve = SubResource("Curve_a01xv")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4v6ov")
+script = ExtResource("2_6iou8")
+
+[node name="Paused" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="Underlay" type="ColorRect" parent="Paused"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.25098)
+
+[node name="CenterContainer" type="CenterContainer" parent="Paused"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Paused/CenterContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "Game Paused"
+
+[node name="LeftGrid" type="GridContainer" parent="."]
+layout_mode = 1
+offset_right = 350.0
+offset_bottom = 77.0
+
+[node name="Zoom" type="HBoxContainer" parent="LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="LeftGrid/Zoom"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Zoom"
+horizontal_alignment = 2
+
+[node name="Slider" type="HSlider" parent="LeftGrid/Zoom"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.5
+max_value = 6.0
+step = 0.01
+value = 1.0
+
+[node name="Speed" type="HBoxContainer" parent="LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="LeftGrid/Speed"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player Speed"
+horizontal_alignment = 2
+
+[node name="Slider" type="HSlider" parent="LeftGrid/Speed"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 500.0
+
+[node name="GameSpeed" type="HBoxContainer" parent="LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="LeftGrid/GameSpeed"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Game Speed"
+horizontal_alignment = 2
+
+[node name="Slider" type="HSlider" parent="LeftGrid/GameSpeed"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.1
+max_value = 20.0
+step = 0.01
+value = 1.0
+
+[node name="LevelUp" type="Button" parent="LeftGrid"]
+layout_mode = 2
+text = "Level Up"
+
+[node name="NewGame" type="Button" parent="LeftGrid"]
+layout_mode = 2
+text = "New Game"
+
+[node name="CenterGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.0
+offset_right = 175.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_constants/v_separation = 32
+
+[node name="Health" type="HBoxContainer" parent="CenterGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bar" type="TextureProgressBar" parent="CenterGrid/Health"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("CurveTexture_vne32")
+texture_progress = SubResource("CurveTexture_wxjmu")
+tint_under = Color(0.25, 0.25, 0.25, 1)
+tint_progress = Color(1, 0, 0, 1)
+
+[node name="Experience" type="HBoxContainer" parent="CenterGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bar" type="TextureProgressBar" parent="CenterGrid/Experience"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("CurveTexture_vne32")
+texture_progress = SubResource("CurveTexture_wxjmu")
+tint_under = Color(0.25, 0.25, 0.25, 1)
+tint_progress = Color(0, 1, 0.983333, 1)
+
+[node name="RightGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Fps" type="HBoxContainer" parent="RightGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightGrid/Fps"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS"
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="RightGrid/Fps"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
+[node name="PhysicsFps" type="HBoxContainer" parent="RightGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightGrid/PhysicsFps"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Physics FPS"
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="RightGrid/PhysicsFps"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
+[node name="PlayTime" type="HBoxContainer" parent="RightGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightGrid/PlayTime"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Play Time"
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="RightGrid/PlayTime"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="RightGrid"]
+layout_mode = 2
+alignment = 2
+
+[node name="PlayerDamage" type="CheckButton" parent="RightGrid/HFlowContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Damage"
+
+[node name="PauseBtn" type="Button" parent="RightGrid/HFlowContainer"]
+layout_mode = 2
+text = "Pause"
+
+[connection signal="value_changed" from="LeftGrid/Zoom/Slider" to="." method="_on_zoom_change"]
+[connection signal="value_changed" from="LeftGrid/Speed/Slider" to="." method="_on_speed_change"]
+[connection signal="value_changed" from="LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
+[connection signal="pressed" from="LeftGrid/LevelUp" to="." method="_on_level_up_btn_pressed"]
+[connection signal="pressed" from="LeftGrid/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="toggled" from="RightGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
+[connection signal="pressed" from="RightGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]
