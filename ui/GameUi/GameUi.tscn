@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://damar1eblu4kt"]
 
-[ext_resource type="Script" path="res://TestArena/ui_script.gd" id="1_ws6c1"]
-[ext_resource type="Theme" uid="uid://dpmq2vuic315u" path="res://shared/UiTheme.tres" id="2_2tk5i"]
+[ext_resource type="Theme" uid="uid://dpmq2vuic315u" path="res://shared/UiTheme.tres" id="1_4v6ov"]
+[ext_resource type="Script" path="res://ui/GameUi/GameUi.gd" id="2_6iou8"]
 
 [sub_resource type="Curve" id="Curve_5wycg"]
 _data = [Vector2(0.00658979, 1), 0.0, 0.0, 0, 0]
@@ -26,8 +26,8 @@ offset_left = 1.0
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_2tk5i")
-script = ExtResource("1_ws6c1")
+theme = ExtResource("1_4v6ov")
+script = ExtResource("2_6iou8")
 
 [node name="Paused" type="Control" parent="."]
 visible = false

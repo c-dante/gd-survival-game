@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://TestArena/Spawner.gd" id="2_x3k7y"]
 [ext_resource type="TileSet" uid="uid://ckrtwok01uorx" path="res://TestArena/tileset.tres" id="3_4irkt"]
 [ext_resource type="PackedScene" uid="uid://dcvpsxfytnn3o" path="res://Player/Player.tscn" id="4_ur8qm"]
-[ext_resource type="PackedScene" uid="uid://damar1eblu4kt" path="res://TestArena/game_ui.tscn" id="6_h2fhw"]
+[ext_resource type="PackedScene" uid="uid://damar1eblu4kt" path="res://ui/GameUi/GameUi.tscn" id="6_h2fhw"]
 [ext_resource type="PackedScene" uid="uid://ljyfgxtrylid" path="res://ui/LevelUp/LevelUp.tscn" id="7_0miyk"]
 [ext_resource type="PackedScene" uid="uid://bugqgwvtoujwf" path="res://ui/GameOver/GameOver.tscn" id="8_j33u4"]
 
