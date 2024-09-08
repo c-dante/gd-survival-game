@@ -16,9 +16,11 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - z-index ordering and other constants are in Global
 - ArenaTest is our main scene for everything
 - Game is marked pausable -- anything sub-tree of that should be the thing
-- I still don't like LimboAI... But better than what I had before.
+- No extensions!!!! And no LimboAI.
 
 # TODO
+
+- Improve the state machine's API since the hacked in facade around Limbo's sucks
 
 ## QOL
 - Delay to re-start action after level up
@@ -51,7 +53,6 @@ Many thanks for the creators! Check them out!
 
 ## Plugins
 - godot-git-plugin
-- LimboAI
 - PixelPen
 
 ## Assets

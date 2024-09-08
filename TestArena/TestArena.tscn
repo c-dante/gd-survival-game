@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=20 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bugqgwvtoujwf" path="res://ui/GameOver/GameOver.tscn" id="8_j33u4"]
 [ext_resource type="PackedScene" uid="uid://dwsk3vcceo15u" path="res://ui/MainMenu/MainMenu.tscn" id="10_ej3jf"]
 [ext_resource type="Script" path="res://TestArena/state/main_menu.gd" id="11_01y26"]
+[ext_resource type="Script" path="res://StateMachine/StateMachine.gd" id="11_povdi"]
 [ext_resource type="Script" path="res://TestArena/state/new_game.gd" id="12_eul6q"]
 [ext_resource type="Script" path="res://TestArena/state/playing.gd" id="13_18vma"]
 [ext_resource type="Script" path="res://TestArena/reward_select.gd" id="13_nnb7c"]
@@ -82,8 +83,7 @@ script = ExtResource("2_hogwb")
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3
 
-[node name="GameUi" parent="UI" node_paths=PackedStringArray("game_hsm", "sprite_move", "camera", "player") instance=ExtResource("6_h2fhw")]
-game_hsm = NodePath("../../LimboHSM")
+[node name="GameUi" parent="UI" node_paths=PackedStringArray("sprite_move", "camera", "player") instance=ExtResource("6_h2fhw")]
 sprite_move = NodePath("../../Game/Player/SpriteMove")
 camera = NodePath("../../Game/GameCamera")
 player = NodePath("../../Game/Player")
@@ -98,31 +98,32 @@ visible = false
 [node name="GameOver" parent="UI" instance=ExtResource("8_j33u4")]
 visible = false
 
-[node name="LimboHSM" type="LimboHSM" parent="."]
+[node name="StateMachine" type="Node" parent="."]
 process_mode = 3
+script = ExtResource("11_povdi")
 
-[node name="MainMenu" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("main_menu_ui")]
+[node name="MainMenu" type="Node" parent="StateMachine" node_paths=PackedStringArray("main_menu_ui")]
 script = ExtResource("11_01y26")
 main_menu_ui = NodePath("../../UI/MainMenu")
 
-[node name="NewGame" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("test_arena", "level_up_ui")]
+[node name="NewGame" type="Node" parent="StateMachine" node_paths=PackedStringArray("test_arena", "level_up_ui")]
 script = ExtResource("12_eul6q")
 test_arena = NodePath("../..")
 level_up_ui = NodePath("../../UI/RewardSelectUi")
 
-[node name="Playing" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("game_ui")]
+[node name="Playing" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui")]
 script = ExtResource("13_18vma")
 game_ui = NodePath("../../UI/GameUi")
 
-[node name="RewardSelect" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("reward_select_ui")]
+[node name="RewardSelect" type="Node" parent="StateMachine" node_paths=PackedStringArray("reward_select_ui")]
 script = ExtResource("13_nnb7c")
 reward_select_ui = NodePath("../../UI/RewardSelectUi")
 
-[node name="Paused" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("game_ui")]
+[node name="Paused" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui")]
 script = ExtResource("15_cnjqe")
 game_ui = NodePath("../../UI/GameUi")
 
-[node name="GameOver" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("test_arena", "game_over_ui")]
+[node name="GameOver" type="Node" parent="StateMachine" node_paths=PackedStringArray("test_arena", "game_over_ui")]
 script = ExtResource("16_eb616")
 test_arena = NodePath("../..")
 game_over_ui = NodePath("../../UI/GameOver")
@@ -138,6 +139,5 @@ game_over_ui = NodePath("../../UI/GameOver")
 [connection signal="new_game" from="UI/MainMenu" to="." method="_on_seeded_new_game"]
 [connection signal="on_select" from="UI/RewardSelectUi" to="." method="_on_level_up_on_select"]
 [connection signal="new_game" from="UI/GameOver" to="." method="_on_seeded_new_game"]
-[connection signal="active_state_changed" from="LimboHSM" to="." method="_on_limbo_hsm_active_state_changed"]
 
 [editable path="Game/Player"]

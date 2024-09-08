@@ -7,7 +7,7 @@ signal level_up()
 signal toggle_pause()
 signal damage_toggle(toggled_on: bool)
 
-@export var game_hsm: LimboHSM:
+@export var game_hsm: StateMachine:
 	set(value):
 		if game_hsm:
 			game_hsm.active_state_changed.disconnect(_on_active_state_changed)
@@ -97,5 +97,5 @@ func _on_pause_btn_pressed():
 func _on_player_damage_toggled(toggled_on):
 	damage_toggle.emit(toggled_on)
 
-func _on_active_state_changed(current: LimboState, _previous: LimboState):
+func _on_active_state_changed(current: StateNode, _previous: StateNode):
 	_game_state.text = current.name

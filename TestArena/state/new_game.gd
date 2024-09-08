@@ -1,5 +1,5 @@
 class_name NewGameState
-extends LimboState
+extends StateNode
 
 @export var test_arena: TestArena
 @export var level_up_ui: LevelUp
