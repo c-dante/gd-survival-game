@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=19 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
@@ -9,6 +9,13 @@
 [ext_resource type="PackedScene" uid="uid://damar1eblu4kt" path="res://ui/GameUi/GameUi.tscn" id="6_h2fhw"]
 [ext_resource type="PackedScene" uid="uid://ljyfgxtrylid" path="res://ui/LevelUp/LevelUp.tscn" id="7_0miyk"]
 [ext_resource type="PackedScene" uid="uid://bugqgwvtoujwf" path="res://ui/GameOver/GameOver.tscn" id="8_j33u4"]
+[ext_resource type="PackedScene" uid="uid://dwsk3vcceo15u" path="res://ui/MainMenu/MainMenu.tscn" id="10_ej3jf"]
+[ext_resource type="Script" path="res://TestArena/state/main_menu.gd" id="11_01y26"]
+[ext_resource type="Script" path="res://TestArena/state/new_game.gd" id="12_eul6q"]
+[ext_resource type="Script" path="res://TestArena/state/playing.gd" id="13_18vma"]
+[ext_resource type="Script" path="res://TestArena/reward_select.gd" id="13_nnb7c"]
+[ext_resource type="Script" path="res://TestArena/state/paused.gd" id="15_cnjqe"]
+[ext_resource type="Script" path="res://TestArena/state/game_over.gd" id="16_eb616"]
 
 [sub_resource type="Curve" id="Curve_6dcx1"]
 max_value = 20.0
@@ -75,65 +82,51 @@ script = ExtResource("2_hogwb")
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3
 
-[node name="GameUi" parent="UI" node_paths=PackedStringArray("sprite_move", "camera", "player") instance=ExtResource("6_h2fhw")]
+[node name="GameUi" parent="UI" node_paths=PackedStringArray("game_hsm", "sprite_move", "camera", "player") instance=ExtResource("6_h2fhw")]
+game_hsm = NodePath("../../LimboHSM")
 sprite_move = NodePath("../../Game/Player/SpriteMove")
 camera = NodePath("../../Game/GameCamera")
 player = NodePath("../../Game/Player")
 metadata/_edit_lock_ = true
 
-[node name="LevelUpUi" type="Control" parent="UI"]
+[node name="MainMenu" parent="UI" instance=ExtResource("10_ej3jf")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_lock_ = true
 
-[node name="OverlayShield" type="ColorRect" parent="UI/LevelUpUi"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 1, 0.25098)
-metadata/_edit_lock_ = true
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/LevelUpUi"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_lock_ = true
-
-[node name="LevelUp" parent="UI/LevelUpUi/CenterContainer" instance=ExtResource("7_0miyk")]
-layout_mode = 2
+[node name="RewardSelectUi" parent="UI" instance=ExtResource("7_0miyk")]
+visible = false
 
 [node name="GameOver" parent="UI" instance=ExtResource("8_j33u4")]
 visible = false
 
 [node name="LimboHSM" type="LimboHSM" parent="."]
+process_mode = 3
 
-[node name="MainMenu" type="LimboState" parent="LimboHSM"]
+[node name="MainMenu" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("main_menu_ui")]
+script = ExtResource("11_01y26")
+main_menu_ui = NodePath("../../UI/MainMenu")
 
-[node name="NewGame" type="LimboState" parent="LimboHSM"]
+[node name="NewGame" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("test_arena", "level_up_ui")]
+script = ExtResource("12_eul6q")
+test_arena = NodePath("../..")
+level_up_ui = NodePath("../../UI/RewardSelectUi")
 
-[node name="Playing" type="LimboState" parent="LimboHSM"]
+[node name="Playing" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("game_ui")]
+script = ExtResource("13_18vma")
+game_ui = NodePath("../../UI/GameUi")
 
-[node name="LevelUp" type="LimboState" parent="LimboHSM"]
+[node name="RewardSelect" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("reward_select_ui")]
+script = ExtResource("13_nnb7c")
+reward_select_ui = NodePath("../../UI/RewardSelectUi")
 
-[node name="Paused" type="LimboState" parent="LimboHSM"]
+[node name="Paused" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("game_ui")]
+script = ExtResource("15_cnjqe")
+game_ui = NodePath("../../UI/GameUi")
 
-[node name="GameOver" type="LimboState" parent="LimboHSM"]
+[node name="GameOver" type="LimboState" parent="LimboHSM" node_paths=PackedStringArray("test_arena", "game_over_ui")]
+script = ExtResource("16_eb616")
+test_arena = NodePath("../..")
+game_over_ui = NodePath("../../UI/GameOver")
 
-[connection signal="pause_game" from="." to="." method="_on_pause_game"]
-[connection signal="pause_game" from="." to="UI/GameUi" method="_on_game_pause"]
-[connection signal="resume_game" from="." to="." method="_on_resume_game"]
-[connection signal="resume_game" from="." to="UI/GameUi" method="_on_game_resume"]
 [connection signal="timeout" from="DebugTimer" to="Game/Spawner" method="_on_debug_timer_timeout"]
 [connection signal="timeout" from="Game/Spawner/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
@@ -142,7 +135,9 @@ visible = false
 [connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]
 [connection signal="new_game" from="UI/GameUi" to="." method="_on_new_game"]
 [connection signal="toggle_pause" from="UI/GameUi" to="." method="_on_game_ui_toggle_pause"]
-[connection signal="on_select" from="UI/LevelUpUi/CenterContainer/LevelUp" to="." method="_on_level_up_on_select"]
+[connection signal="new_game" from="UI/MainMenu" to="." method="_on_main_menu_new_game"]
+[connection signal="on_select" from="UI/RewardSelectUi" to="." method="_on_level_up_on_select"]
 [connection signal="new_game" from="UI/GameOver" to="." method="_on_new_game"]
+[connection signal="active_state_changed" from="LimboHSM" to="." method="_on_limbo_hsm_active_state_changed"]
 
 [editable path="Game/Player"]

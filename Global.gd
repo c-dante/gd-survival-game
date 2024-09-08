@@ -1,9 +1,9 @@
 extends Node
 
 # Group names to help with cleanup and such
-const GROUP_ENEMIES = "Enemies"
-const GROUP_PICKUPS = "Pickups"
-const GROUP_WEAPONS = "Weapons"
+const GROUP_ENEMIES = &"Enemies"
+const GROUP_PICKUPS = &"Pickups"
+const GROUP_WEAPONS = &"Weapons"
 
 # Navigation collision
 const LAYER_PLAYER_MOVE = 1
@@ -31,6 +31,7 @@ func _ready():
 var game_stats = {}
 func reset():
 	game_stats = {
+		"enemy_count": 0,
 		"play_time": 0,
 		"dmg_taken": 0,
 		"dmg_delt": 0,
@@ -69,3 +70,37 @@ func pt_in_rect(rect: Rect2, margin: float = 1.0) -> Vector2:
 		randf_range(margin, rect.size.y - margin)
 	)
 	return rect.position + normalized
+
+const BASE62_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+func base62_str_to_int(base62_str: String) -> int:
+	const base = 62
+	var result = 0
+	var power = base62_str.length() - 1
+	
+	for i in range(base62_str.length()):
+		var idx = BASE62_CHARSET.find(base62_str[i])
+		if idx == -1:
+			idx = 0
+		result += idx * (base ** power)
+		power -= 1
+	
+	return result
+	
+func int_to_base62_str(number: int) -> String:
+	const base = 62
+	var result = ""
+	while number > 0:
+		var remainder = number % base
+		result = BASE62_CHARSET[remainder] + result
+		number = floor(number / base)
+	return result
+
+func clear_group(group: StringName):
+	for node in get_tree().get_nodes_in_group(group):
+		if node.get_parent():
+			node.get_parent().remove_child(node)
+		node.queue_free()
+
+func safe_pause(paused: bool):
+	if get_tree():
+		get_tree().paused = paused

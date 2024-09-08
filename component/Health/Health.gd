@@ -15,7 +15,7 @@ func update_health(change: int, origin: Node):
 func set_health(value: int, origin: Node):
 	if can_process() && _alive:
 		var new_health = clamp(value, 0, max_health)
-		var change = value - new_health
+		var change = new_health - health
 		health = new_health
 		on_change.emit(change, health)
 		if health <= 0:

@@ -19,7 +19,12 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 
 # TODO
 
+- I still don't like LimboAI... But better than what I had before.
+
+## 2024-09-07:
+
 - (feat) Enemies get stronger / faster / healthier
+- (bug) Clean up set_health and "death" state
 
 ## 2024-09-03:
 

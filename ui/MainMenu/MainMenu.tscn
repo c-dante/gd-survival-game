@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwsk3vcceo15u"]
+
+[ext_resource type="Script" path="res://ui/MainMenu/MainMenu.gd" id="1_30fqi"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_30fqi")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 1146.0
+offset_bottom = 642.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.25098)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Control" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -97.0
+offset_right = 97.0
+offset_bottom = 39.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderLarge"
+text = "Survival Game"
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Control"]
+layout_mode = 2
+offset_right = 1140.0
+offset_bottom = 636.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control/CenterContainer"]
+layout_mode = 2
+
+[node name="NewGameBtn" type="Button" parent="MarginContainer/Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="Seed" type="HBoxContainer" parent="MarginContainer/Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Seed"]
+layout_mode = 2
+text = "Seed"
+
+[node name="Value" type="LineEdit" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Seed"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "dfhdfghdf"
+alignment = 1
+max_length = 9
+
+[node name="RandomizeSeed" type="Button" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Seed"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "?"
+
+[connection signal="pressed" from="MarginContainer/Control/CenterContainer/VBoxContainer/NewGameBtn" to="." method="_on_new_game_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/Control/CenterContainer/VBoxContainer/Seed/RandomizeSeed" to="." method="_on_randomize_seed_pressed"]

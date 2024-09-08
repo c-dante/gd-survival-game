@@ -7,8 +7,6 @@ const SwordScene: PackedScene = preload("res://weapons/Sword/Sword.tscn")
 const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 
 @onready var ui: GameUi = $UI/GameUi
-@onready var level_up_ui: Control = $UI/LevelUpUi
-@onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
 @onready var game_over: GameOver = $UI/GameOver
 
 
@@ -31,34 +29,13 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 var player_start;
 
 func _ready():
-	# Initial game seed -- re-call it to re-set the RNG (ahead of new game?)
-	seed(123456789)
 	player_start = player.position
-	start_game()
+	_init_hsm()
 
 func clear_arena():
-	# TODO bug-pause: I think queue-free is why the lazy signals happen -- might need to remove enemies + pickups tpp
-	get_tree().call_group(Global.GROUP_ENEMIES, "queue_free")
-	get_tree().call_group(Global.GROUP_PICKUPS, "queue_free")
-	get_tree().call_group(Global.GROUP_WEAPONS, "queue_free")
-
-## TODO (code-game): this is the start of a game state
-func start_game():
-	clear_arena()
-	_paused = false # different from game tree pause because UI state!
-	get_tree().paused = false
-	player.reset()
-	level_up_ui.hide()
-	game_over.hide()
-	
-	player.position = player_start
-	Global.reset()
-	
-	# Spawn the initial wave
-	_spawn_wave(player, arena_area, 100)
-	
-	# Trigger the initial level up
-	_on_player_on_level_up(1, player)
+	Global.clear_group(Global.GROUP_ENEMIES)
+	Global.clear_group(Global.GROUP_PICKUPS)
+	Global.clear_group(Global.GROUP_WEAPONS)
 
 ## TODO (code-game)
 ## Spawn a wave of enemies
@@ -77,7 +54,8 @@ func _spawn_wave(_player: Node2D, arena: CollisionShape2D, num_to_spawn: int = 1
 ## Create an enemy that explodes and drops EXP on death
 func _add_enemey(point: Vector2):
 	var enemy: Enemy = EnemyScene.instantiate()
-	enemy.name = "Skelly %d" % get_tree().get_node_count_in_group(Global.GROUP_ENEMIES)
+	enemy.name = "Skelly %d" % Global.game_stats["enemy_count"]
+	Global.game_stats["enemy_count"] += 1
 	enemy.target = player
 	enemy.position = point
 	var health: Health = enemy.get_node("Health")
@@ -114,55 +92,63 @@ func _add_weapon_blaze():
 	blaze.target = player
 	weapons.add_child(blaze)
 
-## HERE BE SIGNAL DRAGONS
-
-## Respond to the player getting killed
-func _on_health_on_death(_target: Node2D, killer: Node2D):
-	Global.game_stats["killed_by"] = killer.name
-	clear_arena() # TODO: Weird bug where pausing here has a slow/late signal, and deferring doesn't work
-	get_tree().set_deferred("paused", true)
-	game_over.show()
-
 ## Respond to the ui new game button
-func _on_new_game():
-	call_deferred("start_game")
+func _on_spawn_timer_timeout():
+	_spawn_wave(player, arena_area, 5)
 
-## Configure and show the level up screen
-## TODO (code-level-up)
-func _on_player_on_level_up(_level, _player):
-	get_tree().paused = true
-	level_up_ui.show()
+func _on_game_ui_damage_toggle(toggled_on):
+	player.damage_enabled = toggled_on
+
+# ##################
+# BEGIN STATE BLOCK
+# ##################
+@onready var _hsm = $LimboHSM
+@onready var _state_main_menu = $LimboHSM/MainMenu
+@onready var _state_new_game = $LimboHSM/NewGame
+@onready var _state_playing = $LimboHSM/Playing
+@onready var _state_reward_select = $LimboHSM/RewardSelect
+@onready var _state_paused = $LimboHSM/Paused
+@onready var _state_game_over = $LimboHSM/GameOver
+
+# Actions
+const NEW_GAME = &"NEW_GAME"
+const INITIAL_WEAPON = &"INITIAL_WEAPON"
+const LEVEL_UP = &"LEVEL_UP"
+const UPGRADE_CHOICE = &"UPGRADE_CHOICE"
+const PAUSE = &"PAUSE"
+const RESUME = &"RESUME"
+const GAME_OVER = &"GAME_OVER"
+
+func _init_hsm():
+	_hsm.add_transition(_hsm.ANYSTATE, _state_new_game, NEW_GAME)
 	
-	# TODO: configure choices, for now, it's always sword
-	# But this would be picking N { weapons, artifacts }, and if you own the weapon, asking for the next level
-	var choices: Array[LevelUp.Choice] = []
-	var new_weapons = Weapon.WeaponType.values()
-	new_weapons.erase(Weapon.WeaponType.Unknown)
-	for node in get_tree().get_nodes_in_group(Global.GROUP_WEAPONS):
-		if node.is_queued_for_deletion():
-			continue
-			
-		var weapon = node as Weapon
-		if weapon:
-			new_weapons.erase(weapon.get_type())
-			choices.append_array(weapon.get_choices())
-			
-	# If we have fewer than 3 choices, add new weapons
-	while choices.size() < 3 && new_weapons.size() > 0:
-		var weapon_type = new_weapons.pop_at(randi_range(0, new_weapons.size() - 1))
-		if weapon_type == Weapon.WeaponType.Blaze:
-			choices.push_back(Blaze.AcquireChoice())
-		elif weapon_type == Weapon.WeaponType.Sword:
-			choices.push_back(Sword.AcquireChoice())
+	_hsm.add_transition(_state_new_game, _state_reward_select, INITIAL_WEAPON)
 	
-	level_up.set_choices(choices)
+	_hsm.add_transition(_state_playing, _state_reward_select, LEVEL_UP)
+	_hsm.add_transition(_state_playing, _state_paused, PAUSE)
+	_hsm.add_transition(_state_playing, _state_game_over, GAME_OVER)
+	
+	_hsm.add_transition(_state_paused, _state_playing, RESUME)
+	_hsm.add_transition(_state_paused, _state_game_over, GAME_OVER)
+	
+	_hsm.add_transition(_state_reward_select, _state_playing, UPGRADE_CHOICE)
+	_hsm.add_transition(_state_reward_select, _state_game_over, GAME_OVER)
+	
+	_hsm.add_transition(_state_game_over, _state_new_game, NEW_GAME)
+	
+	_hsm.initialize(self)
+	_hsm.set_active(true)
+	
+func _on_main_menu_new_game():
+	_hsm.dispatch(NEW_GAME)
+
+func _on_game_ui_level_up():
+	_hsm.dispatch(LEVEL_UP)
 
 ## Respond to the result of a level up choice
-## TODO (code-level-up)
 func _on_level_up_on_select(choice: LevelUp.Choice):
-	get_tree().paused = false
-	level_up_ui.hide()
-	
+	_hsm.call_deferred("dispatch", UPGRADE_CHOICE)
+
 	if choice == null:
 		return
 	
@@ -187,39 +173,19 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 	
 	push_error("Uhandled choice", choice)
 
-func _on_game_ui_level_up():
-	_on_player_on_level_up(player.level + 1, player)
-
-func _on_spawn_timer_timeout():
-	_spawn_wave(player, arena_area, 5)
-
-
-# TODO (code-game): Clean up pause/resume into state machine
-signal pause_game()
-signal resume_game()
-
-var _paused: bool = false
+func _on_new_game():
+	_hsm.dispatch(NEW_GAME)
 
 func _on_game_ui_toggle_pause():
-	if _paused:
-		resume_game.emit()
+	if _hsm.get_active_state() is PausedState:
+		_hsm.dispatch(RESUME)
 	else:
-		pause_game.emit()
+		_hsm.dispatch(PAUSE)
 
-func _on_pause_game():
-	if !_paused:
-		_paused = true
-		get_tree().paused = true
-	else:
-		push_error("Invalid pause during already paused")
+## Respond to the player getting killed
+func _on_health_on_death(_target: Node2D, killer: Node2D):
+	Global.game_stats["killed_by"] = killer.name
+	_hsm.dispatch(GAME_OVER)
 
-func _on_resume_game():
-	if _paused:
-		_paused = false
-		get_tree().paused = false # TODO: Avoid conflict with game over TT_TT
-	else:
-		push_error("Invalid resume during already resumed")
-
-
-func _on_game_ui_damage_toggle(toggled_on):
-	player.damage_enabled = toggled_on
+func _on_player_on_level_up(level, player):
+	_hsm.dispatch(LEVEL_UP)

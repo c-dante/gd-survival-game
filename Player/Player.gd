@@ -40,6 +40,7 @@ func reset():
 	level = 0
 	_speed_buffs = {}
 	_health.health = 100
+	_health._alive = true
 
 func add_speed_buff(name: String, value: float):
 	_speed_buffs[name] = value
