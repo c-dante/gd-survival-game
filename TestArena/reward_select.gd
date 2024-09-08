@@ -1,4 +1,4 @@
-extends LimboState
+extends StateNode
 
 @export var reward_select_ui: LevelUp
 

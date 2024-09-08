@@ -106,13 +106,13 @@ func _on_game_ui_damage_toggle(toggled_on):
 # ##################
 # BEGIN STATE BLOCK
 # ##################
-@onready var _hsm = $LimboHSM
-@onready var _state_main_menu = $LimboHSM/MainMenu
-@onready var _state_new_game = $LimboHSM/NewGame
-@onready var _state_playing = $LimboHSM/Playing
-@onready var _state_reward_select = $LimboHSM/RewardSelect
-@onready var _state_paused = $LimboHSM/Paused
-@onready var _state_game_over = $LimboHSM/GameOver
+@onready var _hsm = $StateMachine
+@onready var _state_main_menu = $StateMachine/MainMenu
+@onready var _state_new_game = $StateMachine/NewGame
+@onready var _state_playing = $StateMachine/Playing
+@onready var _state_reward_select = $StateMachine/RewardSelect
+@onready var _state_paused = $StateMachine/Paused
+@onready var _state_game_over = $StateMachine/GameOver
 
 # Actions
 const NEW_GAME = &"NEW_GAME"
@@ -139,9 +139,8 @@ func _init_hsm():
 	_hsm.add_transition(_state_reward_select, _state_game_over, GAME_OVER)
 	
 	_hsm.add_transition(_state_game_over, _state_new_game, NEW_GAME)
-	
-	_hsm.initialize(self)
-	_hsm.set_active(true)
+
+	_hsm.set_active(_state_main_menu)
 
 func _on_game_ui_level_up():
 	_hsm.dispatch(LEVEL_UP)

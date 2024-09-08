@@ -1,5 +1,5 @@
 class_name PausedState
-extends LimboState
+extends StateNode
 
 @export var game_ui: GameUi
 

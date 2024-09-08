@@ -1,4 +1,4 @@
-extends LimboState
+extends StateNode
 
 @export var test_arena: TestArena
 @export var game_over_ui: GameOver
