@@ -11,14 +11,21 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var level_up: LevelUp = $UI/LevelUpUi/CenterContainer/LevelUp
 @onready var game_over: GameOver = $UI/GameOver
 
+
 ## TODO (code-game): The game layer
 @onready var game: CanvasLayer = $Game
+## TODO (code-game): The enemies
+@onready var enemies = $Game/Enemies
+## TODO (code-game): Pickup items layer
+@onready var pickups = $Game/Pickups
 ## TODO (code-game): Effects layer
 @onready var effects: Effects = $Game/Effects
+## TODO (code-game): Weapons layer
+@onready var weapons = $Game/Weapons
 ## TODO (code-game): Player character
 @onready var player: Player = $Game/Player
 ## TODO (code-game): Controls spawnable arena space, assumed a rect
-@onready var arena_area: CollisionShape2D = $Game/AreanaArea/CollisionShape2D
+@onready var arena_area: CollisionShape2D = $Game/TileMapLayer/AreanaArea/CollisionShape2D
 
 ## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
@@ -30,7 +37,6 @@ func _ready():
 	start_game()
 
 func clear_arena():
-	game.remove_child(player)
 	# TODO bug-pause: I think queue-free is why the lazy signals happen -- might need to remove enemies + pickups tpp
 	get_tree().call_group(Global.GROUP_ENEMIES, "queue_free")
 	get_tree().call_group(Global.GROUP_PICKUPS, "queue_free")
@@ -44,9 +50,6 @@ func start_game():
 	player.reset()
 	level_up_ui.hide()
 	game_over.hide()
-	
-	if player.get_parent() == null:
-		game.add_child(player)
 	
 	player.position = player_start
 	Global.reset()
@@ -84,7 +87,7 @@ func _add_enemey(point: Vector2):
 			effects.explode(target.global_position)
 			call_deferred("_drop_exp", target.global_position)
 	)
-	game.add_child(enemy)
+	enemies.add_child(enemy)
 	enemy.add_to_group(Global.GROUP_ENEMIES)
 
 ## Spawn an exp blob at a position
@@ -92,7 +95,7 @@ func _drop_exp(pos: Vector2):
 	var xp: Pickup = PickupScene.instantiate()
 	xp.position = pos
 	xp.kind = Pickup.PickupKind.EXP
-	game.add_child(xp)
+	pickups.add_child(xp)
 	xp.add_to_group(Global.GROUP_PICKUPS)
 
 ## Adds a sword weapon, call only once per game or else you get weird things
@@ -101,7 +104,7 @@ func _add_weapon_sword():
 	var sword = SwordScene.instantiate()
 	sword.add_to_group(Global.GROUP_WEAPONS)
 	sword.target = player
-	game.add_child(sword)
+	weapons.add_child(sword)
 
 ## Adds a blaze weapon, call only once per game or else you get weird things
 ## TODO (code-level-up)
@@ -109,7 +112,7 @@ func _add_weapon_blaze():
 	var blaze = BlazeScene.instantiate()
 	blaze.add_to_group(Global.GROUP_WEAPONS)
 	blaze.target = player
-	game.add_child(blaze)
+	weapons.add_child(blaze)
 
 ## HERE BE SIGNAL DRAGONS
 

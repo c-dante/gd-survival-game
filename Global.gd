@@ -21,7 +21,7 @@ const LAYER_ENEMY_PUSH = 13
 const Z_INDEX_FLOOR = 5
 ## enemy, player
 const Z_INDEX_WALK = 10
-## sword
+## sword, explosion
 const Z_INDEX_FLOAT = 20
 
 # Game Stats
@@ -55,7 +55,7 @@ func format_percent(percent: float) -> String:
 	return "%d%%" % snapped(percent * 100, 1)
 
 func format_elapsed_time(time_seconds: float) -> String:
-	var seconds = Global.game_stats["play_time"]
+	var seconds = time_seconds
 	var hours = snapped(seconds / 3600.0, 0)
 	seconds -= hours * 3600
 	var mins = snapped(seconds / 60.0, 0)

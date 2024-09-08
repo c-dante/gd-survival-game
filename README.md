@@ -24,14 +24,11 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 ## 2024-09-03:
 
 - (qol) Quit/Save/Resume
-- (qol) Pausing
 - (qol) New Game Screen instead of "level up"
 - (qol) Delay to re-start action after level up
 - (code-game) Abstract difficulty/game progress from TestArena, spawner specifically
   - Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
-- (code) Split "GameUi" into individual screens, like LevelUpUi is
-- (code-level-up) Abstract/make a system for weapon and level up choices
-- (code-speed) this is funky, write of speed updates only base but read is adjusted...
+- (code-speed) speed buff thing this is funky, write of speed updates only base but read is adjusted...
 
 ## 2024-09-02:
 
@@ -40,12 +37,11 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 
 ## 2024-09-01:
 
-- (code) Refactor signal/stat aggregation: `Enemy.gd`, `Global.gd`
 - (juice) Make a cool pickup animation: `Player.gd`
 - (code) Standardize reactions to taking/dealing damage: `Player.gd`
-  - Stat aggregation
+  - (code) Refactor stat aggregation: `Enemy.gd`, `Global.gd`
   - (design) Visual effects
-  - Damage numbers
+  - (juice) Damage numbers
 - (code) Centralize "global" effect/action summoning: `TestScene.gd`
   - Dropping pickups
   - Timeout-style juice like tweened/triggered animations
@@ -54,6 +50,11 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 
 These are the libraries/assets/tutorials that I've used while developing this project.
 Many thanks for the creators! Check them out!
+
+## Plugins
+- godot-git-plugin
+- LimboAI
+- PixelPen
 
 ## Assets
 
