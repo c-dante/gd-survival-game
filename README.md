@@ -16,40 +16,31 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - z-index ordering and other constants are in Global
 - ArenaTest is our main scene for everything
 - Game is marked pausable -- anything sub-tree of that should be the thing
+- I still don't like LimboAI... But better than what I had before.
 
 # TODO
 
-- I still don't like LimboAI... But better than what I had before.
+## QOL
+- Delay to re-start action after level up
+- Quit/Save/Resume
 
-## 2024-09-07:
-
-- (feat) Enemies get stronger / faster / healthier
-- (bug) Clean up set_health and "death" state
-
-## 2024-09-03:
-
-- (qol) Quit/Save/Resume
-- (qol) New Game Screen instead of "level up"
-- (qol) Delay to re-start action after level up
+## Balance
 - (code-game) Abstract difficulty/game progress from TestArena, spawner specifically
-  - Bring in a state machine (MAYBE) for the broad pause/playing/level-up states
-- (code-speed) speed buff thing this is funky, write of speed updates only base but read is adjusted...
+  - Enemies get stronger / faster / more kinds
 
-## 2024-09-02:
+## Code
+- Standardize reactions to taking/dealing damage: `Player.gd`, `Enemy.gd`, `Global.gd`, `TestArena.gd`
+- Figure out a better signal forwarding patter with composition -- constant internal exposed to external with delegate forwarding
+- SpriteMover component is weird
+  - (code-speed) speed buff thing this is funky, write of speed updates only base but read is adjusted...
+- Clean up set_health and "_alive" flag (footgun if you re-use things)
 
-- (code) Figure out a better signal forwarding patter with composition, health for ex
-- (bug-pause) Pausing in a signal, even deferred, has weird ordering, make a minimal example
-
-## 2024-09-01:
-
-- (juice) Make a cool pickup animation: `Player.gd`
-- (code) Standardize reactions to taking/dealing damage: `Player.gd`
-  - (code) Refactor stat aggregation: `Enemy.gd`, `Global.gd`
-  - (design) Visual effects
-  - (juice) Damage numbers
-- (code) Centralize "global" effect/action summoning: `TestScene.gd`
-  - Dropping pickups
-  - Timeout-style juice like tweened/triggered animations
+## Juice
+- Make a cool pickup animation: `Player.gd`
+  - Like exp flies to the bar and the bar transitions instead of pops into place
+  - All hp and xp bars lerp instead of snap
+- Damage numbers
+- Timeout-style juice like tweened/triggered animations
 
 # Credits
 
