@@ -28,9 +28,12 @@ const Z_INDEX_FLOAT = 20
 func _ready():
 	reset()
 
-var game_stats = {}
+var game_stats = {
+	"seed": 0,
+}
 func reset():
 	game_stats = {
+		"seed": game_stats["seed"],
 		"enemy_count": 0,
 		"play_time": 0,
 		"dmg_taken": 0,
