@@ -24,6 +24,8 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var player: Player = $Game/Player
 ## TODO (code-game): Controls spawnable arena space, assumed a rect
 @onready var arena_area: CollisionShape2D = $Game/TileMapLayer/AreanaArea/CollisionShape2D
+## TODO (code-game): The enemy spawner
+@onready var spawn_timer: Timer = $Game/Spawner/SpawnTimer
 
 ## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
@@ -32,6 +34,7 @@ func _ready():
 	player_start = player.position
 	_init_hsm()
 
+## TODO (code-game)
 func clear_arena():
 	Global.clear_group(Global.GROUP_ENEMIES)
 	Global.clear_group(Global.GROUP_PICKUPS)
@@ -69,6 +72,7 @@ func _add_enemey(point: Vector2):
 	enemy.add_to_group(Global.GROUP_ENEMIES)
 
 ## Spawn an exp blob at a position
+## TODO (code-game)
 func _drop_exp(pos: Vector2):
 	var xp: Pickup = PickupScene.instantiate()
 	xp.position = pos
@@ -77,7 +81,7 @@ func _drop_exp(pos: Vector2):
 	xp.add_to_group(Global.GROUP_PICKUPS)
 
 ## Adds a sword weapon, call only once per game or else you get weird things
-## TODO (code-level-up)
+## TODO (code-level-up), (code-game)
 func _add_weapon_sword():
 	var sword = SwordScene.instantiate()
 	sword.add_to_group(Global.GROUP_WEAPONS)
@@ -85,7 +89,7 @@ func _add_weapon_sword():
 	weapons.add_child(sword)
 
 ## Adds a blaze weapon, call only once per game or else you get weird things
-## TODO (code-level-up)
+## TODO (code-level-up), (code-game)
 func _add_weapon_blaze():
 	var blaze = BlazeScene.instantiate()
 	blaze.add_to_group(Global.GROUP_WEAPONS)
@@ -138,9 +142,6 @@ func _init_hsm():
 	
 	_hsm.initialize(self)
 	_hsm.set_active(true)
-	
-func _on_main_menu_new_game():
-	_hsm.dispatch(NEW_GAME)
 
 func _on_game_ui_level_up():
 	_hsm.dispatch(LEVEL_UP)
@@ -173,7 +174,14 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 	
 	push_error("Uhandled choice", choice)
 
-func _on_new_game():
+## Cached only for the "quick new game" button to work
+func _on_quick_new_game():
+	seed(Global.game_stats["seed"])
+	_hsm.dispatch(NEW_GAME)
+
+func _on_seeded_new_game(seed: int):
+	Global.game_stats["seed"] = seed
+	seed(seed)
 	_hsm.dispatch(NEW_GAME)
 
 func _on_game_ui_toggle_pause():

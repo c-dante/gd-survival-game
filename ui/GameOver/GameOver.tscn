@@ -148,5 +148,27 @@ text = "100s"
 layout_mode = 2
 text = "New Game"
 
+[node name="Seed" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Seed"]
+layout_mode = 2
+text = "Seed"
+
+[node name="Value" type="LineEdit" parent="Centered/MarginContainer/VBoxContainer/Seed"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "dfhdfghdf"
+alignment = 1
+max_length = 9
+
+[node name="RandomizeSeed" type="Button" parent="Centered/MarginContainer/VBoxContainer/Seed"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "?"
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/Seed/RandomizeSeed" to="." method="_on_randomize_seed_pressed"]

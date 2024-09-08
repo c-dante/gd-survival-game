@@ -29,6 +29,8 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
   - Enemies get stronger / faster / more kinds
 
 ## Code
+- (code-game) Figure out spawning enemies / attaching weapons outside of TestArena?
+  - Component code most likely? A "Game" Component?
 - Standardize reactions to taking/dealing damage: `Player.gd`, `Enemy.gd`, `Global.gd`, `TestArena.gd`
 - Figure out a better signal forwarding patter with composition -- constant internal exposed to external with delegate forwarding
 - SpriteMover component is weird
