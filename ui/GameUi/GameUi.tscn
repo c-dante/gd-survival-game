@@ -123,13 +123,28 @@ max_value = 20.0
 step = 0.01
 value = 1.0
 
-[node name="LevelUp" type="Button" parent="LeftGrid"]
+[node name="HFlowContainer" type="GridContainer" parent="LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/h_separation = 4
+columns = 3
+
+[node name="LevelUp" type="Button" parent="LeftGrid/HFlowContainer"]
 layout_mode = 2
 text = "Level Up"
 
-[node name="NewGame" type="Button" parent="LeftGrid"]
+[node name="NewGame" type="Button" parent="LeftGrid/HFlowContainer"]
 layout_mode = 2
 text = "New Game"
+
+[node name="PlayerDamage" type="CheckButton" parent="LeftGrid/HFlowContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Damage"
+
+[node name="PauseBtn" type="Button" parent="LeftGrid/HFlowContainer"]
+layout_mode = 2
+text = "Pause"
 
 [node name="CenterGrid" type="GridContainer" parent="."]
 layout_mode = 1
@@ -229,23 +244,26 @@ layout_mode = 2
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="HFlowContainer" type="HFlowContainer" parent="RightGrid"]
+[node name="GameState" type="HBoxContainer" parent="RightGrid"]
 layout_mode = 2
-alignment = 2
+size_flags_horizontal = 3
 
-[node name="PlayerDamage" type="CheckButton" parent="RightGrid/HFlowContainer"]
+[node name="Label" type="Label" parent="RightGrid/GameState"]
 layout_mode = 2
-button_pressed = true
-text = "Damage"
+size_flags_horizontal = 3
+text = "Game State"
+horizontal_alignment = 2
 
-[node name="PauseBtn" type="Button" parent="RightGrid/HFlowContainer"]
+[node name="Value" type="Label" parent="RightGrid/GameState"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-text = "Pause"
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
 
 [connection signal="value_changed" from="LeftGrid/Zoom/Slider" to="." method="_on_zoom_change"]
 [connection signal="value_changed" from="LeftGrid/Speed/Slider" to="." method="_on_speed_change"]
 [connection signal="value_changed" from="LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
-[connection signal="pressed" from="LeftGrid/LevelUp" to="." method="_on_level_up_btn_pressed"]
-[connection signal="pressed" from="LeftGrid/NewGame" to="." method="_on_new_game_pressed"]
-[connection signal="toggled" from="RightGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
-[connection signal="pressed" from="RightGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]
+[connection signal="pressed" from="LeftGrid/HFlowContainer/LevelUp" to="." method="_on_level_up_btn_pressed"]
+[connection signal="pressed" from="LeftGrid/HFlowContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="toggled" from="LeftGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
+[connection signal="pressed" from="LeftGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]

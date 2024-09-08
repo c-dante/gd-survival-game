@@ -1,5 +1,5 @@
 class_name LevelUp
-extends MarginContainer
+extends Control
 
 ## Helper to indicate what to do when a choice is selected
 enum ChoiceType {
@@ -38,8 +38,18 @@ class Choice:
 
 signal on_select(choice: Choice)
 
-@onready var _choices_container: Container = $VBoxContainer/Choices
-@onready var _choice_tpl: LevelUpChoice = $VBoxContainer/Choices/BaseChoice
+@export var heading: String = "Level Up":
+	set(value):
+		heading = value
+		if _heading:
+			_heading.text = value
+
+@onready var _heading = $MarginContainer/VBoxContainer/Heading
+@onready var _choices_container: Container = $MarginContainer/VBoxContainer/Choices
+@onready var _choice_tpl: LevelUpChoice = $MarginContainer/VBoxContainer/Choices/BaseChoice
+
+func _ready():
+	_heading.text = heading
 
 # Called when the node enters the scene tree for the first time.
 func set_choices(choices: Array[Choice]):
