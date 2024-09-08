@@ -20,6 +20,8 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 
 # TODO
 
+- Improve the state machine's API since the hacked in facade around Limbo's sucks
+
 ## QOL
 - Delay to re-start action after level up
 - Quit/Save/Resume
