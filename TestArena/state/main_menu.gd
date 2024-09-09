@@ -1,6 +1,6 @@
 extends StateNode
 
-@export var main_menu_ui: Control;
+@export var main_menu_ui: Control
 
 func _enter():
 	Global.safe_pause(true)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=21 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dwsk3vcceo15u" path="res://ui/MainMenu/MainMenu.tscn" id="10_ej3jf"]
 [ext_resource type="Script" path="res://TestArena/state/main_menu.gd" id="11_01y26"]
 [ext_resource type="Script" path="res://StateMachine/StateMachine.gd" id="11_povdi"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="11_yholf"]
 [ext_resource type="Script" path="res://TestArena/state/new_game.gd" id="12_eul6q"]
 [ext_resource type="Script" path="res://TestArena/state/playing.gd" id="13_18vma"]
 [ext_resource type="Script" path="res://TestArena/reward_select.gd" id="13_nnb7c"]
@@ -83,6 +84,21 @@ script = ExtResource("2_hogwb")
 [node name="UI" type="CanvasLayer" parent="."]
 process_mode = 3
 
+[node name="Virtual Joystick" parent="UI" instance=ExtResource("11_yholf")]
+process_mode = 4
+modulate = Color(1, 0, 1, 0.12549)
+anchors_preset = 15
+anchor_top = 0.0
+anchor_right = 1.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+joystick_mode = 2
+visibility_mode = 2
+
 [node name="GameUi" parent="UI" node_paths=PackedStringArray("sprite_move", "camera", "player") instance=ExtResource("6_h2fhw")]
 sprite_move = NodePath("../../Game/Player/SpriteMove")
 camera = NodePath("../../Game/GameCamera")
@@ -111,13 +127,15 @@ script = ExtResource("12_eul6q")
 test_arena = NodePath("../..")
 level_up_ui = NodePath("../../UI/RewardSelectUi")
 
-[node name="Playing" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui")]
+[node name="Playing" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui", "virtual_joystick")]
 script = ExtResource("13_18vma")
 game_ui = NodePath("../../UI/GameUi")
+virtual_joystick = NodePath("../../UI/Virtual Joystick")
 
-[node name="RewardSelect" type="Node" parent="StateMachine" node_paths=PackedStringArray("reward_select_ui")]
+[node name="RewardSelect" type="Node" parent="StateMachine" node_paths=PackedStringArray("reward_select_ui", "virtual_joystick")]
 script = ExtResource("13_nnb7c")
 reward_select_ui = NodePath("../../UI/RewardSelectUi")
+virtual_joystick = NodePath("../../UI/Virtual Joystick")
 
 [node name="Paused" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui")]
 script = ExtResource("15_cnjqe")

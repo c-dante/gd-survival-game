@@ -52,8 +52,9 @@ These are the libraries/assets/tutorials that I've used while developing this pr
 Many thanks for the creators! Check them out!
 
 ## Plugins
-- godot-git-plugin
-- PixelPen
+- [godot-git-plugin](https://godotengine.org/asset-library/asset/1581) by twaritwaikar
+- [PixelPen](https://godotengine.org/asset-library/asset/3023) by bayu-sw
+- [Virtual Joystick](https://godotengine.org/asset-library/asset/1787) by MarcoFazio
 
 ## Assets
 
