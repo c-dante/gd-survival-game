@@ -1,6 +1,7 @@
 extends StateNode
 
 @export var reward_select_ui: LevelUp
+@export var virtual_joystick: VirtualJoystick
 
 func _enter():
 	Global.safe_pause(true)

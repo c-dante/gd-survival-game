@@ -4,6 +4,7 @@ extends StateNode
 @export var game_over_ui: GameOver
 
 func _enter():
+	Progress.save()
 	Global.safe_pause(true)
 	game_over_ui.show()
 

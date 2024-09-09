@@ -20,4 +20,5 @@ func update_timer():
 
 
 func _on_debug_timer_timeout():
-	var game_time_20_min = Global.game_stats["play_time"] / (GAME_LENGTH * 60.0)
+	#var game_time_20_min = Global.game_stats["play_time"] / (GAME_LENGTH * 60.0)
+	pass

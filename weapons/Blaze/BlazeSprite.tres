@@ -1,7 +1,4 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://evl1om3bwqqd"]
-
-[ext_resource type="Texture2D" uid="uid://bp0gce1tbk7qs" path="res://shared/FeetOutline.png" id="1_s7qka"]
+[gd_resource type="CompressedTexture2D" format=3 uid="uid://b0rkysgb0hrtf"]
 
 [resource]
-atlas = ExtResource("1_s7qka")
-region = Rect2(80, 16, 16, 16)
+load_path = "res://.godot/imported/FeetOutline 6.png-0eb17e5b0a710035174db62e94454deb.ctex"

@@ -5,6 +5,7 @@ extends Control
 signal new_game()
 signal level_up()
 signal toggle_pause()
+signal end_run()
 signal damage_toggle(toggled_on: bool)
 
 @export var game_hsm: StateMachine:
@@ -57,7 +58,7 @@ func _ready():
 
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)
-	_play_time.text = Global.format_elapsed_time(Global.game_stats["play_time"])
+	_play_time.text = Format.format_elapsed_time(Global.game_stats["play_time"])
 	_health_bar.value = player.get_node("Health").health
 	_exp_bar.value = player.experience
 
@@ -96,6 +97,9 @@ func _on_pause_btn_pressed():
 
 func _on_player_damage_toggled(toggled_on):
 	damage_toggle.emit(toggled_on)
+
+func _on_end_run_pressed():
+	end_run.emit()
 
 func _on_active_state_changed(current: StateNode, _previous: StateNode):
 	_game_state.text = current.name

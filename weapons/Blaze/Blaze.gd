@@ -35,11 +35,11 @@ class BlazeProps:
 		var out = []
 		var dmg_diff = Global.diff_percent(damage, _current.damage)
 		if !is_zero_approx(dmg_diff):
-			out.push_back("+%s damage/tick" % Global.format_percent(dmg_diff))
+			out.push_back("+%s damage/tick" % Format.format_percent(dmg_diff))
 			
 		var duration_diff = Global.diff_percent(duration_ms, _current.duration_ms)
 		if !is_zero_approx(duration_diff):
-			out.push_back("last +%s longer" % Global.format_percent(duration_diff))
+			out.push_back("last +%s longer" % Format.format_percent(duration_diff))
 			
 		var move_diff = Global.diff_percent(target_move_buff, _current.target_move_buff)
 		if !is_zero_approx(move_diff):
