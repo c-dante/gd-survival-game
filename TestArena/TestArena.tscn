@@ -151,6 +151,7 @@ game_over_ui = NodePath("../../UI/GameOver")
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
 [connection signal="on_death" from="Game/Player/Health" to="." method="_on_health_on_death"]
 [connection signal="damage_toggle" from="UI/GameUi" to="." method="_on_game_ui_damage_toggle"]
+[connection signal="end_run" from="UI/GameUi" to="." method="_on_game_ui_end_run"]
 [connection signal="level_up" from="UI/GameUi" to="." method="_on_game_ui_level_up"]
 [connection signal="new_game" from="UI/GameUi" to="." method="_on_quick_new_game"]
 [connection signal="toggle_pause" from="UI/GameUi" to="." method="_on_game_ui_toggle_pause"]

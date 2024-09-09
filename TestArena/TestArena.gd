@@ -66,19 +66,30 @@ func _add_enemey(point: Vector2):
 		func (target: Node2D, _killer: Node2D):
 			Global.game_stats["kills"] += 1
 			effects.explode(target.global_position)
-			call_deferred("_drop_exp", target.global_position)
+			call_deferred("_drop_reward", target.global_position)
 	)
 	enemies.add_child(enemy)
 	enemy.add_to_group(Global.GROUP_ENEMIES)
 
 ## Spawn an exp blob at a position
 ## TODO (code-game)
-func _drop_exp(pos: Vector2):
-	var xp: Pickup = PickupScene.instantiate()
-	xp.position = pos
-	xp.kind = Pickup.PickupKind.EXP
-	pickups.add_child(xp)
-	xp.add_to_group(Global.GROUP_PICKUPS)
+func _drop_reward(pos: Vector2):
+	var drop = randi_range(0, 1000)
+	var kind: Pickup.PickupKind
+	if drop > 990:
+		kind = Pickup.PickupKind.HEIRLOOM
+	elif drop > 900:
+		kind = Pickup.PickupKind.HEALTH
+	elif drop > 500:
+		kind = Pickup.PickupKind.EXP
+	else:
+		return
+	
+	var pick: Pickup = PickupScene.instantiate()
+	pick.position = pos
+	pick.kind = kind
+	pickups.add_child(pick)
+	pick.add_to_group(Global.GROUP_PICKUPS)
 
 ## Adds a sword weapon, call only once per game or else you get weird things
 ## TODO (code-level-up), (code-game)
@@ -178,9 +189,9 @@ func _on_quick_new_game():
 	seed(Global.game_stats["seed"])
 	_hsm.dispatch(NEW_GAME)
 
-func _on_seeded_new_game(seed: int):
-	Global.game_stats["seed"] = seed
-	seed(seed)
+func _on_seeded_new_game(game_seed: int):
+	Global.game_stats["seed"] = game_seed
+	seed(game_seed)
 	_hsm.dispatch(NEW_GAME)
 
 func _on_game_ui_toggle_pause():
@@ -194,5 +205,9 @@ func _on_health_on_death(_target: Node2D, killer: Node2D):
 	Global.game_stats["killed_by"] = killer.name
 	_hsm.dispatch(GAME_OVER)
 
-func _on_player_on_level_up(level, player):
+func _on_player_on_level_up(_level, _player):
 	_hsm.dispatch(LEVEL_UP)
+
+func _on_game_ui_end_run():
+	Global.game_stats["killed_by"] = "Your own hand"
+	_hsm.dispatch(GAME_OVER)

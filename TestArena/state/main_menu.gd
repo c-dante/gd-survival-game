@@ -3,6 +3,7 @@ extends StateNode
 @export var main_menu_ui: Control
 
 func _enter():
+	Progress.load()
 	Global.safe_pause(true)
 	main_menu_ui.show()
 	

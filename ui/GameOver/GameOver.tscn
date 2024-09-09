@@ -144,6 +144,25 @@ size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
+[node name="Heirloom" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Centered/MarginContainer/VBoxContainer/Heirloom"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[right]Acquired [img]res://shared/Heirloom.tres[/img][/right]"
+fit_content = true
+
+[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Heirloom"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+
 [node name="NewGame" type="Button" parent="Centered/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "New Game"

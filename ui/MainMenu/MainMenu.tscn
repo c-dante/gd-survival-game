@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwsk3vcceo15u"]
+[gd_scene load_steps=3 format=3 uid="uid://dwsk3vcceo15u"]
 
 [ext_resource type="Script" path="res://ui/MainMenu/MainMenu.gd" id="1_30fqi"]
+[ext_resource type="Texture2D" uid="uid://c4lhtky0bl5ib" path="res://shared/Heirloom.tres" id="2_q8rns"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -12,14 +13,27 @@ grow_vertical = 2
 script = ExtResource("1_30fqi")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 2
-offset_left = 6.0
-offset_top = 6.0
-offset_right = 1146.0
-offset_bottom = 642.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.25098)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -97.0
+offset_right = 97.0
+offset_bottom = 39.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderLarge"
+text = "Survival Game"
+metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -36,19 +50,6 @@ theme_override_constants/margin_bottom = 6
 [node name="Control" type="Control" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/Control"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -97.0
-offset_right = 97.0
-offset_bottom = 39.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-theme_type_variation = &"HeaderLarge"
-text = "Survival Game"
-
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Control"]
 layout_mode = 2
 offset_right = 1140.0
@@ -58,6 +59,23 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Control/CenterContainer"]
 layout_mode = 2
+
+[node name="Heirloom" type="HBoxContainer" parent="MarginContainer/Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Heirloom"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Heirloom"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_q8rns")
+stretch_mode = 5
+
+[node name="Value" type="Label" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Heirloom"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"EmphasisLabel"
+vertical_alignment = 1
 
 [node name="NewGameBtn" type="Button" parent="MarginContainer/Control/CenterContainer/VBoxContainer"]
 layout_mode = 2

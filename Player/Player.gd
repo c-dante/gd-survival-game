@@ -42,24 +42,32 @@ func reset():
 	_health.health = 100
 	_health._alive = true
 
-func add_speed_buff(name: String, value: float):
-	_speed_buffs[name] = value
+func add_speed_buff(buf_name: String, value: float):
+	_speed_buffs[buf_name] = value
 	var total_buffs = _speed_buffs.values().reduce(func (a, b): return a + b, 0)
 	_sprite_move.speed_adjustment = total_buffs
 
+# TODO (code-game): pickup logic
 func _on_pickup_area_area_entered(area):
 	var pickup: Pickup = area.owner
-	if pickup.kind == Pickup.PickupKind.EXP:
-		experience += 10
-		if experience >= 100:
-			experience = 0
-			level += 1
-			Global.game_stats["player_level"] = level
-			on_level_up.emit(level, self)
-		# TODO: Fun pickup animation, fly to the bar or to the player or something
-		pickup.queue_free()
-	else:
-		print("Unhandled pickup: ", pickup)
+	match pickup.kind:
+		Pickup.PickupKind.HEALTH:
+			_health.update_health(5, pickup)
+		Pickup.PickupKind.HEIRLOOM:
+			Global.game_stats["heirloom"] += 1
+			Progress.progress[Progress.HEIRLOOM] += 1
+		Pickup.PickupKind.EXP:
+			experience += 10
+			if experience >= 100:
+				experience = 0
+				level += 1
+				Global.game_stats["player_level"] = level
+				on_level_up.emit(level, self)
+		_:
+			push_warning("Unhandled pickup: ", pickup)
+	
+	# TODO: Fun pickup animation, fly to the bar or to the player or something
+	pickup.queue_free()
 
 
 func _on_health_on_change(change, _value):
