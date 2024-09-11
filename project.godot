@@ -35,7 +35,9 @@ version_control/autoload_on_startup=true
 
 folder_colors={
 "res://addons/": "red",
-"res://export/": "red"
+"res://android/": "red",
+"res://export/": "red",
+"res://shared/": "green"
 }
 
 [global_group]

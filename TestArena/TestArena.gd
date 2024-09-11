@@ -126,6 +126,7 @@ func _on_game_ui_damage_toggle(toggled_on):
 @onready var _state_game_over = $StateMachine/GameOver
 
 # Actions
+const CONTINUE = &"CONTINUE"
 const NEW_GAME = &"NEW_GAME"
 const INITIAL_WEAPON = &"INITIAL_WEAPON"
 const LEVEL_UP = &"LEVEL_UP"
@@ -149,7 +150,7 @@ func _init_hsm():
 	_hsm.add_transition(_state_reward_select, _state_playing, UPGRADE_CHOICE)
 	_hsm.add_transition(_state_reward_select, _state_game_over, GAME_OVER)
 	
-	_hsm.add_transition(_state_game_over, _state_new_game, NEW_GAME)
+	_hsm.add_transition(_state_game_over, _state_main_menu, CONTINUE)
 
 	_hsm.set_active(_state_main_menu)
 
@@ -211,3 +212,6 @@ func _on_player_on_level_up(_level, _player):
 func _on_game_ui_end_run():
 	Global.game_stats["killed_by"] = "Your own hand"
 	_hsm.dispatch(GAME_OVER)
+
+func _on_game_over_continue_game():
+	_hsm.dispatch(CONTINUE)

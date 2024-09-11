@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bugqgwvtoujwf"]
+[gd_scene load_steps=3 format=3 uid="uid://bugqgwvtoujwf"]
 
 [ext_resource type="Script" path="res://ui/GameOver/GameOver.gd" id="1_1fe2u"]
+[ext_resource type="Texture2D" uid="uid://ji0ad3oc2hv8" path="res://shared/save-flatdark.png" id="2_f7p52"]
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -163,31 +164,31 @@ size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="NewGame" type="Button" parent="Centered/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "New Game"
-
 [node name="Seed" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Seed"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Seed"
+horizontal_alignment = 2
 
-[node name="Value" type="LineEdit" parent="Centered/MarginContainer/VBoxContainer/Seed"]
+[node name="Value" type="Button" parent="Centered/MarginContainer/VBoxContainer/Seed"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-text = "dfhdfghdf"
-alignment = 1
-max_length = 9
+size_flags_horizontal = 3
+theme_type_variation = &"EmphasisLabel"
+text = "100s"
+icon = ExtResource("2_f7p52")
+alignment = 0
+icon_alignment = 2
+expand_icon = true
 
-[node name="RandomizeSeed" type="Button" parent="Centered/MarginContainer/VBoxContainer/Seed"]
-custom_minimum_size = Vector2(32, 0)
+[node name="Continue" type="Button" parent="Centered/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "?"
+text = "Continue"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/Seed/RandomizeSeed" to="." method="_on_randomize_seed_pressed"]
+[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/Seed/Value" to="." method="_on_copy_seed"]
+[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
