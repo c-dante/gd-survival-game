@@ -20,7 +20,7 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 
 # TODO
 
-- Improve the state machine's API since the hacked in facade around Limbo's sucks
+- New enemies?
 
 ## QOL
 - Delay to re-start action after level up
@@ -38,8 +38,11 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - SpriteMover component is weird
   - (code-speed) speed buff thing this is funky, write of speed updates only base but read is adjusted...
 - Clean up set_health and "_alive" flag (footgun if you re-use things)
+- Improve the state machine's API since the hacked in facade around Limbo's sucks
 
 ## Juice
+- Figure out animations. Doodad attachments, etc.
+  - Animation player and stuff is hard to use... At least for me.
 - Make a cool pickup animation: `Player.gd`
   - Like exp flies to the bar and the bar transitions instead of pops into place
   - All hp and xp bars lerp instead of snap
@@ -61,6 +64,7 @@ Many thanks for the creators! Check them out!
 - [Tiny Icon Pack](https://vryell.itch.io/tiny-adventure-pack-plus) by [Vryell](https://www.patreon.com/vryell)
 - [Kenny Game Assets](https://kenney.itch.io/kenney-game-assets-1) by [Kenney](www.kenney.nl)
 - [Heroic Assets Series - Icon Pack v1.2](https://iknowkingrabbit.itch.io/heroic-icon-pack) by [Aleksandr Makarov](https://www.patreon.com/iknowkingrabbit)
+- [RPG Items - Retro Pack](https://blodyavenger.itch.io/rpg-items-retro-pack) by [Blodyavenger](https://blodyavenger.itch.io/)
 
 ## Tutorials
 

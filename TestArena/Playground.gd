@@ -2,8 +2,8 @@
 class_name Playground
 extends EditorScript
 
-func _init():
-	print(randi_range(0, 1))
+func _init():		
+	print(Color.RED)
 	
 	var x = Pickup.PickupKind.EXP
 	match x:

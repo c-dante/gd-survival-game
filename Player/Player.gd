@@ -39,13 +39,22 @@ func reset():
 	experience = 0
 	level = 0
 	_speed_buffs = {}
+	_sprite_move.speed_adjustment = 0
 	_health.health = 100
 	_health._alive = true
 
+# TODO (code-speed): move this to a SpriteMover property?
 func add_speed_buff(buf_name: String, value: float):
 	_speed_buffs[buf_name] = value
 	var total_buffs = _speed_buffs.values().reduce(func (a, b): return a + b, 0)
 	_sprite_move.speed_adjustment = total_buffs
+
+# TODO (code-speed): move this to a SpriteMover property?
+func remove_speed_buff(buf_name: String):
+	if _speed_buffs.has(buf_name):
+		_speed_buffs.erase(buf_name)
+		var total_buffs = _speed_buffs.values().reduce(func (a, b): return a + b, 0)
+		_sprite_move.speed_adjustment = total_buffs
 
 # TODO (code-game): pickup logic
 func _on_pickup_area_area_entered(area):

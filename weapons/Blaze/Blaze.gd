@@ -80,6 +80,11 @@ func _ready():
 	set_level(1)
 	_spawn_timer.start()
 
+func _exit_tree():
+	if target && target.has_method("remove_speed_buff"):
+		# TODO (code-speed): Spooky action at a distance
+		target.remove_speed_buff("blaze")
+
 func _on_drop_blaze():
 	var props = get_props() as BlazeProps
 	var new_blaze: BlazePatch = BlazePatchScene.instantiate()

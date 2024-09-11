@@ -51,12 +51,13 @@ func _spawn_wave(_player: Node2D, arena: CollisionShape2D, num_to_spawn: int = 1
 		var pos = arena.to_global(Global.pt_in_rect(rect, 0))
 		while _player.global_position.distance_to(pos) < 100:
 			pos = arena.to_global(Global.pt_in_rect(rect, 0))
-		_add_enemey(pos)
+		_add_enemey(pos, randi_range(1, 4))
 
 ## TODO (code-game)
 ## Create an enemy that explodes and drops EXP on death
-func _add_enemey(point: Vector2):
+func _add_enemey(point: Vector2, level: int = 1):
 	var enemy: Enemy = EnemyScene.instantiate()
+	enemy.level = level
 	enemy.name = "Skelly %d" % Global.game_stats["enemy_count"]
 	Global.game_stats["enemy_count"] += 1
 	enemy.target = player

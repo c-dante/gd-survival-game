@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://jgltbwbg67ej"]
+
+[ext_resource type="Shader" path="res://Enemy/Outline.gdshader" id="1_dfsq0"]
+
+[resource]
+shader = ExtResource("1_dfsq0")
+shader_parameter/outline_color = Color(1, 0, 0, 1)
+shader_parameter/progress = 4.0
