@@ -40,38 +40,6 @@ func clear_arena():
 	Global.clear_group(Global.GROUP_PICKUPS)
 	Global.clear_group(Global.GROUP_WEAPONS)
 
-## TODO (code-game)
-## Spawn a wave of enemies
-## player = player char to prevent spawning too close
-## arena = bounds to spawn in, a rect in the scene tree
-## num_to_spawn = how many baddies
-func _spawn_wave(_player: Node2D, arena: CollisionShape2D, num_to_spawn: int = 1):
-	var rect = arena.shape.get_rect()
-	for i in range(num_to_spawn):
-		var pos = arena.to_global(Global.pt_in_rect(rect, 0))
-		while _player.global_position.distance_to(pos) < 100:
-			pos = arena.to_global(Global.pt_in_rect(rect, 0))
-		_add_enemey(pos, randi_range(1, 4))
-
-## TODO (code-game)
-## Create an enemy that explodes and drops EXP on death
-func _add_enemey(point: Vector2, level: int = 1):
-	var enemy: Enemy = EnemyScene.instantiate()
-	enemy.level = level
-	enemy.name = "Skelly %d" % Global.game_stats["enemy_count"]
-	Global.game_stats["enemy_count"] += 1
-	enemy.target = player
-	enemy.position = point
-	var health: Health = enemy.get_node("Health")
-	health.on_death.connect(
-		func (target: Node2D, _killer: Node2D):
-			Global.game_stats["kills"] += 1
-			effects.explode(target.global_position)
-			call_deferred("_drop_reward", target.global_position)
-	)
-	enemies.add_child(enemy)
-	enemy.add_to_group(Global.GROUP_ENEMIES)
-
 ## Spawn an exp blob at a position
 ## TODO (code-game)
 func _drop_reward(pos: Vector2):
@@ -107,10 +75,6 @@ func _add_weapon_blaze():
 	blaze.add_to_group(Global.GROUP_WEAPONS)
 	blaze.target = player
 	weapons.add_child(blaze)
-
-## Respond to the ui new game button
-func _on_spawn_timer_timeout():
-	_spawn_wave(player, arena_area, 5)
 
 func _on_game_ui_damage_toggle(toggled_on):
 	player.damage_enabled = toggled_on
@@ -188,11 +152,11 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 
 ## Cached only for the "quick new game" button to work
 func _on_quick_new_game():
-	seed(Global.game_stats["seed"])
+	seed(Global.game_stats.seed)
 	_hsm.dispatch(NEW_GAME)
 
 func _on_seeded_new_game(game_seed: int):
-	Global.game_stats["seed"] = game_seed
+	Global.game_stats.seed = game_seed
 	seed(game_seed)
 	_hsm.dispatch(NEW_GAME)
 
@@ -204,15 +168,36 @@ func _on_game_ui_toggle_pause():
 
 ## Respond to the player getting killed
 func _on_health_on_death(_target: Node2D, killer: Node2D):
-	Global.game_stats["killed_by"] = killer.name
+	Global.game_stats.killed_by = killer.name
 	_hsm.dispatch(GAME_OVER)
 
 func _on_player_on_level_up(_level, _player):
 	_hsm.dispatch(LEVEL_UP)
 
 func _on_game_ui_end_run():
-	Global.game_stats["killed_by"] = "Your own hand"
+	Global.game_stats.killed_by = "Your own hand"
 	_hsm.dispatch(GAME_OVER)
 
 func _on_game_over_continue_game():
 	_hsm.dispatch(CONTINUE)
+
+func _on_spawner_spawn_wave(to_spawn):
+	for enemy in to_spawn:
+		enemy.target = player
+		enemy.position = _get_spawn_point(player.global_position)
+		var health: Health = enemy.get_node("Health")
+		health.on_death.connect(
+			func (target: Node2D, _killer: Node2D):
+				Global.game_stats.kills += 1
+				effects.explode(target.global_position)
+				call_deferred("_drop_reward", target.global_position)
+		)
+		enemies.add_child(enemy)
+		enemy.add_to_group(Global.GROUP_ENEMIES)
+
+func _get_spawn_point(target: Vector2) -> Vector2:
+	var rect = arena_area.shape.get_rect()
+	var pos = arena_area.to_global(Global.pt_in_rect(rect, 0))
+	while target.distance_to(pos) < 200:
+		pos = arena_area.to_global(Global.pt_in_rect(rect, 0))
+	return pos

@@ -55,4 +55,4 @@ func _on_health_on_death(_target, _killer):
 
 # TODO: Refactor health/damage to reflect on aggregates on declare side instead of on usage side
 func _on_health_on_change(change, _value):
-	Global.game_stats["dmg_delt"] += abs(change)
+	Global.game_stats.dmg_delt += abs(change)

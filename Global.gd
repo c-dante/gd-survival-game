@@ -28,23 +28,32 @@ func _ready():
 	reset()
 
 ## Global game stats
-var game_stats = {
-	"seed": 0,
-}
+const STAT_SEED = "seed"
+const STAT_ENEMY_COUNT = "enemy_count"
+const STAT_PLAY_TIME = "play_time"
+
+class Stats:
+	var seed: int = 0
+	var enemy_count: int = 0
+	var play_time_seconds: float = 0.0
+	var max_game_time_seconds: float = 60.0 * 10.0
+	var dmg_taken: int = 0
+	var dmg_delt: int = 0
+	var kills: int = 0
+	var player_level: int = 0
+	var killed_by: String = ""
+	var heirloom: int = 0
+	
+	func play_ratio() -> float:
+		return play_time_seconds / max_game_time_seconds
+
+var game_stats = Stats.new()
 
 ## Reset global game stats
 func reset():
-	game_stats = {
-		"seed": game_stats["seed"], # oof, this hack
-		"enemy_count": 0,
-		"play_time": 0,
-		"dmg_taken": 0,
-		"dmg_delt": 0,
-		"kills": 0,
-		"player_level": 0,
-		"killed_by": "",
-		"heirloom": 0,
-	}
+	var last_seed = game_stats.seed
+	game_stats = Stats.new()
+	game_stats.seed = last_seed
 
 # Utility Methods
 ## Wipes all the connections from a signal

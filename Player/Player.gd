@@ -22,7 +22,7 @@ var level = 0
 
 ## TODO (code-game): Move this outta' the player?
 func _process(delta):
-	Global.game_stats["play_time"] += delta
+	Global.game_stats.play_time_seconds += delta
 
 func _physics_process(delta):
 	_sprite_move.input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -63,14 +63,14 @@ func _on_pickup_area_area_entered(area):
 		Pickup.PickupKind.HEALTH:
 			_health.update_health(5, pickup)
 		Pickup.PickupKind.HEIRLOOM:
-			Global.game_stats["heirloom"] += 1
+			Global.game_stats.heirloom += 1
 			Progress.progress[Progress.HEIRLOOM] += 1
 		Pickup.PickupKind.EXP:
 			experience += 10
 			if experience >= 100:
 				experience = 0
 				level += 1
-				Global.game_stats["player_level"] = level
+				Global.game_stats.player_level = level
 				on_level_up.emit(level, self)
 		_:
 			push_warning("Unhandled pickup: ", pickup)
@@ -81,5 +81,5 @@ func _on_pickup_area_area_entered(area):
 
 func _on_health_on_change(change, _value):
 	if change < 0:
-		Global.game_stats["dmg_taken"] += abs(change)
+		Global.game_stats.dmg_taken += abs(change)
 		modulate = Color.CRIMSON

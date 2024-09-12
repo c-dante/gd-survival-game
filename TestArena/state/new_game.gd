@@ -2,13 +2,17 @@ class_name NewGameState
 extends StateNode
 
 @export var test_arena: TestArena
+@export var spawner: Spawner
 @export var level_up_ui: LevelUp
 
 func _enter():
+	# Reset the arena and player
 	test_arena.clear_arena()
 	test_arena.player.reset()
 	test_arena.player.position = test_arena.player_start
 	Global.reset()
-	test_arena._spawn_wave(test_arena.player, test_arena.arena_area, 25)
+	
+	# Spawn the initial wave + start the game timer
+	spawner.spawn_initial_wave(25)
 	test_arena.spawn_timer.start()
 	dispatch(TestArena.INITIAL_WEAPON)

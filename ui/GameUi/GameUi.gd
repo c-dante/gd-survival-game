@@ -58,7 +58,7 @@ func _ready():
 
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)
-	_play_time.text = Format.format_elapsed_time(Global.game_stats["play_time"])
+	_play_time.text = Format.format_elapsed_time(Global.game_stats.play_time_seconds)
 	_health_bar.value = player.get_node("Health").health
 	_exp_bar.value = player.experience
 
