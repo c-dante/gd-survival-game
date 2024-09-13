@@ -2,7 +2,7 @@ class_name Blaze
 extends Weapon
 
 const BlazePatchScene = preload("res://weapons/Blaze/BlazePatch.tscn")
-const BlazeTx = preload("res://weapons/Blaze/BlazeSprite.tres")
+const BlazeTx = preload("res://weapons/Blaze/BlazeFeet.png")
 
 static func AcquireChoice() -> LevelUp.Choice:
 	return LevelUp.Choice.new("Blaze", BlazeTx, "Put on some hot kicks\nAdd move speed and leave a fire trail", 1, {

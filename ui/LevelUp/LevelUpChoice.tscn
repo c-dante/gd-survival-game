@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/LevelUp/LevelUpChoice.gd" id="1_1c5f7"]
 [ext_resource type="Texture2D" uid="uid://dakupffpol62e" path="res://ui/LevelUp/MedalTexture.tres" id="2_2tyea"]
-[ext_resource type="Texture2D" uid="uid://bvecq7wl83vwh" path="res://weapons/Sword/SwordSprite.tres" id="2_isnsh"]
+[ext_resource type="Texture2D" uid="uid://besvpf0tot6y8" path="res://weapons/Sword/Sword.png" id="2_7xnn3"]
 
 [node name="LevelUpChoice" type="Button"]
 custom_minimum_size = Vector2(256, 512)
@@ -28,7 +28,7 @@ stretch_mode = 0
 
 [node name="ChoiceTexture" type="TextureRect" parent="VBoxContainer/AspectRatioContainer"]
 layout_mode = 2
-texture = ExtResource("2_isnsh")
+texture = ExtResource("2_7xnn3")
 stretch_mode = 5
 
 [node name="Levels" type="HFlowContainer" parent="VBoxContainer"]

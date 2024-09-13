@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjy3uc0kk7ej0"]
 
+[ext_resource type="Texture2D" uid="uid://db4ic52e1r365" path="res://shared/sprites/Heart.png" id="1_nqog2"]
 [ext_resource type="Script" path="res://Pickup/Pickup.gd" id="1_q3tfv"]
-[ext_resource type="Texture2D" uid="uid://785brsikhpbu" path="res://shared/Health.tres" id="1_qj8x0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sxnk6"]
 radius = 5.0
@@ -9,7 +9,7 @@ radius = 5.0
 [node name="Pickup" type="Sprite2D"]
 z_index = 5
 y_sort_enabled = true
-texture = ExtResource("1_qj8x0")
+texture = ExtResource("1_nqog2")
 script = ExtResource("1_q3tfv")
 
 [node name="Area2D" type="Area2D" parent="."]

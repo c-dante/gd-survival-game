@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dwsk3vcceo15u"]
 
 [ext_resource type="Script" path="res://ui/MainMenu/MainMenu.gd" id="1_30fqi"]
-[ext_resource type="Texture2D" uid="uid://c4lhtky0bl5ib" path="res://shared/Heirloom.tres" id="2_q8rns"]
+[ext_resource type="Texture2D" uid="uid://hn63wg2qj6nh" path="res://shared/sprites/Heirloom.png" id="2_f5xvu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -67,7 +67,7 @@ tooltip_text = "Heirloom"
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Heirloom"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-texture = ExtResource("2_q8rns")
+texture = ExtResource("2_f5xvu")
 stretch_mode = 5
 
 [node name="Value" type="Label" parent="MarginContainer/Control/CenterContainer/VBoxContainer/Heirloom"]

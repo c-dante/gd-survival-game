@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://weapons/Sword/SwordProjectile.gd" id="1_8koaa"]
 [ext_resource type="Script" path="res://component/Health/Damaging.gd" id="2_2hd42"]
-[ext_resource type="Texture2D" uid="uid://bvecq7wl83vwh" path="res://weapons/Sword/SwordSprite.tres" id="3_qoocc"]
+[ext_resource type="Texture2D" uid="uid://besvpf0tot6y8" path="res://weapons/Sword/Sword.png" id="3_xsjkr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f5mjl"]
 
@@ -13,7 +13,7 @@ script = ExtResource("1_8koaa")
 script = ExtResource("2_2hd42")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_qoocc")
+texture = ExtResource("3_xsjkr")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
 collision_layer = 0
