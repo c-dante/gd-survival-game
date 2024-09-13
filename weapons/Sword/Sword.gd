@@ -2,7 +2,7 @@ class_name Sword
 extends Weapon
 
 const SwordProjectileScene: PackedScene = preload("res://weapons/Sword/SwordProjectile.tscn")
-const SwordTx: Texture2D = preload("res://weapons/Sword/SwordSprite.tres")
+const SwordTx: Texture2D = preload("res://weapons/Sword/Sword.png")
 
 static func AcquireChoice() -> LevelUp.Choice:
 	return LevelUp.Choice.new("Sword", SwordTx, "Swing a sword so hard it just keeps flying around you", 1, {
