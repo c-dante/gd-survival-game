@@ -42,7 +42,7 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - Tune initial waves
 
 ## Code
-- Standardize reactions to taking/dealing damage: `Player.gd`, `Enemy.gd`, `Global.gd`, `TestArena.gd`
+- (code-dmg) Standardize reactions to taking/dealing damage: `Player.gd`, `Enemy.gd`, `Global.gd`, `TestArena.gd`
 - Figure out a better signal forwarding patter with composition -- constant internal exposed to external with delegate forwarding
 - SpriteMover component is weird
   - (code-speed) speed buff thing this is funky, write of speed updates only base but read is adjusted...

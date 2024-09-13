@@ -27,6 +27,9 @@ func _physics_process(delta):
 	
 	if push != Vector2.ZERO:
 		position += push * delta
+		
+	# TODO (code-dmg): Standardize hp/hit effects
+	modulate = lerp(modulate, Color.WHITE, 0.5)
 
 func set_level(level):
 	if !_sprite:
@@ -53,6 +56,7 @@ func set_level(level):
 func _on_health_on_death(_target, _killer):
 	queue_free()
 
-# TODO: Refactor health/damage to reflect on aggregates on declare side instead of on usage side
+# TODO (code-dmg): Standardize hp/hit effects
 func _on_health_on_change(change, _value):
 	Global.game_stats.dmg_delt += abs(change)
+	modulate = Color.CRIMSON

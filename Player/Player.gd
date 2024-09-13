@@ -29,7 +29,7 @@ func _physics_process(delta):
 	_sprite_move.input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	velocity = _sprite_move.tick(delta)
 	
-	# TODO: Move into a plugin for damage taking?
+	# TODO (code-dmg): Move into a plugin for damage taking?
 	modulate = lerp(modulate, Color.WHITE, 0.8 * delta)
 	
 	move_and_slide()
@@ -80,6 +80,7 @@ func _on_pickup_area_area_entered(area):
 
 
 func _on_health_on_change(change, _value):
+	# TODO (code-dmg): Standardize hp/hit effects
 	if change < 0:
 		Global.game_stats.dmg_taken += abs(change)
 		modulate = Color.CRIMSON
