@@ -22,10 +22,10 @@ func _on_visibility_changed():
 		_game_over_dealt.text = "%s" % Global.game_stats.dmg_delt
 		_game_over_survived.text = Format.format_elapsed_time(Global.game_stats.play_time_seconds)
 		_game_over_heirloom.text = Format.format_number_grouped(Global.game_stats.heirloom)
-		_game_over_seed.text = Global.int_to_base62_str(Global.game_stats.seed)
+		_game_over_seed.text = Global.int_to_base62_str(Global.game_stats.game_seed)
 
 func _on_continue_pressed():
 	continue_game.emit()
 
 func _on_copy_seed():
-	DisplayServer.clipboard_set(Global.int_to_base62_str(Global.game_stats.seed))
+	DisplayServer.clipboard_set(Global.int_to_base62_str(Global.game_stats.game_seed))

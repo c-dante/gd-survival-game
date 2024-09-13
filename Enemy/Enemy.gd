@@ -4,8 +4,8 @@ extends AnimatableBody2D
 @export var target: Node2D
 @export var level: int = 1:
 	set(value):
-		level = value
-		set_level(value)
+		level = max(value, 1)
+		set_level(level)
 
 @onready var _sprite_move = $SpriteMove
 @onready var _overlap_pusher = $OverlapPusher

@@ -11,25 +11,24 @@ signal spawn_wave(enemies: Array[Enemy])
 
 @export var effects: Effects
 
-@export var spawn_rate: Curve:
-	set(new_value):
-		spawn_rate = new_value
-		update_timer()
-		
-@export var level_probability: Curve:
-	set(new_value):
-		level_probability = new_value
+@export var spawn_rate: Curve
+@export var spawn_size: Curve
+@export var level_probability: Curve
 
-func _ready():
-	update_timer()
-	
-func update_timer():
-	if !timer:
+#func _ready():
+	#for i in range(0, 100):
+		#var pct = float(i) / 100.0
+		#var level_prop = level_probability.sample(pct)
+		#var rate = spawn_rate.sample(pct)
+		#var size = spawn_size.sample(pct)
+		#print(", ".join([rate, level_prop, size]))
+
+## Reset the game timer and begin!
+func start_spawn_timer():
+	if !timer || !spawn_rate:
 		return
-	timer.start(10.0)
-
-func _on_debug_timer_timeout():
-	pass
+	var pct = Global.game_stats.play_time_percent()
+	timer.start(spawn_rate.sample(pct))
 
 ## TODO (code-game)
 ## Spawn a wave of enemies
@@ -42,11 +41,20 @@ func spawn_initial_wave(num_to_spawn: int = 1):
 		spawned.push_front(make_enemy(1))
 	spawn_wave.emit(spawned)
 
-
-## Configures a wave of enemies based on the current elapsed game time
+## Create and spawn a new wave of enemies based on the gametime
+## and configured spawn curves
 func _on_spawn_timer_timeout():
-	spawn_initial_wave(5)
+	var pct = Global.game_stats.play_time_percent()
+	timer.wait_time = spawn_rate.sample(pct)
+	var to_spawn = Global.rand_bump(spawn_size.sample(pct))
+	var enemies = []
+	for i in to_spawn:
+		var level = Global.rand_bump(level_probability.sample(pct))
+		enemies.push_front(make_enemy(level))
+	spawn_wave.emit(enemies)
+	
 
+## Create and return a new enemy
 func make_enemy(level: int) -> Enemy:
 	var enemy: Enemy = EnemyScene.instantiate()
 	enemy.level = level

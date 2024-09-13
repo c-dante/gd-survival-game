@@ -42,23 +42,29 @@ func clear_arena():
 
 ## Spawn an exp blob at a position
 ## TODO (code-game)
-func _drop_reward(pos: Vector2):
-	var drop = randi_range(0, 1000)
-	var kind: Pickup.PickupKind
-	if drop > 990:
-		kind = Pickup.PickupKind.HEIRLOOM
-	elif drop > 900:
-		kind = Pickup.PickupKind.HEALTH
-	elif drop > 500:
-		kind = Pickup.PickupKind.EXP
-	else:
-		return
+func _drop_reward(pos: Vector2, kill_number: int = 0):
+	# Every 10 kills have a high probability of an heirloom
+	if kill_number > 0 && kill_number % 10 == 0:
+		if randi_range(0, 9) > 0:
+			return _spawn_drop(pos, Pickup.PickupKind.HEIRLOOM)
 	
+	var drop = randi_range(0, 999)
+	if drop > 990:
+		return _spawn_drop(pos, Pickup.PickupKind.HEIRLOOM)
+	
+	if drop > 900:
+		return _spawn_drop(pos, Pickup.PickupKind.HEALTH)
+
+	if drop > 500:
+		return _spawn_drop(pos, Pickup.PickupKind.EXP)
+
+func _spawn_drop(pos: Vector2, kind: Pickup.PickupKind):
 	var pick: Pickup = PickupScene.instantiate()
 	pick.position = pos
 	pick.kind = kind
 	pickups.add_child(pick)
 	pick.add_to_group(Global.GROUP_PICKUPS)
+	return pick
 
 ## Adds a sword weapon, call only once per game or else you get weird things
 ## TODO (code-level-up), (code-game)
@@ -152,11 +158,11 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 
 ## Cached only for the "quick new game" button to work
 func _on_quick_new_game():
-	seed(Global.game_stats.seed)
+	seed(Global.game_stats.game_seed)
 	_hsm.dispatch(NEW_GAME)
 
 func _on_seeded_new_game(game_seed: int):
-	Global.game_stats.seed = game_seed
+	Global.game_stats.game_seed = game_seed
 	seed(game_seed)
 	_hsm.dispatch(NEW_GAME)
 
@@ -190,7 +196,8 @@ func _on_spawner_spawn_wave(to_spawn):
 			func (target: Node2D, _killer: Node2D):
 				Global.game_stats.kills += 1
 				effects.explode(target.global_position)
-				call_deferred("_drop_reward", target.global_position)
+				var kills = Global.game_stats.kills
+				call_deferred("_drop_reward", target.global_position, kills)
 		)
 		enemies.add_child(enemy)
 		enemy.add_to_group(Global.GROUP_ENEMIES)

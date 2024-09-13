@@ -14,5 +14,5 @@ func _enter():
 	
 	# Spawn the initial wave + start the game timer
 	spawner.spawn_initial_wave(25)
-	test_arena.spawn_timer.start()
+	spawner.start_spawn_timer()
 	dispatch(TestArena.INITIAL_WEAPON)

@@ -20,7 +20,12 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 
 # TODO
 
+- Balance changes
+- More weapons (see idea pad)
 - New enemies?
+- Support android portait mode
+  - https://docs.godotengine.org/en/4.3/classes/class_projectsettings.html#class-projectsettings-property-display-window-handheld-orientation
+  - https://docs.godotengine.org/en/4.3/classes/class_displayserver.html#class-displayserver-method-screen-get-orientation
 
 ## QOL
 - Delay to re-start action after level up
@@ -31,8 +36,6 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
   - Enemies get stronger / faster / more kinds
 
 ## Code
-- (code-game) Figure out spawning enemies / attaching weapons outside of TestArena?
-  - Component code most likely? A "Game" Component?
 - Standardize reactions to taking/dealing damage: `Player.gd`, `Enemy.gd`, `Global.gd`, `TestArena.gd`
 - Figure out a better signal forwarding patter with composition -- constant internal exposed to external with delegate forwarding
 - SpriteMover component is weird

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=23 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
@@ -20,13 +20,21 @@
 [ext_resource type="Script" path="res://TestArena/state/game_over.gd" id="16_eb616"]
 
 [sub_resource type="Curve" id="Curve_6dcx1"]
+min_value = 10.0
 max_value = 20.0
-_data = [Vector2(0, 3.61727), 0.0, 51.2554, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 20), 0.0, 0.536909, 0, 0, Vector2(1, 10), -30.3122, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="Curve" id="Curve_cxctv"]
+min_value = 5.0
+max_value = 20.0
+_data = [Vector2(0.016, 5.33985), 0.0, 7.44814, 0, 0, Vector2(0.589333, 13.674), 0.0, 52.2979, 0, 0, Vector2(0.914667, 20), 2.30728e-05, 0.0, 0, 0]
+point_count = 3
+
 [sub_resource type="Curve" id="Curve_vojwu"]
+min_value = 1.0
 max_value = 4.0
-_data = [Vector2(0, 0), 0.0, 9.81233, 0, 0, Vector2(0.754667, 4), 13.9704, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 7.13768, 0, 0, Vector2(0.904, 4), 9.24283, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co5wi"]
@@ -48,6 +56,7 @@ follow_viewport_enabled = true
 script = ExtResource("2_x3k7y")
 effects = NodePath("../Effects")
 spawn_rate = SubResource("Curve_6dcx1")
+spawn_size = SubResource("Curve_cxctv")
 level_probability = SubResource("Curve_vojwu")
 
 [node name="SpawnTimer" type="Timer" parent="Game/Spawner"]
@@ -154,7 +163,6 @@ script = ExtResource("16_eb616")
 test_arena = NodePath("../..")
 game_over_ui = NodePath("../../UI/GameOver")
 
-[connection signal="timeout" from="DebugTimer" to="Game/Spawner" method="_on_debug_timer_timeout"]
 [connection signal="spawn_wave" from="Game/Spawner" to="." method="_on_spawner_spawn_wave"]
 [connection signal="timeout" from="Game/Spawner/SpawnTimer" to="Game/Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
