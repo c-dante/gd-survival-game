@@ -59,14 +59,14 @@ func _ready():
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)
 	_play_time.text = Format.format_elapsed_time(Global.game_stats.play_time_seconds)
+
+func _physics_process(delta):
+	_physics_fps.text = fmt_delta_fps(delta)
 	lerp_bar(_health_bar, player.get_node("Health").health, delta)
 	lerp_bar(_exp_bar, player.experience, delta)
 
 func lerp_bar(bar: Range, target, delta):
 	bar.value = lerp(bar.value, float(target), delta)
-
-func _physics_process(delta):
-	_physics_fps.text = fmt_delta_fps(delta)
 
 func fmt_delta_fps(delta: float):
 	return "%7.2fs" % snappedf(1.0 / delta, 0.05)

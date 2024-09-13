@@ -56,7 +56,7 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
   - Like exp flies to the bar and the bar transitions instead of pops into place
   - All hp and xp bars lerp instead of snap
 - Damage numbers
-- Timeout-style juice like tweened/triggered animations
+
 
 # Credits
 
