@@ -28,23 +28,32 @@ func _ready():
 	reset()
 
 ## Global game stats
-var game_stats = {
-	"seed": 0,
-}
+const STAT_SEED = "game_seed"
+const STAT_ENEMY_COUNT = "enemy_count"
+const STAT_PLAY_TIME = "play_time"
+
+class Stats:
+	var game_seed: int = 0
+	var enemy_count: int = 0
+	var play_time_seconds: float = 0.0
+	var max_game_time_seconds: float = 60.0 * 10.0
+	var dmg_taken: int = 0
+	var dmg_delt: int = 0
+	var kills: int = 0
+	var player_level: int = 0
+	var killed_by: String = ""
+	var heirloom: int = 0
+	
+	func play_time_percent() -> float:
+		return play_time_seconds / max_game_time_seconds
+
+var game_stats = Stats.new()
 
 ## Reset global game stats
 func reset():
-	game_stats = {
-		"seed": game_stats["seed"], # oof, this hack
-		"enemy_count": 0,
-		"play_time": 0,
-		"dmg_taken": 0,
-		"dmg_delt": 0,
-		"kills": 0,
-		"player_level": 0,
-		"killed_by": "",
-		"heirloom": 0,
-	}
+	var last_seed = game_stats.game_seed
+	game_stats = Stats.new()
+	game_stats.game_seed = last_seed
 
 # Utility Methods
 ## Wipes all the connections from a signal
@@ -100,6 +109,25 @@ func int_to_base62_str(number: int) -> String:
 		result = BASE62_CHARSET[remainder] + result
 		number = floor(number / base)
 	return result
+
+## Helper to randomize with success percent
+## probability: 0 to 1, inclusive, of success probability
+## success: return value if randf() <= probability
+## fail: otherwise value
+func rand_success(probability: float, success: Variant = true, fail: Variant = false) -> Variant:
+	if randf() <= probability:
+		return success
+	return fail
+
+## Returns a float rounded up or down based on the 
+## fractional part, so, 1.23 is 1 or 23% change of 2
+## Similarly, -42.69 is -43 69% of the time and -42 the rest
+func rand_bump(partial: float):
+	var aligned = snappedi(partial, 1)
+	var remain = partial - aligned
+	if aligned == partial:
+		return partial
+	return aligned + rand_success(abs(remain), sign(aligned), 0)
 
 ## Pauses the game only if the game tree exists
 func safe_pause(paused: bool):

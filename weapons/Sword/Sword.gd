@@ -42,7 +42,7 @@ var LevelProps: Array[SwordProps] = [
 	SwordProps.new(1, PI, 50, PI / 2.0),
 	SwordProps.new(2, PI, 50, PI / 2.0),
 	SwordProps.new(3, PI, 50, PI),
-	SwordProps.new(3, TAU, 50, PI),
+	SwordProps.new(3, TAU, 50, PI * 1.5),
 	SwordProps.new(4, TAU, 50, PI * 1.5),
 	SwordProps.new(5, TAU * 2, 50, PI * 1.5),
 ]

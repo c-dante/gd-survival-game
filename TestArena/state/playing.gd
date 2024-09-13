@@ -5,12 +5,14 @@ extends StateNode
 
 
 func _enter():
-	virtual_joystick.process_mode = Node.PROCESS_MODE_INHERIT
+	if DisplayServer.is_touchscreen_available():
+		virtual_joystick.process_mode = Node.PROCESS_MODE_INHERIT
 	game_ui.show()
 	game_ui.set_pause_state(false)
 
 func _exit():
-	virtual_joystick._reset()
-	virtual_joystick.visible = false
-	virtual_joystick.process_mode = Node.PROCESS_MODE_DISABLED
-	
+	# TODO (bug-input): Joystick touch jitter
+	if DisplayServer.is_touchscreen_available():
+		virtual_joystick._reset()
+		virtual_joystick.visible = false
+		virtual_joystick.process_mode = Node.PROCESS_MODE_DISABLED
