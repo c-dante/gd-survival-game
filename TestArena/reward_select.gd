@@ -3,7 +3,14 @@ extends StateNode
 @export var reward_select_ui: LevelUp
 @export var virtual_joystick: VirtualJoystick
 
+signal no_rewards()
+
 func _enter():
+	var choices = _get_choices()
+	if choices.is_empty():
+		no_rewards.emit()
+		return
+	
 	Global.safe_pause(true)
 	if get_root().get_previous_active_state() is NewGameState:
 		reward_select_ui.heading = "Select Starting Weapon"
@@ -11,7 +18,7 @@ func _enter():
 		reward_select_ui.heading = "Level Up"
 	
 	reward_select_ui.show()
-	reward_select_ui.set_choices(_get_choices())
+	reward_select_ui.set_choices(choices)
 
 func _exit():
 	Global.safe_pause(false)

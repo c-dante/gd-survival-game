@@ -119,6 +119,7 @@ func _init_hsm():
 	_hsm.add_transition(_state_paused, _state_game_over, GAME_OVER)
 	
 	_hsm.add_transition(_state_reward_select, _state_playing, UPGRADE_CHOICE)
+	_hsm.add_transition(_state_reward_select, _state_playing, CONTINUE)
 	_hsm.add_transition(_state_reward_select, _state_game_over, GAME_OVER)
 	
 	_hsm.add_transition(_state_game_over, _state_main_menu, CONTINUE)
@@ -179,6 +180,9 @@ func _on_health_on_death(_target: Node2D, killer: Node2D):
 
 func _on_player_on_level_up(_level, _player):
 	_hsm.dispatch(LEVEL_UP)
+
+func _on_reward_select_no_rewards():
+	_hsm.dispatch(CONTINUE)
 
 func _on_game_ui_end_run():
 	Global.game_stats.killed_by = "Your own hand"

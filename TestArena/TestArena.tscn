@@ -175,5 +175,6 @@ game_over_ui = NodePath("../../UI/GameOver")
 [connection signal="new_game" from="UI/MainMenu" to="." method="_on_seeded_new_game"]
 [connection signal="on_select" from="UI/RewardSelectUi" to="." method="_on_level_up_on_select"]
 [connection signal="continue_game" from="UI/GameOver" to="." method="_on_game_over_continue_game"]
+[connection signal="no_rewards" from="StateMachine/RewardSelect" to="." method="_on_reward_select_no_rewards"]
 
 [editable path="Game/Player"]
