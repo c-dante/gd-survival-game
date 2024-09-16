@@ -49,6 +49,8 @@ func _ready():
 	
 	set_pause_state(false)
 	
+	_on_display_display_mode_changed(Display.CurrentMode)
+	
 	if game_hsm && game_hsm.is_active():
 		_game_state.text = game_hsm.get_active_state().name
 

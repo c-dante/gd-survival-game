@@ -3,6 +3,7 @@ extends Node
 
 static var LongSide = 1280
 static var ShortSide = 720
+static var CurrentMode = DisplayMode.LANDSCAPE
 # 16:9
 
 enum DisplayMode {
@@ -17,7 +18,6 @@ var _dpi
 var _display_mode
 
 func _ready():
-	_on_check()
 	display_mode_changed.connect(_update_display)
 	_dpi = DisplayServer.screen_get_dpi()
 
@@ -31,7 +31,8 @@ func _on_check():
 		_display_mode = DisplayMode.PORTRAIT
 	else:
 		_display_mode = DisplayMode.LANDSCAPE
-	
+		
+	Display.CurrentMode = _display_mode
 	if last_mode != _display_mode:
 		display_mode_changed.emit(_display_mode)
 
