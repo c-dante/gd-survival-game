@@ -19,23 +19,34 @@ signal damage_toggle(toggled_on: bool)
 @export var camera: Camera2D
 @export var player: Player
 
-@onready var _speed_slider = $LeftGrid/Speed/Slider
-@onready var _game_speed_slider = $LeftGrid/GameSpeed/Slider
-@onready var _zoom_slider = $LeftGrid/Zoom/Slider
+@onready var desktop = $Desktop
+@onready var _speed_slider = $Desktop/LeftGrid/Speed/Slider
+@onready var _game_speed_slider = $Desktop/LeftGrid/GameSpeed/Slider
+@onready var _zoom_slider = $Desktop/LeftGrid/Zoom/Slider
 
-@onready var _physics_fps = $RightGrid/PhysicsFps/Value
-@onready var _fps = $RightGrid/Fps/Value
-@onready var _play_time = $RightGrid/PlayTime/Value
-@onready var _game_state = $RightGrid/GameState/Value
+@onready var _physics_fps = $Desktop/RightGrid/PhysicsFps/Value
+@onready var _fps = $Desktop/RightGrid/Fps/Value
+@onready var _play_time = $Desktop/RightGrid/PlayTime/Value
+@onready var _game_state = $Desktop/RightGrid/GameState/Value
 
-@onready var _health_bar = $CenterGrid/Health/Bar
-@onready var _exp_bar = $CenterGrid/Experience/Bar
+@onready var _health_bar = $Desktop/CenterGrid/Health/Bar
+@onready var _exp_bar = $Desktop/CenterGrid/Experience/Bar
 
 @onready var pause_underlay = $Paused
-@onready var pause_btn = $LeftGrid/HFlowContainer/PauseBtn
+@onready var pause_btn = $Desktop/LeftGrid/HFlowContainer/PauseBtn
+
+@onready var mobile = $Mobile
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_init_control_values()
+	
+	set_pause_state(false)
+	
+	if game_hsm && game_hsm.is_active():
+		_game_state.text = game_hsm.get_active_state().name
+
+func _init_control_values():
 	# Set Speed
 	_speed_slider.value = sprite_move.speed
 	_speed_slider.min_value = sprite_move.min_speed
@@ -50,11 +61,6 @@ func _ready():
 	# Set health + xp
 	_health_bar.value = player.get_node("Health").health
 	_exp_bar.value = player.experience
-	
-	set_pause_state(false)
-	
-	if game_hsm && game_hsm.is_active():
-		_game_state.text = game_hsm.get_active_state().name
 
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)
@@ -106,3 +112,16 @@ func _on_end_run_pressed():
 
 func _on_active_state_changed(current: StateNode, _previous: StateNode):
 	_game_state.text = current.name
+
+func _on_display_display_mode_changed(display_mode: Display.DisplayMode):
+	match display_mode:
+		Display.DisplayMode.LANDSCAPE:
+			desktop.visible = true
+			mobile.visible = false
+			return
+		Display.DisplayMode.PORTRAIT:
+			desktop.visible = false
+			mobile.visible = true
+			return
+		_:
+			push_warning("Unhandled display mode: ", display_mode)

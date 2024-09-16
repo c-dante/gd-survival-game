@@ -31,11 +31,11 @@ func _physics_process(delta):
 	# TODO (code-dmg): Standardize hp/hit effects
 	modulate = lerp(modulate, Color.WHITE, 0.5)
 
-func set_level(level):
+func set_level(_level):
 	if !_sprite:
 		return
 
-	match level:
+	match _level:
 		1:
 			_health.health = 10
 			_sprite_move.speed = 20

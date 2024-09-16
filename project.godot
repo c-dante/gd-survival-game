@@ -24,7 +24,10 @@ Shaders="*res://Shaders.gd"
 
 [display]
 
-window/stretch/mode="viewport"
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/stretch/mode="canvas_items"
+window/handheld/orientation=6
 
 [editor]
 
@@ -38,7 +41,8 @@ folder_colors={
 "res://addons/": "red",
 "res://android/": "red",
 "res://export/": "red",
-"res://shared/": "green"
+"res://shared/": "green",
+"res://ui/": "pink"
 }
 
 [global_group]

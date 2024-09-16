@@ -154,7 +154,7 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "[right]Acquired [img]res://shared/Heirloom.tres[/img][/right]"
+text = "[right]Acquired [img]res://shared/sprites/Heirloom.png[/img][/right]"
 fit_content = true
 
 [node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Heirloom"]

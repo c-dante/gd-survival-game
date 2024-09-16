@@ -2,8 +2,8 @@ extends Control
 
 signal new_game(seed: int)
 
-@onready var _seed_input = $MarginContainer/Control/CenterContainer/VBoxContainer/Seed/Value
-@onready var _heirloom = $MarginContainer/Control/CenterContainer/VBoxContainer/Heirloom/Value
+@onready var _seed_input = $MarginContainer/Control/CenterContainer/Control/VBoxContainer/Seed/Value
+@onready var _heirloom = $MarginContainer/Control/CenterContainer/Control/VBoxContainer/Heirloom/Value
 
 func _ready():
 	randomize_seed()

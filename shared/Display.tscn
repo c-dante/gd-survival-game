@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cin2tpgcdmxhn"]
+
+[ext_resource type="Script" path="res://Display.gd" id="1_x2y1y"]
+
+[node name="Display" type="Node"]
+process_mode = 3
+script = ExtResource("1_x2y1y")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_check"]
