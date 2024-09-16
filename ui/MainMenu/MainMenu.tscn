@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dwsk3vcceo15u"]
 
 [ext_resource type="Script" path="res://ui/MainMenu/MainMenu.gd" id="1_30fqi"]
-[ext_resource type="Texture2D" uid="uid://hn63wg2qj6nh" path="res://shared/sprites/Heirloom.png" id="2_f5xvu"]
+[ext_resource type="Texture2D" uid="uid://hn63wg2qj6nh" path="res://shared/sprites/pickup/Heirloom.png" id="2_f5xvu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3

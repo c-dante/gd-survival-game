@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bugqgwvtoujwf"]
 
 [ext_resource type="Script" path="res://ui/GameOver/GameOver.gd" id="1_1fe2u"]
-[ext_resource type="Texture2D" uid="uid://ji0ad3oc2hv8" path="res://shared/sprites/save-flatdark.png" id="2_f7p52"]
+[ext_resource type="Texture2D" uid="uid://ji0ad3oc2hv8" path="res://shared/sprites/ui/save-flatdark.png" id="2_f7p52"]
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -154,7 +154,7 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "[right]Acquired [img]res://shared/sprites/Heirloom.png[/img][/right]"
+text = "[right]Acquired [img]res://shared/sprites/pickup/Heirloom.png[/img][/right]"
 fit_content = true
 
 [node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Heirloom"]

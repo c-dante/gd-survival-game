@@ -1,6 +1,9 @@
 class_name GameUi
 extends Control
 
+var PauseIcon = preload("res://shared/sprites/ui/pause-flatdark.png")
+var PlayIcon = preload("res://shared/sprites/ui/play-flatdark.png")
+
 # Forwarded from button
 signal new_game()
 signal level_up()
@@ -19,23 +22,26 @@ signal damage_toggle(toggled_on: bool)
 @export var camera: Camera2D
 @export var player: Player
 
-@onready var desktop = $Desktop
-@onready var _speed_slider = $Desktop/LeftGrid/Speed/Slider
-@onready var _game_speed_slider = $Desktop/LeftGrid/GameSpeed/Slider
-@onready var _zoom_slider = $Desktop/LeftGrid/Zoom/Slider
+@onready var desktop = $MarginContainer/Control/Desktop
+@onready var mobile = $MarginContainer/Control/Mobile
 
-@onready var _physics_fps = $Desktop/RightGrid/PhysicsFps/Value
-@onready var _fps = $Desktop/RightGrid/Fps/Value
-@onready var _play_time = $Desktop/RightGrid/PlayTime/Value
-@onready var _game_state = $Desktop/RightGrid/GameState/Value
+@onready var _speed_slider = $MarginContainer/Control/Desktop/LeftGrid/Speed/Slider
+@onready var _game_speed_slider = $MarginContainer/Control/Desktop/LeftGrid/GameSpeed/Slider
+@onready var _zoom_slider = $MarginContainer/Control/Desktop/LeftGrid/Zoom/Slider
 
-@onready var _health_bar = $Desktop/CenterGrid/Health/Bar
-@onready var _exp_bar = $Desktop/CenterGrid/Experience/Bar
+@onready var _physics_fps = $MarginContainer/Control/Desktop/RightGrid/PhysicsFps/Value
+@onready var _fps = $MarginContainer/Control/Desktop/RightGrid/Fps/Value
+@onready var _play_time = $MarginContainer/Control/Desktop/RightGrid/PlayTime/Value
+@onready var _game_state = $MarginContainer/Control/Desktop/RightGrid/GameState/Value
+
+# HP/XP are on both screens
+@onready var _hp_xp_container = $MarginContainer/Control/CenterGrid
+@onready var _health_bar = $MarginContainer/Control/CenterGrid/Health/Bar
+@onready var _exp_bar = $MarginContainer/Control/CenterGrid/Experience/Bar
 
 @onready var pause_underlay = $Paused
-@onready var pause_btn = $Desktop/LeftGrid/HFlowContainer/PauseBtn
-
-@onready var mobile = $Mobile
+@onready var pause_btn = $MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PauseBtn
+@onready var pause_btn_mobile = $MarginContainer/Control/Mobile/HFlowContainer/PauseBtn
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -80,9 +86,11 @@ func fmt_delta_fps(delta: float):
 func set_pause_state(is_paused: bool):
 	if is_paused:
 		pause_btn.text = "Resume"
+		pause_btn_mobile.icon = PlayIcon
 		pause_underlay.show()
 	else:
 		pause_btn.text = "Pause"
+		pause_btn_mobile.icon = PauseIcon
 		pause_underlay.hide()
 
 func _on_speed_change(value):
@@ -118,10 +126,12 @@ func _on_display_display_mode_changed(display_mode: Display.DisplayMode):
 		Display.DisplayMode.LANDSCAPE:
 			desktop.visible = true
 			mobile.visible = false
+			_hp_xp_container.custom_minimum_size.x = 256
 			return
 		Display.DisplayMode.PORTRAIT:
 			desktop.visible = false
 			mobile.visible = true
+			_hp_xp_container.custom_minimum_size.x = 512
 			return
 		_:
 			push_warning("Unhandled display mode: ", display_mode)

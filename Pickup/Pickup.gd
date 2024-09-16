@@ -1,9 +1,9 @@
 class_name Pickup
 extends Sprite2D
 
-const HeirloomTex: Texture2D = preload("res://shared/sprites/Heirloom.png")
-const HealthTex: Texture2D = preload("res://shared/sprites/Heart.png")
-const ExpTex: Texture2D = preload("res://shared/sprites/Blue_orb.png")
+const HeirloomTex: Texture2D = preload("res://shared/sprites/pickup/Heirloom.png")
+const HealthTex: Texture2D = preload("res://shared/sprites/pickup/Heart.png")
+const ExpTex: Texture2D = preload("res://shared/sprites/pickup/Blue_orb.png")
 
 enum PickupKind { HEALTH, EXP, HEIRLOOM }
 
