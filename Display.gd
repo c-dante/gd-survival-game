@@ -20,6 +20,7 @@ var _display_mode
 func _ready():
 	display_mode_changed.connect(_update_display)
 	_dpi = DisplayServer.screen_get_dpi()
+	_on_check()
 
 func _on_check():
 	var last_mode = _display_mode
