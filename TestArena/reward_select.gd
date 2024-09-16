@@ -13,7 +13,7 @@ func _enter():
 	
 	Global.safe_pause(true)
 	if get_root().get_previous_active_state() is NewGameState:
-		reward_select_ui.heading = "Select Starting Weapon"
+		reward_select_ui.heading = "Starting Weapon"
 	else:
 		reward_select_ui.heading = "Level Up"
 	
