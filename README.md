@@ -23,20 +23,17 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - Balance changes
 - More weapons (see idea pad)
 - New enemies?
-- Support android portait mode
-  - https://docs.godotengine.org/en/4.3/classes/class_projectsettings.html#class-projectsettings-property-display-window-handheld-orientation
-  - https://docs.godotengine.org/en/4.3/classes/class_displayserver.html#class-displayserver-method-screen-get-orientation
 - Spend heirloom
   - Normal incremental buffs
 	- Collection radius
 	- XP collection rate
 
 ## Bugs
-- TODO (bug-input): Joystick touch jitter, _reset releases input but when we do reward screen we don't always wanna do that, for example empty level up
 
 ## QOL
 - Delay to re-start action after level up
 - Quit/Save/Resume
+- Clean up hp/xp sliders
 
 ## Balance
 - Tune initial waves

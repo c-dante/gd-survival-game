@@ -122,7 +122,6 @@ tint_under = Color(0.25, 0.25, 0.25, 1)
 tint_progress = Color(0, 1, 0.983333, 1)
 
 [node name="Desktop" type="Control" parent="MarginContainer/Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -132,8 +131,8 @@ grow_vertical = 2
 
 [node name="LeftGrid" type="GridContainer" parent="MarginContainer/Control/Desktop"]
 layout_mode = 1
-offset_right = 350.0
-offset_bottom = 147.0
+offset_right = 403.0
+offset_bottom = 314.0
 focus_mode = 1
 
 [node name="Zoom" type="HBoxContainer" parent="MarginContainer/Control/Desktop/LeftGrid"]
@@ -198,7 +197,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 focus_mode = 1
 theme_override_constants/h_separation = 4
-columns = 3
+columns = 2
 
 [node name="LevelUp" type="Button" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
 layout_mode = 2
@@ -210,11 +209,6 @@ layout_mode = 2
 focus_mode = 1
 text = "New Game"
 
-[node name="PlayerDamage" type="CheckButton" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
-layout_mode = 2
-button_pressed = true
-text = "Damage"
-
 [node name="PauseBtn" type="Button" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
 layout_mode = 2
 focus_mode = 1
@@ -224,6 +218,11 @@ text = "Pause"
 layout_mode = 2
 focus_mode = 1
 text = "End Run"
+
+[node name="PlayerDamage" type="CheckButton" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Damage"
 
 [node name="RightGrid" type="GridContainer" parent="MarginContainer/Control/Desktop"]
 layout_mode = 1
@@ -299,6 +298,7 @@ theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
 [node name="Mobile" type="Control" parent="MarginContainer/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -466,9 +466,9 @@ icon = ExtResource("3_ne6p6")
 [connection signal="value_changed" from="MarginContainer/Control/Desktop/LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
 [connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/LevelUp" to="." method="_on_level_up_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/NewGame" to="." method="_on_new_game_pressed"]
-[connection signal="toggled" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
 [connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/EndRun" to="." method="_on_end_run_pressed"]
+[connection signal="toggled" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
 [connection signal="value_changed" from="MarginContainer/Control/Mobile/Paused/MarginContainer/HBoxContainer/ZoomSlider/Control/Slider" to="." method="_on_zoom_change"]
 [connection signal="value_changed" from="MarginContainer/Control/Mobile/Paused/MarginContainer/HBoxContainer/GameSpeed/Control/Slider" to="." method="_on_game_speed_change"]
 [connection signal="value_changed" from="MarginContainer/Control/Mobile/Paused/MarginContainer/HBoxContainer/PlayerSpeed/Control/Slider" to="." method="_on_speed_change"]
