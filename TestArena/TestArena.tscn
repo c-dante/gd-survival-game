@@ -138,8 +138,9 @@ visible = false
 process_mode = 3
 script = ExtResource("11_povdi")
 
-[node name="MainMenu" type="Node" parent="StateMachine" node_paths=PackedStringArray("main_menu_ui")]
+[node name="MainMenu" type="Node" parent="StateMachine" node_paths=PackedStringArray("test_arena", "main_menu_ui")]
 script = ExtResource("11_01y26")
+test_arena = NodePath("../..")
 main_menu_ui = NodePath("../../UI/MainMenu")
 
 [node name="NewGame" type="Node" parent="StateMachine" node_paths=PackedStringArray("test_arena", "spawner", "level_up_ui")]
@@ -148,19 +149,20 @@ test_arena = NodePath("../..")
 spawner = NodePath("../../Game/Spawner")
 level_up_ui = NodePath("../../UI/RewardSelectUi")
 
-[node name="Playing" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui", "virtual_joystick")]
+[node name="Playing" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui", "test_arena")]
 script = ExtResource("13_18vma")
 game_ui = NodePath("../../UI/GameUi")
-virtual_joystick = NodePath("../../UI/Virtual Joystick")
+test_arena = NodePath("../..")
 
-[node name="RewardSelect" type="Node" parent="StateMachine" node_paths=PackedStringArray("reward_select_ui", "virtual_joystick")]
+[node name="RewardSelect" type="Node" parent="StateMachine" node_paths=PackedStringArray("reward_select_ui", "test_arena")]
 script = ExtResource("13_nnb7c")
 reward_select_ui = NodePath("../../UI/RewardSelectUi")
-virtual_joystick = NodePath("../../UI/Virtual Joystick")
+test_arena = NodePath("../..")
 
-[node name="Paused" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui")]
+[node name="Paused" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_ui", "test_arena")]
 script = ExtResource("15_cnjqe")
 game_ui = NodePath("../../UI/GameUi")
+test_arena = NodePath("../..")
 
 [node name="GameOver" type="Node" parent="StateMachine" node_paths=PackedStringArray("test_arena", "game_over_ui")]
 script = ExtResource("16_eb616")

@@ -26,6 +26,7 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var arena_area: CollisionShape2D = $Game/TileMapLayer/AreanaArea/CollisionShape2D
 ## TODO (code-game): The enemy spawner
 @onready var spawn_timer: Timer = $Game/Spawner/SpawnTimer
+@onready var virtual_joystick = $"UI/Virtual Joystick"
 
 ## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
@@ -212,3 +213,13 @@ func _get_spawn_point(target: Vector2) -> Vector2:
 	while target.distance_to(pos) < 200:
 		pos = arena_area.to_global(Global.pt_in_rect(rect, 0))
 	return pos
+
+func _enable_joystick():
+	if DisplayServer.is_touchscreen_available():
+		virtual_joystick.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _disable_joystick():
+	if DisplayServer.is_touchscreen_available():
+		virtual_joystick._reset()
+		virtual_joystick.visible = false
+		virtual_joystick.process_mode = Node.PROCESS_MODE_DISABLED

@@ -1,7 +1,7 @@
 extends StateNode
 
 @export var reward_select_ui: LevelUp
-@export var virtual_joystick: VirtualJoystick
+@export var test_arena: TestArena
 
 signal no_rewards()
 
@@ -11,6 +11,7 @@ func _enter():
 		no_rewards.emit()
 		return
 	
+	test_arena._disable_joystick()
 	Global.safe_pause(true)
 	if get_root().get_previous_active_state() is NewGameState:
 		reward_select_ui.heading = "Starting Weapon"
