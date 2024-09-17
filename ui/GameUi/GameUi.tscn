@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://damar1eblu4kt"]
+[gd_scene load_steps=8 format=3 uid="uid://damar1eblu4kt"]
 
 [ext_resource type="Theme" uid="uid://dpmq2vuic315u" path="res://shared/UiTheme.tres" id="1_4v6ov"]
 [ext_resource type="Script" path="res://ui/GameUi/GameUi.gd" id="2_6iou8"]
+[ext_resource type="Texture2D" uid="uid://cgldj8qkgsfhn" path="res://shared/sprites/ui/pause-flatdark.png" id="3_ne6p6"]
 
 [sub_resource type="Curve" id="Curve_5wycg"]
 _data = [Vector2(0.00658979, 1), 0.0, 0.0, 0, 0]
@@ -22,15 +23,12 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4v6ov")
 script = ExtResource("2_6iou8")
 
 [node name="Paused" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,117 +59,39 @@ layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 text = "Game Paused"
 
-[node name="LeftGrid" type="GridContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-offset_right = 350.0
-offset_bottom = 77.0
-focus_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="Zoom" type="HBoxContainer" parent="LeftGrid"]
+[node name="Control" type="Control" parent="MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="LeftGrid/Zoom"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Zoom"
-horizontal_alignment = 2
-
-[node name="Slider" type="HSlider" parent="LeftGrid/Zoom"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-min_value = 0.5
-max_value = 6.0
-step = 0.01
-value = 1.0
-
-[node name="Speed" type="HBoxContainer" parent="LeftGrid"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="LeftGrid/Speed"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Player Speed"
-horizontal_alignment = 2
-
-[node name="Slider" type="HSlider" parent="LeftGrid/Speed"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-max_value = 500.0
-
-[node name="GameSpeed" type="HBoxContainer" parent="LeftGrid"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="LeftGrid/GameSpeed"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Game Speed"
-horizontal_alignment = 2
-
-[node name="Slider" type="HSlider" parent="LeftGrid/GameSpeed"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-min_value = 0.1
-max_value = 10.0
-step = 0.01
-value = 1.0
-
-[node name="HFlowContainer" type="GridContainer" parent="LeftGrid"]
-layout_mode = 2
-size_flags_horizontal = 8
-focus_mode = 1
-theme_override_constants/h_separation = 4
-columns = 3
-
-[node name="LevelUp" type="Button" parent="LeftGrid/HFlowContainer"]
-layout_mode = 2
-focus_mode = 1
-text = "Level Up"
-
-[node name="NewGame" type="Button" parent="LeftGrid/HFlowContainer"]
-layout_mode = 2
-focus_mode = 1
-text = "New Game"
-
-[node name="PlayerDamage" type="CheckButton" parent="LeftGrid/HFlowContainer"]
-layout_mode = 2
-button_pressed = true
-text = "Damage"
-
-[node name="PauseBtn" type="Button" parent="LeftGrid/HFlowContainer"]
-layout_mode = 2
-focus_mode = 1
-text = "Pause"
-
-[node name="EndRun" type="Button" parent="LeftGrid/HFlowContainer"]
-layout_mode = 2
-focus_mode = 1
-text = "End Run"
-
-[node name="CenterGrid" type="GridContainer" parent="."]
+[node name="CenterGrid" type="GridContainer" parent="MarginContainer/Control"]
+custom_minimum_size = Vector2(256, 0)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -175.0
-offset_right = 175.0
-offset_bottom = 50.0
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 48.0
 grow_horizontal = 2
-theme_override_constants/v_separation = 32
+size_flags_vertical = 0
+theme_override_constants/v_separation = 16
 
-[node name="Health" type="HBoxContainer" parent="CenterGrid"]
+[node name="Health" type="HBoxContainer" parent="MarginContainer/Control/CenterGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Bar" type="TextureProgressBar" parent="CenterGrid/Health"]
+[node name="Bar" type="TextureProgressBar" parent="MarginContainer/Control/CenterGrid/Health"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -183,11 +103,11 @@ texture_progress = SubResource("CurveTexture_wxjmu")
 tint_under = Color(0.25, 0.25, 0.25, 1)
 tint_progress = Color(1, 0, 0, 1)
 
-[node name="Experience" type="HBoxContainer" parent="CenterGrid"]
+[node name="Experience" type="HBoxContainer" parent="MarginContainer/Control/CenterGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Bar" type="TextureProgressBar" parent="CenterGrid/Experience"]
+[node name="Bar" type="TextureProgressBar" parent="MarginContainer/Control/CenterGrid/Experience"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -199,84 +119,210 @@ texture_progress = SubResource("CurveTexture_wxjmu")
 tint_under = Color(0.25, 0.25, 0.25, 1)
 tint_progress = Color(0, 1, 0.983333, 1)
 
-[node name="RightGrid" type="GridContainer" parent="."]
+[node name="Desktop" type="Control" parent="MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftGrid" type="GridContainer" parent="MarginContainer/Control/Desktop"]
+layout_mode = 1
+offset_right = 350.0
+offset_bottom = 147.0
+focus_mode = 1
+
+[node name="Zoom" type="HBoxContainer" parent="MarginContainer/Control/Desktop/LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/LeftGrid/Zoom"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Zoom"
+horizontal_alignment = 2
+
+[node name="Slider" type="HSlider" parent="MarginContainer/Control/Desktop/LeftGrid/Zoom"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.5
+max_value = 6.0
+step = 0.01
+value = 1.0
+
+[node name="Speed" type="HBoxContainer" parent="MarginContainer/Control/Desktop/LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/LeftGrid/Speed"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player Speed"
+horizontal_alignment = 2
+
+[node name="Slider" type="HSlider" parent="MarginContainer/Control/Desktop/LeftGrid/Speed"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 500.0
+
+[node name="GameSpeed" type="HBoxContainer" parent="MarginContainer/Control/Desktop/LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/LeftGrid/GameSpeed"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Game Speed"
+horizontal_alignment = 2
+
+[node name="Slider" type="HSlider" parent="MarginContainer/Control/Desktop/LeftGrid/GameSpeed"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.1
+max_value = 10.0
+step = 0.01
+value = 1.0
+
+[node name="HFlowContainer" type="GridContainer" parent="MarginContainer/Control/Desktop/LeftGrid"]
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 1
+theme_override_constants/h_separation = 4
+columns = 3
+
+[node name="LevelUp" type="Button" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Level Up"
+
+[node name="NewGame" type="Button" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "New Game"
+
+[node name="PlayerDamage" type="CheckButton" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Damage"
+
+[node name="PauseBtn" type="Button" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Pause"
+
+[node name="EndRun" type="Button" parent="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "End Run"
+
+[node name="RightGrid" type="GridContainer" parent="MarginContainer/Control/Desktop"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -350.0
-offset_bottom = 40.0
+offset_bottom = 120.0
 grow_horizontal = 0
 
-[node name="Fps" type="HBoxContainer" parent="RightGrid"]
+[node name="Fps" type="HBoxContainer" parent="MarginContainer/Control/Desktop/RightGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="RightGrid/Fps"]
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/Fps"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "FPS"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="RightGrid/Fps"]
+[node name="Value" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/Fps"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="PhysicsFps" type="HBoxContainer" parent="RightGrid"]
+[node name="PhysicsFps" type="HBoxContainer" parent="MarginContainer/Control/Desktop/RightGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="RightGrid/PhysicsFps"]
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/PhysicsFps"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Physics FPS"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="RightGrid/PhysicsFps"]
+[node name="Value" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/PhysicsFps"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="PlayTime" type="HBoxContainer" parent="RightGrid"]
+[node name="PlayTime" type="HBoxContainer" parent="MarginContainer/Control/Desktop/RightGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="RightGrid/PlayTime"]
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/PlayTime"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Play Time"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="RightGrid/PlayTime"]
+[node name="Value" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/PlayTime"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="GameState" type="HBoxContainer" parent="RightGrid"]
+[node name="GameState" type="HBoxContainer" parent="MarginContainer/Control/Desktop/RightGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="RightGrid/GameState"]
+[node name="Label" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/GameState"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Game State"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="RightGrid/GameState"]
+[node name="Value" type="Label" parent="MarginContainer/Control/Desktop/RightGrid/GameState"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[connection signal="value_changed" from="LeftGrid/Zoom/Slider" to="." method="_on_zoom_change"]
-[connection signal="value_changed" from="LeftGrid/Speed/Slider" to="." method="_on_speed_change"]
-[connection signal="value_changed" from="LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
-[connection signal="pressed" from="LeftGrid/HFlowContainer/LevelUp" to="." method="_on_level_up_btn_pressed"]
-[connection signal="pressed" from="LeftGrid/HFlowContainer/NewGame" to="." method="_on_new_game_pressed"]
-[connection signal="toggled" from="LeftGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
-[connection signal="pressed" from="LeftGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]
-[connection signal="pressed" from="LeftGrid/HFlowContainer/EndRun" to="." method="_on_end_run_pressed"]
+[node name="Mobile" type="Control" parent="MarginContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/Control/Mobile"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_bottom = 56.0
+grow_horizontal = 0
+
+[node name="PauseBtn" type="Button" parent="MarginContainer/Control/Mobile/HFlowContainer"]
+layout_mode = 2
+icon = ExtResource("3_ne6p6")
+
+[connection signal="value_changed" from="MarginContainer/Control/Desktop/LeftGrid/Zoom/Slider" to="." method="_on_zoom_change"]
+[connection signal="value_changed" from="MarginContainer/Control/Desktop/LeftGrid/Speed/Slider" to="." method="_on_speed_change"]
+[connection signal="value_changed" from="MarginContainer/Control/Desktop/LeftGrid/GameSpeed/Slider" to="." method="_on_game_speed_change"]
+[connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/LevelUp" to="." method="_on_level_up_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="toggled" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PlayerDamage" to="." method="_on_player_damage_toggled"]
+[connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]
+[connection signal="pressed" from="MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/EndRun" to="." method="_on_end_run_pressed"]
+[connection signal="pressed" from="MarginContainer/Control/Mobile/HFlowContainer/PauseBtn" to="." method="_on_pause_btn_pressed"]

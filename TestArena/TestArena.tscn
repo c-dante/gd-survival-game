@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://d25t7iln3hyhe"]
+[gd_scene load_steps=24 format=4 uid="uid://d25t7iln3hyhe"]
 
 [ext_resource type="Script" path="res://TestArena/TestArena.gd" id="1_5ypcs"]
 [ext_resource type="Script" path="res://TestArena/Effects.gd" id="2_hogwb"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://TestArena/reward_select.gd" id="13_nnb7c"]
 [ext_resource type="Script" path="res://TestArena/state/paused.gd" id="15_cnjqe"]
 [ext_resource type="Script" path="res://TestArena/state/game_over.gd" id="16_eb616"]
+[ext_resource type="PackedScene" uid="uid://cin2tpgcdmxhn" path="res://shared/Display.tscn" id="19_jjd3b"]
 
 [sub_resource type="Curve" id="Curve_6dcx1"]
 min_value = 10.0
@@ -41,10 +42,12 @@ point_count = 2
 size = Vector2(768, 656)
 
 [node name="TestArena" type="Node2D"]
+process_mode = 3
 position = Vector2(-8, 0)
 script = ExtResource("1_5ypcs")
 
 [node name="DebugTimer" type="Timer" parent="."]
+process_mode = 3
 wait_time = 0.5
 autostart = true
 
@@ -63,6 +66,7 @@ level_probability = SubResource("Curve_vojwu")
 
 [node name="GameCamera" type="Camera2D" parent="Game"]
 zoom = Vector2(4, 4)
+position_smoothing_enabled = true
 script = ExtResource("2_ta6gd")
 target_path = NodePath("../Player")
 
@@ -163,6 +167,8 @@ script = ExtResource("16_eb616")
 test_arena = NodePath("../..")
 game_over_ui = NodePath("../../UI/GameOver")
 
+[node name="Display" parent="." instance=ExtResource("19_jjd3b")]
+
 [connection signal="spawn_wave" from="Game/Spawner" to="." method="_on_spawner_spawn_wave"]
 [connection signal="timeout" from="Game/Spawner/SpawnTimer" to="Game/Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="on_level_up" from="Game/Player" to="." method="_on_player_on_level_up"]
@@ -176,5 +182,7 @@ game_over_ui = NodePath("../../UI/GameOver")
 [connection signal="on_select" from="UI/RewardSelectUi" to="." method="_on_level_up_on_select"]
 [connection signal="continue_game" from="UI/GameOver" to="." method="_on_game_over_continue_game"]
 [connection signal="no_rewards" from="StateMachine/RewardSelect" to="." method="_on_reward_select_no_rewards"]
+[connection signal="display_mode_changed" from="Display" to="UI/GameUi" method="_on_display_display_mode_changed"]
+[connection signal="display_mode_changed" from="Display" to="UI/MainMenu" method="_on_display_display_mode_changed"]
 
 [editable path="Game/Player"]

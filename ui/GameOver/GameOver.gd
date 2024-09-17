@@ -2,14 +2,14 @@ class_name GameOver
 extends Control
 
 # Game Over Screen
-@onready var _game_over_killed_by = $Centered/MarginContainer/VBoxContainer/Killer/Value
-@onready var _game_over_damage = $Centered/MarginContainer/VBoxContainer/Damage/Value
-@onready var _game_over_level = $Centered/MarginContainer/VBoxContainer/Level/Value
-@onready var _game_over_defeated = $Centered/MarginContainer/VBoxContainer/Defeated/Value
-@onready var _game_over_dealt = $Centered/MarginContainer/VBoxContainer/DamageDealt/Value
-@onready var _game_over_survived = $Centered/MarginContainer/VBoxContainer/Survived/Value
-@onready var _game_over_heirloom = $Centered/MarginContainer/VBoxContainer/Heirloom/Value
-@onready var _game_over_seed = $Centered/MarginContainer/VBoxContainer/Seed/Value
+@onready var _game_over_killed_by = $Centered/Control/VBoxContainer/Killer/Value
+@onready var _game_over_damage = $Centered/Control/VBoxContainer/Damage/Value
+@onready var _game_over_level = $Centered/Control/VBoxContainer/Level/Value
+@onready var _game_over_defeated = $Centered/Control/VBoxContainer/Defeated/Value
+@onready var _game_over_dealt = $Centered/Control/VBoxContainer/DamageDealt/Value
+@onready var _game_over_survived = $Centered/Control/VBoxContainer/Survived/Value
+@onready var _game_over_heirloom = $Centered/Control/VBoxContainer/Heirloom/Value
+@onready var _game_over_seed = $Centered/Control/VBoxContainer/Seed/Value
 
 signal continue_game();
 

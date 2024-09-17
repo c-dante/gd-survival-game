@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bugqgwvtoujwf"]
 
 [ext_resource type="Script" path="res://ui/GameOver/GameOver.gd" id="1_1fe2u"]
-[ext_resource type="Texture2D" uid="uid://ji0ad3oc2hv8" path="res://shared/sprites/save-flatdark.png" id="2_f7p52"]
+[ext_resource type="Texture2D" uid="uid://ji0ad3oc2hv8" path="res://shared/sprites/ui/save-flatdark.png" id="2_f7p52"]
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -29,152 +29,158 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Centered"]
+[node name="Control" type="Control" parent="Centered"]
 layout_mode = 2
-theme_override_constants/margin_bottom = 64
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Centered/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Centered/Control"]
 custom_minimum_size = Vector2(512, 0)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(256, 161)
 
-[node name="GameOver" type="Label" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="GameOver" type="Label" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Game Over"
 horizontal_alignment = 1
 
-[node name="Killer" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Killer" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Killer"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/Killer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Slain By"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Killer"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/Killer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "Skelly 123"
 
-[node name="Damage" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Damage" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Damage"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/Damage"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Damage Taken"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Damage"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/Damage"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="Level" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Level" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Level"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/Level"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Level"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Level"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/Level"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="DamageDealt" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="DamageDealt" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/DamageDealt"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/DamageDealt"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Damage Dealt"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/DamageDealt"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/DamageDealt"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="Defeated" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Defeated" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Defeated"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/Defeated"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Defeated"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Defeated"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/Defeated"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="Survived" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Survived" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Survived"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/Survived"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Survived"
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Survived"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/Survived"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="Heirloom" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Heirloom" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Centered/MarginContainer/VBoxContainer/Heirloom"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Centered/Control/VBoxContainer/Heirloom"]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "[right]Acquired [img]res://shared/Heirloom.tres[/img][/right]"
+text = "[right]Acquired [img]res://shared/sprites/pickup/Heirloom.png[/img][/right]"
 fit_content = true
 
-[node name="Value" type="Label" parent="Centered/MarginContainer/VBoxContainer/Heirloom"]
+[node name="Value" type="Label" parent="Centered/Control/VBoxContainer/Heirloom"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"EmphasisLabel"
 text = "100s"
 
-[node name="Seed" type="HBoxContainer" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Seed" type="HBoxContainer" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Centered/MarginContainer/VBoxContainer/Seed"]
+[node name="Label" type="Label" parent="Centered/Control/VBoxContainer/Seed"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Seed"
 horizontal_alignment = 2
 
-[node name="Value" type="Button" parent="Centered/MarginContainer/VBoxContainer/Seed"]
+[node name="Value" type="Button" parent="Centered/Control/VBoxContainer/Seed"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -185,10 +191,10 @@ alignment = 0
 icon_alignment = 2
 expand_icon = true
 
-[node name="Continue" type="Button" parent="Centered/MarginContainer/VBoxContainer"]
+[node name="Continue" type="Button" parent="Centered/Control/VBoxContainer"]
 layout_mode = 2
 text = "Continue"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/Seed/Value" to="." method="_on_copy_seed"]
-[connection signal="pressed" from="Centered/MarginContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Centered/Control/VBoxContainer/Seed/Value" to="." method="_on_copy_seed"]
+[connection signal="pressed" from="Centered/Control/VBoxContainer/Continue" to="." method="_on_continue_pressed"]

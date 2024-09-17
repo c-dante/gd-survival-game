@@ -1,6 +1,9 @@
 class_name GameUi
 extends Control
 
+var PauseIcon = preload("res://shared/sprites/ui/pause-flatdark.png")
+var PlayIcon = preload("res://shared/sprites/ui/play-flatdark.png")
+
 # Forwarded from button
 signal new_game()
 signal level_up()
@@ -19,23 +22,39 @@ signal damage_toggle(toggled_on: bool)
 @export var camera: Camera2D
 @export var player: Player
 
-@onready var _speed_slider = $LeftGrid/Speed/Slider
-@onready var _game_speed_slider = $LeftGrid/GameSpeed/Slider
-@onready var _zoom_slider = $LeftGrid/Zoom/Slider
+@onready var desktop = $MarginContainer/Control/Desktop
+@onready var mobile = $MarginContainer/Control/Mobile
 
-@onready var _physics_fps = $RightGrid/PhysicsFps/Value
-@onready var _fps = $RightGrid/Fps/Value
-@onready var _play_time = $RightGrid/PlayTime/Value
-@onready var _game_state = $RightGrid/GameState/Value
+@onready var _speed_slider = $MarginContainer/Control/Desktop/LeftGrid/Speed/Slider
+@onready var _game_speed_slider = $MarginContainer/Control/Desktop/LeftGrid/GameSpeed/Slider
+@onready var _zoom_slider = $MarginContainer/Control/Desktop/LeftGrid/Zoom/Slider
 
-@onready var _health_bar = $CenterGrid/Health/Bar
-@onready var _exp_bar = $CenterGrid/Experience/Bar
+@onready var _physics_fps = $MarginContainer/Control/Desktop/RightGrid/PhysicsFps/Value
+@onready var _fps = $MarginContainer/Control/Desktop/RightGrid/Fps/Value
+@onready var _play_time = $MarginContainer/Control/Desktop/RightGrid/PlayTime/Value
+@onready var _game_state = $MarginContainer/Control/Desktop/RightGrid/GameState/Value
+
+# HP/XP are on both screens
+@onready var _hp_xp_container = $MarginContainer/Control/CenterGrid
+@onready var _health_bar = $MarginContainer/Control/CenterGrid/Health/Bar
+@onready var _exp_bar = $MarginContainer/Control/CenterGrid/Experience/Bar
 
 @onready var pause_underlay = $Paused
-@onready var pause_btn = $LeftGrid/HFlowContainer/PauseBtn
+@onready var pause_btn = $MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PauseBtn
+@onready var pause_btn_mobile = $MarginContainer/Control/Mobile/HFlowContainer/PauseBtn
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_init_control_values()
+	
+	set_pause_state(false)
+	
+	_on_display_display_mode_changed(Display.CurrentMode)
+	
+	if game_hsm && game_hsm.is_active():
+		_game_state.text = game_hsm.get_active_state().name
+
+func _init_control_values():
 	# Set Speed
 	_speed_slider.value = sprite_move.speed
 	_speed_slider.min_value = sprite_move.min_speed
@@ -50,11 +69,6 @@ func _ready():
 	# Set health + xp
 	_health_bar.value = player.get_node("Health").health
 	_exp_bar.value = player.experience
-	
-	set_pause_state(false)
-	
-	if game_hsm && game_hsm.is_active():
-		_game_state.text = game_hsm.get_active_state().name
 
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)
@@ -74,9 +88,11 @@ func fmt_delta_fps(delta: float):
 func set_pause_state(is_paused: bool):
 	if is_paused:
 		pause_btn.text = "Resume"
+		pause_btn_mobile.icon = PlayIcon
 		pause_underlay.show()
 	else:
 		pause_btn.text = "Pause"
+		pause_btn_mobile.icon = PauseIcon
 		pause_underlay.hide()
 
 func _on_speed_change(value):
@@ -106,3 +122,18 @@ func _on_end_run_pressed():
 
 func _on_active_state_changed(current: StateNode, _previous: StateNode):
 	_game_state.text = current.name
+
+func _on_display_display_mode_changed(display_mode: Display.DisplayMode):
+	match display_mode:
+		Display.DisplayMode.LANDSCAPE:
+			desktop.visible = true
+			mobile.visible = false
+			_hp_xp_container.custom_minimum_size.x = 256
+			return
+		Display.DisplayMode.PORTRAIT:
+			desktop.visible = false
+			mobile.visible = true
+			_hp_xp_container.custom_minimum_size.x = 512
+			return
+		_:
+			push_warning("Unhandled display mode: ", display_mode)
