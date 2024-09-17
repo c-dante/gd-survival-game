@@ -35,7 +35,7 @@ point_count = 3
 [sub_resource type="Curve" id="Curve_vojwu"]
 min_value = 1.0
 max_value = 4.0
-_data = [Vector2(0, 1), 0.0, 3.22504, 0, 0, Vector2(0.493, 2), 0.0, 6.73829, 0, 0, Vector2(0.936639, 4), 0.645941, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 3.22504, 0, 0, Vector2(0.506887, 1.77085), 4.07377, 0.607769, 0, 0, Vector2(1, 4), 10.347, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_co5wi"]
