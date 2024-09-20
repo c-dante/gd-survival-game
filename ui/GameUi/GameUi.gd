@@ -11,13 +11,6 @@ signal toggle_pause()
 signal end_run()
 signal damage_toggle(toggled_on: bool)
 
-@export var game_hsm: StateMachine:
-	set(value):
-		if game_hsm:
-			game_hsm.active_state_changed.disconnect(_on_active_state_changed)
-		if value:
-			value.active_state_changed.connect(_on_active_state_changed)
-		game_hsm = value
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
 @export var player: Player
@@ -57,9 +50,6 @@ func _ready():
 	
 	_on_display_display_mode_changed(Display.CurrentMode)
 	
-	if game_hsm && game_hsm.is_active():
-		_game_state.text = game_hsm.get_active_state().name
-
 func _init_control_values():
 	_update_sliders()
 	
@@ -154,3 +144,7 @@ func _update_sliders():
 	# Set Game Speed
 	_game_speed_slider.value = Engine.time_scale
 	_game_speed_slider_mobile.value = Engine.time_scale
+
+
+func _on_state_machine_active_state_changed(current, previous):
+	_game_state.text = current.name

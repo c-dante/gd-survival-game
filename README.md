@@ -36,7 +36,6 @@ Playing with making a survival game a' la Magic Survival and Vampire Survivors e
 - Clean up hp/xp sliders
 
 ## Balance
-- Tune initial waves
 
 ## Code
 - (code-dmg) Standardize reactions to taking/dealing damage: `Player.gd`, `Enemy.gd`, `Global.gd`, `TestArena.gd`
