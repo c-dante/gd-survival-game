@@ -36,5 +36,6 @@ func get_type() -> WeaponType:
 enum WeaponType {
 	Unknown,
 	Sword,
-	Blaze
+	Blaze,
+	Hammer
 }

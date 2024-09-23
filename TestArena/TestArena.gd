@@ -5,6 +5,7 @@ const EnemyScene: PackedScene = preload("res://Enemy/Enemy.tscn")
 const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
 const SwordScene: PackedScene = preload("res://weapons/Sword/Sword.tscn")
 const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
+const HammerScene: PackedScene = preload("res://weapons/Hammer/Hammer.tscn")
 
 @onready var ui: GameUi = $UI/GameUi
 @onready var game_over: GameOver = $UI/GameOver
@@ -74,6 +75,14 @@ func _add_weapon_sword():
 	sword.add_to_group(Global.GROUP_WEAPONS)
 	sword.target = player
 	weapons.add_child(sword)
+	
+## Adds a hammer weapon, call only once per game or else you get weird things
+## TODO (code-level-up), (code-game)
+func _add_weapon_hammer():
+	var hammer = HammerScene.instantiate()
+	hammer.add_to_group(Global.GROUP_WEAPONS)
+	hammer.target = player
+	weapons.add_child(hammer)
 
 ## Adds a blaze weapon, call only once per game or else you get weird things
 ## TODO (code-level-up), (code-game)
@@ -154,6 +163,10 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 		
 		if choice.metadata["weapon_type"] == Weapon.WeaponType.Blaze:
 			_add_weapon_blaze()
+			return
+		
+		if choice.metadata["weapon_type"] == Weapon.WeaponType.Hammer:
+			_add_weapon_hammer()
 			return
 	
 	push_error("Uhandled choice", choice)

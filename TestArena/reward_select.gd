@@ -47,5 +47,7 @@ func _get_choices() -> Array[LevelUp.Choice]:
 			choices.push_back(Blaze.AcquireChoice())
 		elif weapon_type == Weapon.WeaponType.Sword:
 			choices.push_back(Sword.AcquireChoice())
+		elif weapon_type == Weapon.WeaponType.Hammer:
+			choices.push_back(Hammer.AcquireChoice())
 	
 	return choices
