@@ -35,9 +35,12 @@ class HammerProps:
 		return "\n".join(out)
 
 var LevelProps: Array[HammerProps] = [
-	HammerProps.new(1.0, 10.0),
-	HammerProps.new(4.0, 20.0),
-	HammerProps.new(3.0,  20.0),
+	HammerProps.new(4.0, 10.0),
+	HammerProps.new(3.0, 20.0),
+	HammerProps.new(2.5, 30.0),
+	HammerProps.new(2.0, 40.0),
+	HammerProps.new(1.5, 40.0),
+	HammerProps.new(1.0, 40.0),
 ]
 func get_level_props():
 	return LevelProps
@@ -95,7 +98,7 @@ func _on_timer_timeout():
 	var direction = _target_velocity.normalized()
 	if direction.is_zero_approx():
 		direction = Vector2.from_angle(randf_range(-TAU, TAU))
-	hammer.velocity = 250 * direction
+	hammer.velocity = HammerProjectile.MAX_VELOCITY * direction
 	projectiles.add_child(hammer)
 
 func _end_hammer(hammer: HammerProjectile):

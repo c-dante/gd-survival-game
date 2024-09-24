@@ -44,6 +44,6 @@ func _on_timer_timeout():
 func _on_damaging_on_target_acquire(target):
 	var t = target as Node2D
 	if t:
-		var hit_strength = remap(velocity.length(), 0, MAX_VELOCITY, 0, knockback)
-		t.position += velocity.normalized() * hit_strength
+		#var hit_strength = remap(velocity.length(), 0, MAX_VELOCITY * 0.25, 0, knockback)
+		t.position += velocity.normalized() * knockback
 	
