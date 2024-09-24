@@ -12,6 +12,7 @@ script = ExtResource("1_p7ouv")
 
 [node name="Damaging" type="Node" parent="."]
 script = ExtResource("2_3fu3u")
+damage_mode = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
@@ -28,6 +29,7 @@ shape = SubResource("CircleShape2D_0mjom")
 
 [node name="Timer" type="Timer" parent="."]
 
+[connection signal="on_target_acquire" from="Damaging" to="." method="_on_damaging_on_target_acquire"]
 [connection signal="body_entered" from="Area2D" to="Damaging" method="on_body_enter"]
 [connection signal="body_exited" from="Area2D" to="Damaging" method="on_body_exit"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -55,6 +55,9 @@ var _target: Node2D
 			for hammer: HammerProjectile in projectiles.get_children():
 				hammer.target = value
 
+var _target_last_pos: Vector2
+var _target_velocity: Vector2
+
 # _level from Weapon
 func set_level(level: int):
 	_level = clamp(level, 1, LevelProps.size())
@@ -73,6 +76,11 @@ func make_choices(now_props: Variant, next_props: Variant) -> Array[LevelUp.Choi
 
 func _ready():
 	set_level(1)
+	
+func _physics_process(delta):
+	if target:
+		_target_velocity = target.global_position - _target_last_pos
+		_target_last_pos = target.global_position
 
 func _on_timer_timeout():
 	if !target:
@@ -84,7 +92,10 @@ func _on_timer_timeout():
 	hammer.position = target.position
 	hammer.knockback = props.knockback
 	hammer.hammer_complete.connect(_end_hammer)
-	hammer.velocity = 250 * Vector2.from_angle(randf_range(-TAU, TAU))
+	var direction = _target_velocity.normalized()
+	if direction.is_zero_approx():
+		direction = Vector2.from_angle(randf_range(-TAU, TAU))
+	hammer.velocity = 250 * direction
 	projectiles.add_child(hammer)
 
 func _end_hammer(hammer: HammerProjectile):
