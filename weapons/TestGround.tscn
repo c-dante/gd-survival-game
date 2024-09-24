@@ -1,18 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://hgucu0f5kx4q"]
+[gd_scene load_steps=5 format=3 uid="uid://hgucu0f5kx4q"]
 
-[ext_resource type="PackedScene" uid="uid://dssm8mxvtglhs" path="res://weapons/Hammer/HammerProjectile.tscn" id="1_r6xny"]
 [ext_resource type="Texture2D" uid="uid://db4ic52e1r365" path="res://shared/sprites/pickup/Heart.png" id="2_s8ljb"]
 [ext_resource type="Script" path="res://weapons/TestGround.gd" id="3_prnfa"]
+[ext_resource type="PackedScene" uid="uid://dlb1d5ypsj355" path="res://weapons/Hammer/Hammer.tscn" id="3_vxvjr"]
+[ext_resource type="PackedScene" uid="uid://dg8a6d2kl33kk" path="res://Enemy/Enemy.tscn" id="4_ku86n"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("3_prnfa")
 
 [node name="arena" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
-
-[node name="HammerProjectile" parent="arena" node_paths=PackedStringArray("target") instance=ExtResource("1_r6xny")]
-position = Vector2(27, 19)
-target = NodePath("../Sprite2D")
 
 [node name="Camera2D" type="Camera2D" parent="arena"]
 rotation = -3.14159
@@ -21,6 +18,12 @@ zoom = Vector2(4, 4)
 
 [node name="Sprite2D" type="Sprite2D" parent="arena"]
 texture = ExtResource("2_s8ljb")
+
+[node name="Hammer" parent="arena" node_paths=PackedStringArray("target") instance=ExtResource("3_vxvjr")]
+target = NodePath("../Sprite2D")
+
+[node name="Enemy" parent="arena" instance=ExtResource("4_ku86n")]
+level = 10
 
 [node name="ui" type="CanvasLayer" parent="."]
 
