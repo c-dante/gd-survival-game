@@ -10,3 +10,6 @@ addons/
 *.svg
 *.import
 *.tmp
+
+# No keystores
+*.jks
