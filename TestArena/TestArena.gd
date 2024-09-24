@@ -5,6 +5,7 @@ const EnemyScene: PackedScene = preload("res://Enemy/Enemy.tscn")
 const PickupScene: PackedScene = preload("res://Pickup/Pickup.tscn")
 const SwordScene: PackedScene = preload("res://weapons/Sword/Sword.tscn")
 const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
+const HammerScene: PackedScene = preload("res://weapons/Hammer/Hammer.tscn")
 
 @onready var ui: GameUi = $UI/GameUi
 @onready var game_over: GameOver = $UI/GameOver
@@ -26,6 +27,7 @@ const BlazeScene: PackedScene = preload("res://weapons/Blaze/Blaze.tscn")
 @onready var arena_area: CollisionShape2D = $Game/TileMapLayer/AreanaArea/CollisionShape2D
 ## TODO (code-game): The enemy spawner
 @onready var spawn_timer: Timer = $Game/Spawner/SpawnTimer
+@onready var virtual_joystick = $"UI/Virtual Joystick"
 
 ## TODO (code-game): Capture the player's starting position for consitent runs
 var player_start;
@@ -73,6 +75,14 @@ func _add_weapon_sword():
 	sword.add_to_group(Global.GROUP_WEAPONS)
 	sword.target = player
 	weapons.add_child(sword)
+	
+## Adds a hammer weapon, call only once per game or else you get weird things
+## TODO (code-level-up), (code-game)
+func _add_weapon_hammer():
+	var hammer = HammerScene.instantiate()
+	hammer.add_to_group(Global.GROUP_WEAPONS)
+	hammer.target = player
+	weapons.add_child(hammer)
 
 ## Adds a blaze weapon, call only once per game or else you get weird things
 ## TODO (code-level-up), (code-game)
@@ -154,6 +164,10 @@ func _on_level_up_on_select(choice: LevelUp.Choice):
 		if choice.metadata["weapon_type"] == Weapon.WeaponType.Blaze:
 			_add_weapon_blaze()
 			return
+		
+		if choice.metadata["weapon_type"] == Weapon.WeaponType.Hammer:
+			_add_weapon_hammer()
+			return
 	
 	push_error("Uhandled choice", choice)
 
@@ -212,3 +226,13 @@ func _get_spawn_point(target: Vector2) -> Vector2:
 	while target.distance_to(pos) < 200:
 		pos = arena_area.to_global(Global.pt_in_rect(rect, 0))
 	return pos
+
+func _enable_joystick():
+	if DisplayServer.is_touchscreen_available():
+		virtual_joystick.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _disable_joystick():
+	if DisplayServer.is_touchscreen_available():
+		virtual_joystick._reset()
+		virtual_joystick.visible = false
+		virtual_joystick.process_mode = Node.PROCESS_MODE_DISABLED

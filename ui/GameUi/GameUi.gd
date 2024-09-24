@@ -11,13 +11,6 @@ signal toggle_pause()
 signal end_run()
 signal damage_toggle(toggled_on: bool)
 
-@export var game_hsm: StateMachine:
-	set(value):
-		if game_hsm:
-			game_hsm.active_state_changed.disconnect(_on_active_state_changed)
-		if value:
-			value.active_state_changed.connect(_on_active_state_changed)
-		game_hsm = value
 @export var sprite_move: SpriteMove
 @export var camera: Camera2D
 @export var player: Player
@@ -26,12 +19,16 @@ signal damage_toggle(toggled_on: bool)
 @onready var mobile = $MarginContainer/Control/Mobile
 
 @onready var _speed_slider = $MarginContainer/Control/Desktop/LeftGrid/Speed/Slider
+@onready var _speed_slider_mobile = $MarginContainer/Control/Mobile/Paused/MarginContainer/HBoxContainer/PlayerSpeed/Control/Slider
 @onready var _game_speed_slider = $MarginContainer/Control/Desktop/LeftGrid/GameSpeed/Slider
+@onready var _game_speed_slider_mobile = $MarginContainer/Control/Mobile/Paused/MarginContainer/HBoxContainer/GameSpeed/Control/Slider
 @onready var _zoom_slider = $MarginContainer/Control/Desktop/LeftGrid/Zoom/Slider
+@onready var _zoom_slider_mobile = $MarginContainer/Control/Mobile/Paused/MarginContainer/HBoxContainer/ZoomSlider/Control/Slider
 
 @onready var _physics_fps = $MarginContainer/Control/Desktop/RightGrid/PhysicsFps/Value
 @onready var _fps = $MarginContainer/Control/Desktop/RightGrid/Fps/Value
 @onready var _play_time = $MarginContainer/Control/Desktop/RightGrid/PlayTime/Value
+@onready var _play_time_mobile = $MarginContainer/Control/Mobile/PlayTime
 @onready var _game_state = $MarginContainer/Control/Desktop/RightGrid/GameState/Value
 
 # HP/XP are on both screens
@@ -42,6 +39,8 @@ signal damage_toggle(toggled_on: bool)
 @onready var pause_underlay = $Paused
 @onready var pause_btn = $MarginContainer/Control/Desktop/LeftGrid/HFlowContainer/PauseBtn
 @onready var pause_btn_mobile = $MarginContainer/Control/Mobile/HFlowContainer/PauseBtn
+@onready var mobile_paused = $MarginContainer/Control/Mobile/Paused
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,20 +50,8 @@ func _ready():
 	
 	_on_display_display_mode_changed(Display.CurrentMode)
 	
-	if game_hsm && game_hsm.is_active():
-		_game_state.text = game_hsm.get_active_state().name
-
 func _init_control_values():
-	# Set Speed
-	_speed_slider.value = sprite_move.speed
-	_speed_slider.min_value = sprite_move.min_speed
-	_speed_slider.max_value = sprite_move.max_speed
-	
-	# Set Zoom
-	_zoom_slider.value = camera.zoom.x
-	
-	# Set Game Speed
-	_game_speed_slider.value = Engine.time_scale
+	_update_sliders()
 	
 	# Set health + xp
 	_health_bar.value = player.get_node("Health").health
@@ -73,6 +60,7 @@ func _init_control_values():
 func _process(delta):
 	_fps.text = fmt_delta_fps(delta)
 	_play_time.text = Format.format_elapsed_time(Global.game_stats.play_time_seconds)
+	_play_time_mobile.text = Format.format_elapsed_time(Global.game_stats.play_time_seconds)
 
 func _physics_process(delta):
 	_physics_fps.text = fmt_delta_fps(delta)
@@ -90,10 +78,12 @@ func set_pause_state(is_paused: bool):
 		pause_btn.text = "Resume"
 		pause_btn_mobile.icon = PlayIcon
 		pause_underlay.show()
+		mobile_paused.show()
 	else:
 		pause_btn.text = "Pause"
 		pause_btn_mobile.icon = PauseIcon
 		pause_underlay.hide()
+		mobile_paused.hide()
 
 func _on_speed_change(value):
 	sprite_move.speed = value
@@ -128,12 +118,33 @@ func _on_display_display_mode_changed(display_mode: Display.DisplayMode):
 		Display.DisplayMode.LANDSCAPE:
 			desktop.visible = true
 			mobile.visible = false
-			_hp_xp_container.custom_minimum_size.x = 256
+			_update_sliders()
 			return
 		Display.DisplayMode.PORTRAIT:
 			desktop.visible = false
 			mobile.visible = true
-			_hp_xp_container.custom_minimum_size.x = 512
+			_update_sliders()
 			return
 		_:
 			push_warning("Unhandled display mode: ", display_mode)
+
+func _update_sliders():
+	# Set Speed
+	_speed_slider.value = sprite_move.speed
+	_speed_slider.min_value = sprite_move.min_speed
+	_speed_slider.max_value = sprite_move.max_speed
+	_speed_slider_mobile.value = sprite_move.speed
+	_speed_slider_mobile.min_value = sprite_move.min_speed
+	_speed_slider_mobile.max_value = sprite_move.max_speed
+	
+	# Set Zoom
+	_zoom_slider.value = camera.zoom.x
+	_zoom_slider_mobile.value = camera.zoom.x
+	
+	# Set Game Speed
+	_game_speed_slider.value = Engine.time_scale
+	_game_speed_slider_mobile.value = Engine.time_scale
+
+
+func _on_state_machine_active_state_changed(current, previous):
+	_game_state.text = current.name

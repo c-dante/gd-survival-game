@@ -6,6 +6,7 @@ extends StateNode
 @export var level_up_ui: LevelUp
 
 func _enter():
+	test_arena._disable_joystick()
 	# Reset the arena and player
 	test_arena.clear_arena()
 	test_arena.player.reset()

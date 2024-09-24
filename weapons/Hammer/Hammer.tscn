@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlb1d5ypsj355"]
+
+[ext_resource type="Script" path="res://weapons/Hammer/Hammer.gd" id="1_rhsh8"]
+
+[node name="Hammer" type="Node2D"]
+z_index = 20
+y_sort_enabled = true
+script = ExtResource("1_rhsh8")
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

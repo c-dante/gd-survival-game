@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=3 uid="uid://hgucu0f5kx4q"]
+
+[ext_resource type="Texture2D" uid="uid://db4ic52e1r365" path="res://shared/sprites/pickup/Heart.png" id="2_s8ljb"]
+[ext_resource type="Script" path="res://weapons/TestGround.gd" id="3_prnfa"]
+[ext_resource type="PackedScene" uid="uid://dlb1d5ypsj355" path="res://weapons/Hammer/Hammer.tscn" id="3_vxvjr"]
+[ext_resource type="PackedScene" uid="uid://dg8a6d2kl33kk" path="res://Enemy/Enemy.tscn" id="4_ku86n"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("3_prnfa")
+
+[node name="arena" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="arena"]
+rotation = -3.14159
+scale = Vector2(0.0695022, -0.107915)
+zoom = Vector2(4, 4)
+
+[node name="Sprite2D" type="Sprite2D" parent="arena"]
+texture = ExtResource("2_s8ljb")
+
+[node name="Hammer" parent="arena" node_paths=PackedStringArray("target") instance=ExtResource("3_vxvjr")]
+target = NodePath("../Sprite2D")
+
+[node name="Enemy" parent="arena" instance=ExtResource("4_ku86n")]
+level = 10
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="ui"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/Control/MarginContainer"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Label" type="Label" parent="ui/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "acc"
+
+[node name="Acceleration" type="HSlider" parent="ui/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 1000.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ui/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Label" type="Label" parent="ui/Control/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Scale"
+
+[node name="Scale" type="HSlider" parent="ui/Control/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 500.0
+
+[connection signal="value_changed" from="ui/Control/MarginContainer/VBoxContainer/HBoxContainer/Acceleration" to="." method="_on_acceleration_value_changed"]
+[connection signal="value_changed" from="ui/Control/MarginContainer/VBoxContainer/HBoxContainer2/Scale" to="." method="_on_scale_value_changed"]
